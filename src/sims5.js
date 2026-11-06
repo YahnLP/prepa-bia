@@ -127,69 +127,6 @@ mount(root,x){
   }
   loop(x,dt=>{ if(mode==='piston') drawPiston(dt); else drawJet(dt); });
 }};
-/* ======================= SIMULATEUR DE VOL ======================= */
-S.flight={title:'Simulateur de vol : pilote ton avion', th:'t2', ch:'2-4',
-desc:'Tu as la puissance et le manche. Décolle, monte, tiens ton altitude et pose-toi sur la piste. Les flèches montrent les quatre forces en direct.',
-try:['Au sol : mets 100 % de puissance, attends environ 40 nœuds puis tire le manche (assiette +8°) pour décoller.','En croisière : baisse l’assiette sans toucher à la puissance. Que devient la vitesse ? Et si tu tires trop, que se passe-t-il à l’incidence 15° ?','Approche : suis la pente avec le PAPI (2 blancs + 2 rouges). Trop haut : 4 blancs, trop bas : 4 rouges.'],
-mount(root,x){
-  root.innerHTML=x.seg('sc',[['to','Décollage'],['cr','Croisière'],['ap','Approche']],'to')+'<div style="height:10px"></div><canvas id="'+x.uid+'c" role="img" aria-label="Avion en vol vu de côté"></canvas>'+x.r('thr','Puissance moteur',0,100,1,0,' %')+x.r('pit','Manche : assiette visée',-10,18,1,0,'°')+'<div class="row" style="margin:6px 0"><button type="button" class="btn sec sm" data-a="flaps" aria-pressed="false">Volets : rentrés</button><button type="button" class="btn sec sm" data-a="forces" aria-pressed="true">Forces : visibles</button><button type="button" class="btn sec sm" data-a="reset">↺ Recommencer</button></div><div class="readout" id="'+x.uid+'ro"></div><div class="verdict" id="'+x.uid+'v"></div>';
-  const cv=x.q('#'+x.uid+'c'), W=640, H=360, g=G.setup(cv,W,H);
-  const K=.0156, GR=9.81; const RW=[0,1800];
-  let st=null, flaps=false, forces=true, sc='to', msg=null, msgT=0, shake=0, prop=0;
-  function reset(){ const s=sc; flaps=(s==='ap'); st={x:s==='to'?60:s==='cr'?-4200:-3200, h:s==='to'?0:s==='cr'?450:170, V:s==='to'?0:s==='cr'?51.4:33, gam:0, th:s==='to'?0:s==='cr'?.9:-2.7, ground:s==='to', stalled:false, over:false}; msg=null;
-    x.setv('thr',s==='to'?0:s==='cr'?84:37); x.setv('pit',s==='to'?0:s==='cr'?1:-3); if(s==='ap'){ st.gam=-3*D2R; } x.q('[data-a=flaps]').textContent='Volets : '+(flaps?'sortis':'rentrés'); x.q('[data-a=flaps]').setAttribute('aria-pressed',flaps); }
-  function CL(a){ let c=a<=14?0.1*(a+1.5):Math.max(.6,1.55-.18*(a-14)); return c+(flaps?.4:0); }
-  function step(dt){ const thr=x.v('thr')/100, pc=x.v('pit'); const s=st; if(s.over) return;
-    const V=Math.max(s.V,.1);
-    if(s.ground){ const rot=s.V>16?1:0; const tgt=rot?clamp(pc,0,12):0; s.th+=(tgt-s.th)*Math.min(1,dt*4); const a=s.th; const L=K*V*V*CL(a)*(a>=0?1:1); const Tm=thr*3.2*(1-s.V/120)+ (thr>.05?.4:0); const D=K*V*V*(.04+(flaps?.03:0))+.5+(thr<.05?1.6:0)*(s.V>1?1:0); s.V=Math.max(0,s.V+(Tm-(s.V>.5?D:0))*dt); s.x+=s.V*dt; s.gam=0;
-      if(L>GR*1.0&&s.th>2.5){ s.ground=false; s.gam=.02; } if(s.x>RW[1]+400&&s.ground){ s.over=true; msg=['bad','Sortie de piste : tu as dépassé la fin de la piste. Pense à réduire la puissance pour freiner.']; } return; }
-    const gd=s.gam/D2R; let aoa=s.th-gd;
-    if(!s.stalled&&aoa>14) s.stalled=true; if(s.stalled&&aoa<9) s.stalled=false;
-    let tgt=pc; if(s.stalled) tgt=Math.min(pc,aoa<0?pc:s.th-14*dt*6);
-    s.th+=(s.stalled?-12*dt:(tgt-s.th)*Math.min(1,dt*3));
-    aoa=s.th-gd; const cl=CL(aoa), L=K*V*V*cl, Dd=K*V*V*(.035+(flaps?.03:0)+.045*cl*cl*(s.stalled?1.6:1)), T=thr*3.2*(1-V/120), a=aoa*D2R;
-    s.V=Math.max(3,s.V+(T*Math.cos(a)-Dd-GR*Math.sin(s.gam))*dt); s.gam+=((L+T*Math.sin(a))/V-GR*Math.cos(s.gam)/V)*dt; s.gam=clamp(s.gam,-1.2,1.2);
-    s.h+=s.V*Math.sin(s.gam)*dt; s.x+=s.V*Math.cos(s.gam)*dt; s._L=L; s._D=Dd; s._T=T; s._aoa=aoa;
-    if(s.h<=0){ s.h=0; const vs=-s.V*Math.sin(s.gam); const onRw=s.x>=RW[0]-20&&s.x<=RW[1]; if(vs<3.4&&s.V<46&&s.th>-3&&s.th<13&&onRw){ s.ground=true; s.gam=0; msg=['ok','Posé ! Atterrissage réussi : vitesse '+Math.round(s.V*1.944)+' nœuds, taux de chute '+Math.round(vs*196.85)+' ft/min. Mets la puissance à zéro pour freiner.']; } else { s.over=true; shake=.4; msg=['bad',!onRw?'Tu as touché le sol hors de la piste.':vs>=3.4?'Contact trop brutal ('+Math.round(vs*196.85)+' ft/min). Vise un taux de chute doux et arrondis juste avant le sol.':s.V>=46?'Tu es trop rapide au contact.':'Mauvaise assiette au contact.']; } } }
-  function papi(){ const s=st; if(s.ground||s.x>=0||s.x<-6000) return null; const ang=Math.atan2(s.h,-s.x)/D2R; return {ang,w:[2.5,2.83,3.17,3.5].filter(t=>ang>t).length}; }
-  function draw(t){ const s=st, sx=2.2; const gy=190+s.h*.3; shake=Math.max(0,shake-.02);
-    G.sky(g,W,gy>H?H:gy,Math.min(gy,H)); const cl=[[0,40,1.2],[1,92,.9],[2,60,1.5],[3,130,.8],[4,28,1],[5,104,1.1]]; cl.forEach(c=>{ const cxp=((c[0]*230-s.x*.5)%1380+1380)%1380-180; G.cloud(g,cxp,c[1]+s.h*.05,c[2],.92); });
-    G.land(g,W,H,gy,s.x*sx,{runway:[RW[0]*sx,RW[1]*sx]});
-    G.shadow(g,200,gy+5,44*(1-Math.min(.6,s.h/500)),.28*(1-Math.min(1,s.h/260)));
-    const thr=x.v('thr')/100; prop+=dt0*(8+thr*60); const jx=s.stalled||shake? (Math.random()-.5)*3:0, jy=s.stalled||shake?(Math.random()-.5)*3:0; const px=200+jx, py=150+jy;
-    G.plane(g,px,py,1.05,-s.th*D2R,{prop,thr,flaps:flaps?1:0});
-    if(forces&&!s.over){ const aoa=s._aoa||s.th; const arrow=(dx,dy,c,lab)=>{ const len=Math.hypot(dx,dy); if(len<3) return; g.strokeStyle=c; g.fillStyle=c; g.lineWidth=3; g.lineCap='round'; g.beginPath(); g.moveTo(px-4,py-3); g.lineTo(px-4+dx,py-3+dy); g.stroke(); const an=Math.atan2(dy,dx); g.beginPath(); g.moveTo(px-4+dx,py-3+dy); g.lineTo(px-4+dx-9*Math.cos(an-.45),py-3+dy-9*Math.sin(an-.45)); g.lineTo(px-4+dx-9*Math.cos(an+.45),py-3+dy-9*Math.sin(an+.45)); g.closePath(); g.fill(); text(g,lab,px-4+dx+(dx>=0?6:-6),py-3+dy+(dy<0?-4:12),{s:11,a:dx>=0?'left':'right',sh:1,c}); };
-      const gamC=s.gam, ca=Math.cos(-s.th*D2R), sa=Math.sin(-s.th*D2R);
-      const Lm=s.ground?K*s.V*s.V*CL(s.th):(s._L||GR), Dm=s.ground?.6:(s._D||0), Tm=s.ground?thr*3.2*(1-s.V/120):(s._T||0);
-      const u=34/GR; arrow(0,-Lm*u,'#37d6a4','portance'); arrow(0,GR*u,'#6cb4ff','poids'); arrow(Tm*u*3,0,'#ffb02e','traction'); arrow(-Dm*u*3,0,'#ff6f61','traînée'); }
-    // flèche du vent relatif
-    if(!s.ground&&!s.over){ g.setLineDash([5,5]); g.strokeStyle='rgba(255,255,255,.8)'; g.lineWidth=1.5; const ga=-s.gam; g.beginPath(); g.moveTo(px+84,py+2); g.lineTo(px+84+70*Math.cos(ga),py+2+70*Math.sin(ga)); g.stroke(); g.setLineDash([]); text(g,'trajectoire',px+84+72*Math.cos(ga),py+2+72*Math.sin(ga)+4,{s:10,w:'500',sh:1}); }
-    // bandeau vitesse
-    const kt=s.V*1.944; g.fillStyle='rgba(8,16,28,.55)'; g.fillRect(14,12,196,36); const bx=22,bw=180; const kx=v=>bx+bw*v/140; g.fillStyle='#fff'; g.fillRect(kx(38),30,kx(80)-kx(38),5); g.fillStyle='#37d6a4'; g.fillRect(kx(48),24,kx(110)-kx(48),5); g.fillStyle='#ffd23f'; g.fillRect(kx(110),24,kx(129)-kx(110),5); g.fillStyle='#ff6f61'; g.fillRect(kx(129),24,kx(140)-kx(129),5); g.fillStyle='#fff'; g.beginPath(); g.moveTo(kx(Math.min(140,kt)),38); g.lineTo(kx(Math.min(140,kt))-5,46); g.lineTo(kx(Math.min(140,kt))+5,46); g.fill(); text(g,Math.round(kt)+' kt',bx,21,{s:12,w:'700'});
-    // PAPI
-    const pp=papi(); if(pp){ g.fillStyle='rgba(8,16,28,.6)'; g.fillRect(W-132,12,118,60); [0,1,2,3].forEach(i=>{ const white=i<pp.w; g.fillStyle=white?'#fff':'#ff3b30'; g.shadowColor=white?'#fff':'#ff3b30'; g.shadowBlur=10; g.beginPath(); g.arc(W-112+i*27,38,9,0,7); g.fill(); g.shadowBlur=0; }); text(g,'PAPI · pente '+pp.ang.toFixed(1)+'°',W-125,66,{s:11,w:'600'}); }
-    if(s.stalled&&Math.floor(t*4)%2===0) text(g,'DÉCROCHAGE',W/2,70,{s:30,w:'800',a:'center',c:'#ff5a4d',sh:1});
-    if(msg) { g.fillStyle='rgba(8,16,28,.7)'; g.fillRect(W/2-190,H-70,380,44); text(g,msg[0]==='ok'?'✔ Atterrissage réussi':'✖ Raté',W/2,H-42,{s:20,w:'800',a:'center',c:msg[0]==='ok'?'#37d6a4':'#ff6f61'}); }
-  }
-  let dt0=.016, tt=0;
-  loop(x,(dt,t)=>{ dt0=dt; tt=t; const n=Math.ceil(dt/.008); for(let i=0;i<n;i++) step(dt/n); draw(t);
-    const s=st; const vs=s.ground?0:s.V*Math.sin(s.gam)*196.85, aoa=s.ground?s.th:(s._aoa||0); const kt=s.V*1.944;
-    x.q('#'+x.uid+'ro').innerHTML='<div><small>Vitesse</small><b>'+Math.round(kt)+' kt</b></div><div><small>Altitude</small><b>'+Math.round(s.h*3.281)+' ft</b></div><div><small>Montée</small><b>'+(vs>=0?'+':'')+Math.round(vs)+' ft/min</b></div><div><small>Incidence</small><b>'+aoa.toFixed(0)+'°</b></div>';
-    const v=x.q('#'+x.uid+'v'); let c='',m='';
-    if(msg){ c=msg[0]==='ok'?'ok':'bad'; m=msg[1]; }
-    else if(s.ground){ c=''; m=s.V<2?'Au sol, à l’arrêt. Mets les gaz (100 %), puis tire le manche quand tu atteins environ 40 nœuds.':'Roulage : vitesse '+Math.round(kt)+' nœuds. Dès que tu approches 40 nœuds, augmente l’assiette (+8°).'; }
-    else if(s.stalled){ c='bad'; m='Décrochage : l’incidence dépasse 14-15°, l’air se décolle de l’aile. Pousse le manche vers l’avant pour diminuer l’incidence et remets de la puissance.'; }
-    else if(kt<48){ c='warn'; m='Vitesse faible : tu approches du décrochage. Diminue l’assiette ou ajoute de la puissance.'; }
-    else if(vs>300){ c='ok'; m='Tu montes. Pour monter, il faut de la puissance : ton avion transforme son excès de puissance en altitude.'; }
-    else if(vs<-300){ c='warn'; m='Tu descends. Si tu veux te poser, vise une descente régulière avec le PAPI.'; }
-    else { c='ok'; m='Vol quasi horizontal : portance ≈ poids, traction ≈ traînée.'; }
-    if(v._m!==m||v._c!==c){ v.className='verdict '+c; v.textContent=m; v._m=m; v._c=c; } });
-  root.addEventListener('click',e=>{ const b=e.target.closest('button[data-a]'); if(!b) return; if(b.dataset.a==='flaps'){ flaps=!flaps; b.textContent='Volets : '+(flaps?'sortis':'rentrés'); b.setAttribute('aria-pressed',flaps); } else if(b.dataset.a==='forces'){ forces=!forces; b.textContent='Forces : '+(forces?'visibles':'masquées'); b.setAttribute('aria-pressed',forces); } else reset(); });
-  x.segBind('sc',v=>{ sc=v; reset(); });
-  x.qa('input[type=range]').forEach(i=>i.addEventListener('input',()=>{ const o=x.q('#'+i.id+'-o'); if(o) o.textContent=i.value+i.dataset.unit; }));
-  reset();
-}};
-
 /* ======================= HÉLICOPTÈRE ======================= */
 S.heli={title:'Hélicoptère : collectif, cyclique et palonnier', th:'t3', ch:'3-4',
 desc:'Trois commandes, trois effets. Le collectif règle l’altitude, le cyclique incline le disque rotor et fait avancer, le palonnier (pédales) oriente le nez.',
