@@ -40,7 +40,7 @@ body:`
 <p>Un avion avance en repoussant de l’air vers l’arrière (action-réaction). Selon la vitesse visée, on utilise différents types de moteurs.</p>
 <h2>Moteur à pistons</h2>
 <p>Un moteur à pistons à quatre temps accomplit un cycle en deux tours de vilebrequin :</p>
-<div class="figslot" data-fig="pistoncycle"></div>
+<div class="simslot" data-sim="engine"></div>
 <ol><li><b>Admission</b> : le piston descend et aspire le mélange air-carburant.</li><li><b>Compression</b> : le piston remonte et comprime le mélange.</li><li><b>Combustion-détente</b> : la bougie enflamme le mélange, la pression pousse le piston. C’est le temps moteur.</li><li><b>Échappement</b> : le piston remonte et chasse les gaz brûlés.</li></ol>
 <p>Un moteur d’avion léger est refroidi par air et possède un <b>double allumage</b> (deux magnétos et deux bougies par cylindre) : en cas de panne de l’un, le second assure le fonctionnement. Il fait tourner une <b>hélice</b>, dont chaque pale est un petit profil d’aile qui crée une force de traction. Une hélice à <b>pas variable</b> adapte l’angle des pales à la vitesse. Carburant : essence aviation <b>AVGAS 100LL</b>.</p>
 <h2>Turbomachines</h2>
@@ -51,7 +51,6 @@ body:`
 <tr><td><dfn>Turbomoteur</dfn></td><td>Une turbine entraîne le rotor.</td><td>Hélicoptères</td></tr>
 <tr><td><dfn>Statoréacteur</dfn></td><td>Pas de pièces mobiles : l’air est comprimé par la vitesse même de l’engin. Ne fonctionne qu’à grande vitesse.</td><td>Missiles, projets supersoniques</td></tr></table></div>
 <p>Les turbines brûlent du <b>kérosène</b> (Jet A-1).</p>
-<div class="figslot" data-fig="turbojet"></div>
 <h2>Le moteur-fusée</h2>
 <p>Une fusée emporte à la fois son <b>carburant</b> et son <b>comburant</b> (les ergols). Elle n’a donc pas besoin de l’air extérieur et fonctionne dans le vide. Les ergols peuvent être <b>liquides</b> (hydrogène et oxygène liquides du moteur Vulcain) ou <b>solides</b> (poudre des boosters).</p>
 <h2>Qui pour quelle vitesse ?</h2>
@@ -105,7 +104,7 @@ goals:['expliquer comment vole et se pilote un hélicoptère','comprendre l’au
 body:`
 <h2>L’hélicoptère</h2>
 <p>Le <b>rotor principal</b> est une grande aile tournante. Il fournit à la fois la <b>portance</b> et la <b>propulsion</b>, en inclinant son disque. L’hélicoptère peut décoller à la verticale, rester en <b>vol stationnaire</b>, reculer. En contrepartie, sa vitesse est limitée (environ 300 km/h) et il consomme beaucoup.</p>
-<div class="figslot" data-fig="heli"></div>
+<div class="simslot" data-sim="heli"></div>
 <p>Quand le rotor tourne dans un sens, le fuselage a tendance à tourner dans l’autre (action-réaction) : c’est le <b>couple de réaction</b>. Le <b>rotor anti-couple</b> (à l’arrière), ou le fenestron (rotor caréné), le contre et permet de diriger l’appareil en lacet.</p>
 <div class="tabset"><div class="tb"><button type="button" data-t="a">Pas collectif</button><button type="button" data-t="b">Cyclique</button><button type="button" data-t="c">Palonnier</button></div>
 <div class="pane" data-p="a"><p><b>Levier du pas collectif</b> (main gauche) : change l’angle de toutes les pales en même temps. Plus de pas, plus de portance : l’hélicoptère <b>monte</b>. On le baisse pour descendre. La puissance moteur est ajustée en conséquence.</p></div>
@@ -116,7 +115,7 @@ body:`
 <p>L’<b>autogire</b> a un rotor libre, non motorisé, qui tourne en autorotation en permanence, et une hélice pour avancer. Le <b>convertible</b> (V-22 Osprey) bascule ses rotors d’une position verticale à une position horizontale.</p>
 <h2>Le planeur</h2>
 <p>Un planeur n’a pas de moteur. Il décolle <b>remorqué</b> par un avion ou tiré par un <b>treuil</b>, puis il exploite les mouvements d’air ascendants pour rester en l’air :</p>
-<div class="figslot" data-fig="finesse"></div>
+<div class="simslot" data-sim="glider"></div>
 <ul><li>les <b>thermiques</b> : colonnes d’air chaud sous les cumulus ;</li><li>les <b>ascendances de pente</b> : le vent remonte le long d’un relief ;</li><li>les <b>ondes</b> sous le vent d’une montagne.</li></ul>
 <p>Sa grande envergure et sa forme très fine lui donnent une <b>finesse</b> qui peut dépasser 60. Le vol à voile est l’une des meilleures écoles de pilotage.</p>
 <h2>L’ULM</h2>
@@ -140,6 +139,7 @@ body:`
 <h2>Une fusée : action et réaction</h2>
 <p>Une fusée expulse des gaz à très grande vitesse vers l’arrière : par <b>réaction</b>, elle avance vers l’avant (troisième loi de Newton). Elle n’a besoin ni d’air ni de sol pour s’appuyer, et peut donc fonctionner dans le vide.</p>
 <div class="figslot" data-fig="stages"></div>
+<div class="simslot" data-sim="rocket"></div>
 <p>Elle est <b>étagée</b> : à mesure que les réservoirs se vident, les étages vides sont largués pour ne pas porter de poids inutile. Ariane 6 comprend deux ou quatre boosters à poudre, un étage principal (moteur Vulcain 2.1) et un étage supérieur (moteur Vinci).</p>
 <h2>Pourquoi lancer depuis Kourou ?</h2>
 <ul><li>Située à 5° de l’équateur, la base de Kourou (Guyane) profite de la rotation de la Terre : le sol y tourne vers l’est à environ 460 m/s, ce qui donne un gain de vitesse « gratuit ».</li><li>Le lancement se fait vers l’est, au-dessus de l’océan Atlantique : en cas de problème, les retombées ne menacent pas d’habitations.</li><li>C’est idéal pour atteindre l’orbite géostationnaire.</li></ul>

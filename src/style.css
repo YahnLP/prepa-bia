@@ -259,3 +259,8 @@ input[type=range]{width:100%;height:34px;background:transparent;accent-color:var
 .idea{background:var(--surface);border-left:6px solid var(--tc,var(--acc));border-radius:6px;padding:12px 14px;margin:14px 0}
 .idea b{display:block;font:700 .8rem var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--tc,var(--acc));margin-bottom:4px}
 .idea p{margin:0;font-size:1.04rem}
+.chips4{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin:8px 0}
+.chips4 .st{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;background:var(--soft);color:var(--mute);border:2px solid transparent;font-weight:600;font-size:.92rem}
+.chips4 .st b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--surface);color:var(--mute);font:700 .85rem var(--body)}
+.chips4 .st.on{background:var(--surface);color:var(--ink);border-color:var(--acc)}
+.chips4 .st.on b{background:var(--acc);color:var(--acc-ink)}

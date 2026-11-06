@@ -20,7 +20,8 @@ Les sources sont dans `src/` :
 - `content-1.js` à `content-6.js` : les leçons et les questions (un fichier par thème) ;
 - `figs1.js` à `figs4.js` : les illustrations animées (SVG) ;
 - `intros.js` : le résumé « L'idée en 20 secondes » de chaque chapitre ;
-- `sims1.js` à `sims4.js` : les simulateurs ;
+- `sims1.js` à `sims5.js` : les simulateurs (`sims5.js` : moteurs en coupe, vol, hélicoptère, planeur, lanceur) ;
+- `gfx.js` : le moteur de dessin (avions, ciel, relief) ;
 - `app.js` et `style.css` : l'application et le style.
 
 Après une modification, régénère `index.html` avec :

@@ -103,6 +103,7 @@ body:`
 <div class="tw"><table><tr><th>Force</th><th>Origine</th><th>Direction</th></tr><tr><td><dfn>Poids</dfn> (P)</td><td>Gravité, appliquée au centre de gravité</td><td>Verticale, vers le bas</td></tr><tr><td><dfn>Portance</dfn> (Fz)</td><td>Aile</td><td>Perpendiculaire à la trajectoire, vers le haut</td></tr><tr><td><dfn>Traction</dfn> (T)</td><td>Hélice ou réacteur</td><td>Dans l’axe, vers l’avant</td></tr><tr><td><dfn>Traînée</dfn> (Fx)</td><td>Résistance de l’air</td><td>Parallèle à la trajectoire, vers l’arrière</td></tr></table></div>
 <p>En <b>palier stabilisé</b> (vol horizontal à vitesse constante) : <b>portance = poids</b> et <b>traction = traînée</b>. Si les forces ne s’équilibrent pas, l’avion accélère, ralentit, monte ou descend.</p>
 <div class="figslot" data-fig="forces"></div>
+<div class="simslot" data-sim="flight"></div>
 <div class="simslot" data-sim="forces"></div>
 <h2>Montée, descente, plané</h2>
 <ul><li><b>Montée</b> : la traction doit compenser la traînée <b>et</b> la part du poids qui retient l’avion. La vitesse de montée dépend de la <b>puissance en excès</b>, pas de l’assiette seule.</li><li><b>Descente moteur réduit</b> : une part du poids aide à avancer.</li><li><b>Vol plané</b> (planeur ou moteur coupé) : la traction est nulle ; la composante du poids selon la trajectoire équilibre la traînée. La pente de plané dépend de la finesse. La meilleure finesse donne la plus grande <b>distance</b>.</li></ul>
