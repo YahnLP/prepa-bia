@@ -332,3 +332,12 @@ body.fl-lock{overflow:hidden}
  .fl-hint{font-size:.72rem}
 }
 .fl-row .seg button{flex:1}.fl-row .seg{display:flex}
+
+.simple{background:#fff8e6;border:1px solid #f0d58c;border-left:5px solid #f2b705;border-radius:8px;margin:14px 0}
+.simple summary{cursor:pointer;font-weight:700;padding:11px 14px;color:#6b4e00;list-style:none}
+.simple summary::-webkit-details-marker{display:none}
+.simple summary::after{content:'▾';float:right}
+.simple[open] summary::after{content:'▴'}
+.simple-b{padding:0 14px 10px}
+.simple-b p,.simple-b li{font-size:1.02rem}
+.fig-cv canvas{width:100%;height:auto;display:block;border-radius:8px;background:#cfe8f7;cursor:pointer}

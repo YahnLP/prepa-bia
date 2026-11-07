@@ -344,6 +344,15 @@ body.fl-lock{overflow:hidden}
 }
 .fl-row .seg button{flex:1}.fl-row .seg{display:flex}
 
+.simple{background:#fff8e6;border:1px solid #f0d58c;border-left:5px solid #f2b705;border-radius:8px;margin:14px 0}
+.simple summary{cursor:pointer;font-weight:700;padding:11px 14px;color:#6b4e00;list-style:none}
+.simple summary::-webkit-details-marker{display:none}
+.simple summary::after{content:'▾';float:right}
+.simple[open] summary::after{content:'▴'}
+.simple-b{padding:0 14px 10px}
+.simple-b p,.simple-b li{font-size:1.02rem}
+.fig-cv canvas{width:100%;height:auto;display:block;border-radius:8px;background:#cfe8f7;cursor:pointer}
+
 </style>
 </head>
 <body>
@@ -2928,6 +2937,107 @@ B.vocab={
 };
 })();
 
+(function(){ const B=window.BIA;
+/* B.simple[chapitre] = [[fragment du titre h2 de la section, titre de l’encadré, HTML]] ; l’encadré est inséré à la fin de la section */
+B.simple={
+'1-1':[
+['De quoi est faite','L’air, c’est quoi au juste ?','<p>L’air est un mélange de gaz invisibles. Imagine un immense paquet de petites billes qui s’agitent : <b>4 billes sur 5</b> sont du diazote (il ne sert à rien pour respirer), <b>1 bille sur 5</b> est du dioxygène, celui que tu respires. Les nuages, eux, viennent de la vapeur d’eau, un gaz de plus.</p><p>L’air est léger… mais pas sans poids ! Une colonne d’air qui monte jusqu’à l’espace pèse environ 1 kg sur chaque carré de 1 cm de côté. C’est ce poids qui crée la <b>pression</b>.</p>'],
+['Les couches','Pourquoi plusieurs couches ?','<p>L’atmosphère ressemble à un mille-feuille. Chaque couche a un comportement différent à cause de ce qui la chauffe : le <b>sol</b> chauffe la couche du bas (la troposphère), l’<b>ozone</b> chauffe celle du dessus (la stratosphère).</p><p>À retenir pour le BIA : <b>tout se passe dans la troposphère</b>. C’est là que sont les nuages, la pluie, le vent… et presque tous les avions.</p>'],
+['atmosphère standard','Pourquoi inventer une atmosphère « type » ?','<p>Le temps change tous les jours. Pour comparer deux avions, il faut les mesurer <b>dans les mêmes conditions</b>, comme deux élèves qui passent le même contrôle. L’ISA est cette « météo de référence » : 15 °C et 1 013 hPa au niveau de la mer.</p><p>Ensuite, plus tu montes, plus il fait froid : <b>environ 2 °C de moins tous les 1 000 ft</b>. Si tu es à 3 000 m, tu enlèves 6,5 °C par kilomètre : 15 − 19,5 = −4,5 °C.</p>'],
+['Comment l’air change','Pourquoi l’air devient « mince » en altitude ?','<p>Pense à une pile de matelas : celui du bas est écrasé par tous les autres, celui du haut ne porte rien. L’air du bas est <b>écrasé par l’air au-dessus</b> : il est dense. En haut, il y a moins d’air au-dessus, donc l’air est « léger » et peu dense.</p><p>Conséquence pour le pilote : l’aile trouve moins d’air pour la soutenir, le moteur moins d’air pour brûler le carburant. <b>Par temps chaud, en altitude, il faut donc plus de piste pour décoller.</b></p>']],
+'1-2':[
+['Anticyclone','Haute pression, basse pression : version simple','<p>Imagine un ballon de baudruche : à l’intérieur, la pression est plus forte que dehors. L’air « veut » sortir. C’est pareil dans l’atmosphère :</p><ul><li><b>Anticyclone (A)</b> : l’air est « poussé vers le bas ». En descendant il se réchauffe, les nuages disparaissent : beau temps.</li><li><b>Dépression (D)</b> : l’air est « aspiré vers le haut ». En montant il se refroidit, la vapeur se condense : nuages et pluie.</li></ul><p>Astuce : <b>D comme Dégradation, A comme Agréable</b>.</p>'],
+['Pourquoi le vent tourne','Pourquoi le vent ne va pas droit vers la dépression ?','<p>Sans rotation de la Terre, l’air irait tout droit de la haute vers la basse pression, comme l’eau coule du haut vers le bas d’une pente. Mais la Terre tourne sous l’air. Imagine que tu essaies de lancer un ballon à un ami assis sur un manège qui tourne : le ballon semble dévier.</p><p>Résultat : en altitude, le vent <b>tourne autour</b> des centres de pression au lieu d’y aller directement. Plus les isobares sont serrées, plus la pente de pression est forte, donc plus le vent est fort : comme une pente de montagne plus raide.</p><p><b>Règle de Buys-Ballot :</b> dos au vent, la dépression est à ta gauche. Essaie avec ton bras !</p>'],
+['Direction et force','Le vent « vient de » : l’erreur n° 1','<p>Un vent de <b>270°</b> ne souffle pas vers 270°. Il vient <b>de</b> l’ouest. Retiens : on donne le vent comme on dit « le vent d’ouest » en français. C’est la direction d’où il vient.</p><p>La manche à air est comme une manche de vêtement : elle est attachée d’un côté (l’origine du vent) et <b>gonflée dans le sens où il souffle</b>.</p>'],
+['Vents locaux','La brise de mer en 3 phrases','<p>Le jour, le soleil chauffe la terre plus vite que la mer. L’air au-dessus de la terre chauffe et monte, comme au-dessus d’un radiateur. L’air frais de la mer vient prendre sa place : <b>le vent souffle de la mer vers la terre</b>. La nuit, c’est l’inverse.</p>']],
+'1-3':[
+['humidité','La vapeur d’eau et le point de rosée','<p>L’air est comme une éponge : l’air <b>chaud</b> peut garder beaucoup d’eau (invisible), l’air <b>froid</b> beaucoup moins. Si on refroidit l’air, l’éponge est pleine puis déborde : <b>l’eau se transforme en gouttelettes</b>.</p><p>Tu l’as déjà vu : sors un verre d’eau glacée en été, il se couvre de buée. La température à laquelle ça arrive s’appelle le <b>point de rosée</b>. Plus la température de l’air (T) est proche du point de rosée (Td), plus l’air est près de former brouillard ou nuage.</p>'],
+['Comment se forme','La recette d’un nuage','<p>Il faut <b>3 ingrédients</b> : de l’air humide, du refroidissement, et de minuscules poussières sur lesquelles l’eau s’accroche.</p><ol><li>Le soleil chauffe le sol, qui chauffe une bulle d’air.</li><li>La bulle, plus légère, monte.</li><li>En montant, la pression diminue, la bulle se détend et se <b>refroidit</b> (comme une bombe aérosol qui devient froide).</li><li>Arrivée à son point de rosée : <b>condensation</b>, le nuage apparaît. C’est la base du nuage.</li></ol><p>La formule 125 × (T − Td) te donne la hauteur de cette base : si l’écart T − Td est de 10 °C, la base est vers 1 250 m.</p>'],
+['Stable','Stable ou instable : l’image de la balle','<p>Pose une balle au fond d’une cuvette : si tu la pousses un peu, elle revient. C’est <b>stable</b>. Pose-la au sommet d’une colline : au moindre souffle, elle dévale. C’est <b>instable</b>.</p><p>Pour l’air, c’est pareil : une bulle poussée vers le haut <b>revient</b> en bas dans l’air stable (nuages plats, ciel calme, mais brume). Elle <b>continue de monter</b> dans l’air instable (gros nuages gonflés, averses, turbulence, mais bonne visibilité).</p>'],
+['Les genres','Comment retenir les noms des nuages ?','<p>Les noms sont des mots latins qu’on assemble :</p><ul><li><b>cirrus</b> = cheveu (nuages tout en haut, en filaments de glace)</li><li><b>cumulus</b> = tas (nuage gonflé, comme du chou-fleur)</li><li><b>stratus</b> = couche (nappe grise)</li><li><b>nimbus</b> = pluie</li><li><b>alto</b> = milieu</li></ul><p>Exemple : <b>cumulonimbus</b> = un tas qui donne de la pluie, donc le nuage d’orage.</p>']],
+'1-4':[
+['Deux fronts','Front chaud, front froid : l’image de la rampe et du mur','<p>Un front, c’est la ligne où deux grosses masses d’air se rencontrent.</p><ul><li><b>Front chaud</b> : l’air chaud, léger, <b>monte doucement sur une rampe</b> d’air froid. Le ciel se dégrade lentement, pendant des heures : pluie fine et continue.</li><li><b>Front froid</b> : l’air froid, lourd, <b>arrive comme un mur</b> et soulève brutalement l’air chaud. Tout arrive d’un coup : orages, averses, rafales, mais ça passe vite.</li></ul>'],
+['perturbation complète','Une perturbation, étape par étape','<p>Imagine que tu es assis dehors et que la perturbation passe au-dessus de toi, d’ouest en est :</p><ol><li>De hauts nuages fins annoncent l’arrivée (front chaud), puis le ciel s’épaissit et la pluie commence.</li><li>Entre les deux fronts, l’air est doux et le temps se calme un peu : le secteur chaud.</li><li>Puis le front froid arrive : averses, vent qui tourne, température qui chute.</li><li>Derrière, c’est la traîne : ciel variable, éclaircies et petites averses.</li></ol>'],
+['occlusion','Pourquoi parle-t-on d’occlusion ?','<p>Le front froid avance plus vite que le front chaud. Comme un coureur plus rapide, il finit par le rattraper. L’air chaud, pris en sandwich, est <b>soulevé du sol</b> : il n’est plus en contact avec nous. « Occlusion » veut dire « fermeture ».</p>']],
+'1-5':[
+['orage','Comment naît un orage ?','<p>Un orage, c’est une usine à courants d’air :</p><ol><li>L’air chaud et humide monte très haut et très vite (jusqu’à 10 km).</li><li>Les gouttelettes grossissent, gèlent, retombent et remontent : cela crée de la grêle et des charges électriques.</li><li>Quand la charge devient trop forte, une étincelle géante jaillit : <b>l’éclair</b>.</li><li>L’éclair chauffe l’air d’un coup, qui se dilate brutalement : <b>le tonnerre</b>.</li></ol><p>Pour un pilote : <b>jamais</b> dans un cumulonimbus. Les courants montants et descendants y sont assez forts pour détruire un avion léger.</p>'],
+['givrage','Pourquoi la glace est dangereuse ?','<p>Imagine que tu ajoutes une couche de pâte à modeler sur l’aile : sa forme change, elle porte moins, elle est plus lourde et elle freine davantage. C’est ce que fait la glace. Elle peut aussi boucher le tube de Pitot, donc fausser l’anémomètre.</p><p>Les gouttelettes « surfondues » sont de l’eau restée liquide sous 0 °C ; elles gèlent d’un coup en touchant l’avion.</p>'],
+['Turbulence','Turbulence et cisaillement : l’image du torrent','<p>La turbulence, c’est l’air qui se comporte comme l’eau d’un torrent : des remous. Ils viennent du soleil (bulles d’air chaud), du sol (le vent qui contourne un relief ou un bâtiment) ou de forts vents en altitude.</p><p>Le <b>cisaillement</b> (windshear), c’est quand le vent <b>change d’un coup de vitesse ou de direction</b> sur une courte distance. À l’atterrissage, ton avion perd subitement de la vitesse : danger.</p>']],
+'1-6':[
+['METAR','Lire un METAR comme une phrase','<p>Un METAR est une phrase codée qui se lit <b>toujours dans le même ordre</b> : où (LFBO), quand (061830Z : le 6, à 18 h 30 UTC), le vent (24012 : 240° à 12 nœuds), la visibilité (9999 : 10 km ou plus), les nuages (SCT030 : quelques nuages à 3 000 ft), la température et le point de rosée (12/08), la pression (Q1015).</p><p>Astuce : un METAR, c’est <b>ce qu’il y a maintenant</b>. Un TAF, c’est <b>ce qui est prévu</b>.</p>']],
+'2-1':[
+['principe d’Archimède','Archimède dans la baignoire','<p>Quand tu t’assois dans un bain, l’eau monte. Plus tu t’enfonces, plus l’eau est repoussée, et plus l’eau te <b>pousse vers le haut</b>. Cette poussée est égale au <b>poids de l’eau que tu as repoussée</b>.</p><p>Un ballon fait la même chose, mais dans l’air : il repousse beaucoup d’air. Si l’ensemble « ballon + nacelle + gaz » est <b>plus léger</b> que cet air repoussé, il monte. Plus lourd, il descend. Pareil : il flotte.</p>'],
+['Deux façons','Montgolfière contre ballon à gaz','<p>Les deux ont le même but : être plus léger que l’air autour.</p><ul><li><b>Montgolfière</b> : on <b>chauffe</b> l’air dans l’enveloppe, il devient moins dense (plus léger) que l’air extérieur. On monte en chauffant, on descend en laissant refroidir ou en ouvrant la soupape.</li><li><b>Ballon à gaz</b> : on remplit l’enveloppe d’un gaz <b>naturellement plus léger</b> que l’air (hélium). On monte en lâchant du lest (du sable), on descend en lâchant un peu de gaz.</li></ul>']],
+'2-2':[
+['Trois pressions','Pression statique et dynamique : le vélo','<p>Quand tu es à l’arrêt à vélo, tu ne sens rien de particulier : c’est la <b>pression statique</b> (la pression de l’air autour). Dès que tu roules vite, tu sens l’air qui te pousse au visage : c’est la <b>pression dynamique</b>. Plus tu vas vite, plus elle est forte, et elle quadruple si tu doubles ta vitesse.</p><p>Le tube de Pitot, pointé vers l’avant, reçoit cette poussée de plein fouet. L’anémomètre l’utilise pour calculer la vitesse.</p>'],
+['Bernoulli','Bernoulli, l’image du tuyau d’arrosage','<p>Pince un tuyau d’arrosage avec le pouce : l’eau sort plus vite. Dans l’air, c’est pareil : quand l’air est forcé de passer par un passage étroit, il <b>accélère</b>.</p><p>Bernoulli dit en plus : <b>quand l’air accélère, sa pression baisse</b>. Cette idée est utile pour comprendre l’aile : l’air accélère au-dessus et la pression y baisse.</p><p>Attention : Bernoulli n’explique pas tout à lui seul. L’aile dévie aussi l’air vers le bas, et l’air répond en poussant l’aile vers le haut (action-réaction).</p>'],
+['Quatre vitesses','Quatre vitesses : la métaphore du marcheur sur un tapis roulant','<p>Imagine quelqu’un qui marche sur un tapis roulant d’aéroport. <b>TAS</b> = sa vitesse sur le tapis (dans l’air). <b>GS</b> = sa vitesse vue par quelqu’un immobile à côté (sol). Si le tapis va dans le même sens que lui (vent arrière), il va plus vite par rapport au sol. S’il va dans l’autre sens (vent de face), moins vite.</p><p><b>IAS</b> est ce que lit le pilote : elle dépend de la pression sur le Pitot. En altitude, l’air est moins dense, donc pour une même vitesse réelle, l’IAS est plus petite que la TAS.</p>'],
+['couche limite','La couche limite en deux mots','<p>Passe ta main dans de l’eau : l’eau tout contre ta peau est un peu « retenue », celle plus loin glisse. Pour l’aile, c’est pareil : une très fine couche d’air collée à la surface est freinée. C’est la <b>couche limite</b>. À forte incidence, elle se décolle de l’aile : c’est le début du décrochage.</p>']],
+'2-3':[
+['Vocabulaire','L’incidence, l’assiette et la pente : ne pas les confondre','<p>Trois angles :</p><ul><li><b>Assiette</b> : l’angle du <b>nez</b> de l’avion avec l’horizon (« où je regarde »).</li><li><b>Pente</b> : l’angle de la <b>trajectoire</b> avec l’horizon (« où je vais »).</li><li><b>Incidence</b> : l’angle entre l’<b>aile</b> et l’air qui arrive (« comment l’aile attaque l’air »).</li></ul><p>On peut avoir le nez en l’air (assiette +10°) et pourtant descendre (pente −3°) : l’incidence est alors de 13°.</p>'],
+['Pourquoi l’aile','Pourquoi l’aile porte : deux façons de voir la même chose','<p><b>Vue 1 – action/réaction :</b> sors la main par la vitre d’une voiture, paume inclinée vers le haut : l’air est dévié vers le bas et ta main est poussée vers le haut. L’aile fait pareil.</p><p><b>Vue 2 – les pressions :</b> l’air accélère sur le dessus de l’aile, donc la pression y baisse. Dessous, la pression est plus forte. L’aile est « poussée » du côté où la pression est la plus forte, donc vers le haut.</p><p>Les deux vues sont vraies : ce sont deux manières de décrire la même force.</p>'],
+['décrochage','Le décrochage : ce que ça veut dire vraiment','<p>Sors encore la main de la voiture, paume inclinée : si tu l’inclines trop, l’air ne glisse plus et part en tourbillons, et ta main est « lâchée ». Pour l’aile, c’est pareil : <b>trop d’incidence</b> (environ 15°) et l’air se décolle, la portance s’effondre.</p><p>Le décrochage n’est <b>pas</b> « le moteur qui s’arrête ». L’avion peut décrocher à n’importe quelle vitesse. <b>Le remède : baisser le nez</b> pour réduire l’incidence, puis ajouter de la puissance.</p>'],
+['traînée','Deux traînées, une idée','<p>La <b>traînée parasite</b>, c’est le frottement de l’air sur la forme de l’avion : comme ta main dehors, poing fermé ou à plat. Elle augmente avec la vitesse.</p><p>La <b>traînée induite</b> est le « prix » de la portance : plus on demande de portance à l’aile (à basse vitesse), plus elle crée de tourbillons au bout des ailes, qui freinent l’avion.</p>'],
+['finesse','La finesse : un exemple concret','<p>Un planeur de finesse 40 avance de <b>40 mètres pour 1 mètre perdu</b>. Depuis 1 000 m, il peut donc faire 40 km (air calme). Plus la finesse est grande, plus l’avion plane loin. C’est pour cela que les planeurs ont de très longues ailes fines.</p>']],
+'2-4':[
+['Les quatre forces','Les quatre forces : tirer à la corde','<p>Imagine un tir à la corde à quatre équipes : <b>portance</b> vers le haut contre <b>poids</b> vers le bas, <b>traction</b> vers l’avant contre <b>traînée</b> vers l’arrière.</p><p>Si les équipes sont à égalité, rien ne change : l’avion vole droit à vitesse constante (le palier). Si la traction gagne, l’avion accélère. Si le poids gagne, il descend.</p>'],
+['Montée','Pourquoi un avion peut planer','<p>Si le moteur s’arrête, il n’y a plus de traction. Mais l’avion est en descente : une partie de son <b>poids</b> le tire alors vers l’avant, comme un skieur sur une pente. Cette « traction gratuite » équilibre la traînée. L’avion n’« tombe » pas : il plane, d’autant plus loin que sa finesse est grande.</p>'],
+['Facteur de charge','Le facteur de charge : tu te sens plus lourd','<p>Dans un virage serré en voiture, tu es plaqué contre la portière. Dans un virage en avion, tu es plaqué sur ton siège : tu te sens plus lourd. Ce « poids ressenti » s’exprime en <b>g</b>. À 1 g, tu pèses ton poids normal. À 2 g, deux fois ton poids.</p><p>Plus de g signifie que l’aile doit porter davantage, donc <b>la vitesse de décrochage augmente</b>.</p>']],
+'2-5':[
+['Trois axes','Les trois mouvements : l’avion comme une flèche','<p>Prends un stylo et tiens-le comme un avion. Tu peux :</p><ul><li>le faire <b>monter/descendre le nez</b> : tangage (le manche avance/recule, <b>gouverne de profondeur</b>) ;</li><li>incliner les ailes <b>à gauche/à droite</b> : roulis (manche à gauche/droite, <b>ailerons</b>) ;</li><li>tourner le nez <b>à gauche/droite</b> à plat : lacet (pédales, <b>gouverne de direction</b>).</li></ul>'],
+['Le virage','Pourquoi on tire dans un virage','<p>L’aile pousse perpendiculairement à elle-même. Quand elle est inclinée, cette poussée est penchée : une partie fait <b>tourner</b> l’avion, une autre le <b>soutient</b>. La partie qui soutient est plus petite que la portance totale, donc l’avion aurait tendance à descendre. Pour compenser, on tire un peu sur le manche : on augmente l’incidence, donc la portance.</p>'],
+['Stabilité','Un avion stable : la balle dans la cuvette','<p>Un avion bien conçu revient à son équilibre tout seul, comme une balle au fond d’une cuvette. Les ailes en V (dièdre) l’aident à se remettre à plat. La queue (empennage) le garde en ligne comme les plumes d’une flèche.</p>']],
+'3-1':[
+['Quelques mesures','Allongement et charge alaire : à quoi ça sert ?','<p>Une aile <b>longue et étroite</b> (grand allongement) crée moins de traînée induite : c’est le cas des planeurs. Une aile <b>courte et large</b> est plus robuste et maniable.</p><p>La charge alaire, c’est la masse qu’<b>un mètre carré d’aile</b> doit porter. Plus elle est grande, plus l’avion doit voler vite pour décoller.</p>']],
+'3-2':[
+['Moteur à pistons','Les 4 temps : « j’aspire, je comprime, j’explose, je rejette »','<p>Pense à une pompe à vélo qui fonctionne à l’envers :</p><ol><li><b>Admission</b> : le piston descend et aspire l’air et l’essence.</li><li><b>Compression</b> : il remonte et écrase le mélange.</li><li><b>Combustion</b> : la bougie enflamme, ça pousse fort le piston. C’est le seul temps qui donne de la puissance.</li><li><b>Échappement</b> : il remonte et chasse les gaz brûlés.</li></ol>'],
+['Turbomachines','Le réacteur : un ballon de baudruche qui se vide','<p>Gonfle un ballon et lâche-le : l’air sort d’un côté, le ballon part de l’autre. C’est l’action-réaction. Le réacteur fait pareil en continu : il <b>aspire</b> de l’air, le <b>comprime</b>, le <b>brûle</b> avec du kérosène et l’<b>éjecte</b> à grande vitesse vers l’arrière.</p>'],
+['moteur-fusée','Pourquoi une fusée marche dans le vide','<p>Une fusée n’a pas besoin de s’appuyer sur l’air : elle éjecte des gaz vers l’arrière et, par réaction, avance vers l’avant. Comme quelqu’un assis sur un skateboard qui lance un sac lourd : il recule. Elle emporte aussi son oxygène, puisqu’il n’y en a pas dans l’espace.</p>']],
+'3-3':[
+['pitot-statique','Les trois instruments qui mesurent la pression','<p>Trois instruments utilisent <b>deux prises d’air</b> : le Pitot (face au vent) et la prise statique (sur le côté).</p><ul><li><b>Anémomètre</b> : compare les deux pour trouver la vitesse.</li><li><b>Altimètre</b> : un baromètre qui affiche l’altitude (la pression baisse quand on monte).</li><li><b>Variomètre</b> : indique si la pression baisse ou monte : tu montes ou tu descends.</li></ul>'],
+['gyroscopiques','Le gyroscope : une toupie qui ne veut pas bouger','<p>Fais tourner une toupie : tant qu’elle tourne vite, elle reste droite, même si tu inclines la table. Un gyroscope d’avion, c’est cela : une petite toupie qui garde une direction fixe. L’avion tourne autour d’elle, et l’instrument affiche la différence : <b>horizon artificiel</b> (inclinaison), <b>conservateur de cap</b> (direction), <b>indicateur de virage</b> (vitesse de rotation).</p>'],
+['prise se bouche','Que se passe-t-il quand une prise se bouche ?','<p>Si le <b>Pitot</b> est bouché, la pression dedans reste figée : l’anémomètre devient faux (il agit comme un altimètre : il indique plus en montant). Si la <b>prise statique</b> est bouchée, l’altimètre reste bloqué, le variomètre indique zéro et l’anémomètre est faux.</p>']],
+'3-4':[
+['hélicoptère','L’hélicoptère : trois commandes, trois effets','<p>Le rotor est une aile qui tourne. On le commande avec :</p><ul><li><b>Le collectif</b> (levier à gauche) : plus de pas sur toutes les pales : <b>monte</b> ; moins : <b>descend</b>.</li><li><b>Le cyclique</b> (manche) : incline le disque, donc l’hélicoptère va dans cette direction.</li><li><b>Le palonnier</b> (pieds) : commande le rotor de queue, donc le nez à gauche ou à droite.</li></ul><p>Le rotor de queue existe parce que, quand le rotor tourne dans un sens, le fuselage veut tourner dans l’autre (action-réaction).</p>'],
+['planeur','Le planeur : comment rester en l’air sans moteur ?','<p>Un planeur descend toujours un peu par rapport à l’air qui l’entoure. Mais si cet air <b>monte plus vite</b> qu’il ne descend, il gagne de l’altitude ! Les pilotes cherchent donc des colonnes d’air chaud (thermiques) sous les cumulus, ou le vent qui remonte le long d’une montagne.</p>']],
+'3-5':[
+['fusée','La fusée : lancer un sac depuis un skateboard','<p>Sur un skateboard, lance un sac lourd vers l’arrière : tu pars vers l’avant. Une fusée éjecte des gaz brûlants à très grande vitesse : c’est son « sac ». Elle est étagée car, une fois les réservoirs vides, on largue les étages inutiles pour ne pas porter de poids mort.</p>'],
+['orbite','Pourquoi un satellite ne tombe pas ?','<p>Lance une balle : plus tu la lances fort, plus elle va loin avant de toucher le sol. Imagine une balle lancée si fort que la Terre s’arrondit sous elle avant qu’elle ne tombe : elle tombe en permanence, mais <b>sans jamais toucher le sol</b>. C’est une orbite.</p><p>À bord de l’ISS, les astronautes flottent parce qu’ils sont en <b>chute libre</b>, pas parce qu’il n’y a plus de pesanteur.</p>']],
+'4-1':[
+['La Terre','Latitude et longitude : l’adresse sur la Terre','<p>Pour trouver une case dans une feuille quadrillée, on donne deux nombres : la ligne et la colonne. Sur la Terre, c’est pareil : la <b>latitude</b> (distance à l’équateur, vers le nord ou le sud) et la <b>longitude</b> (distance à Greenwich, vers l’est ou l’ouest).</p>'],
+['unités','Pourquoi le mille nautique ?','<p>1 mille nautique, c’est <b>1 minute de latitude</b>. Comme 1° = 60 minutes, 1° de latitude = 60 NM. Facile de mesurer des distances directement sur la carte, sur l’échelle de latitude.</p>'],
+['heure','UTC : l’heure commune de tous les pilotes','<p>Quand il est midi à Paris, il est 6 h à New York. Pour ne pas se tromper, les pilotes du monde entier utilisent la même heure : <b>UTC</b>. En France : UTC + 1 l’hiver, UTC + 2 l’été. Donc 14 h en été = 12 h UTC.</p>']],
+'4-2':[
+['triangle','Le triangle des vitesses : le nageur et la rivière','<p>Tu veux traverser une rivière en nageant, mais le courant t’emporte. Pour arriver pile en face, tu dois nager un peu <b>vers l’amont</b>. Le pilote fait pareil : il ne pointe pas son nez exactement vers sa destination, il le décale <b>du côté d’où vient le vent</b>.</p>'],
+['1 sur 60','La règle du 1 sur 60','<p>Si tu t’éloignes de 60 NM avec 1° d’erreur de cap, tu es écarté de <b>1 NM</b> de la route. Donc à 30 NM, 2 NM d’écart correspondent à 4° d’erreur : 2 × 60 / 30 = 4. C’est un calcul rapide à faire de tête.</p>']],
+'4-3':[
+['moyens classiques','VOR : un phare qui émet 360 rayons','<p>Un VOR est comme un phare qui enverrait 360 faisceaux, un par degré. Ton récepteur te dit sur <b>quel faisceau (radial)</b> tu te trouves. Avec le DME, qui donne la distance, tu connais ta position : « radial 090, 25 NM ».</p>'],
+['GNSS','Comment le GPS te trouve','<p>Chaque satellite envoie : « il est telle heure et je suis ici ». Le récepteur mesure le <b>temps</b> mis par le signal pour arriver, donc la distance au satellite. Avec 4 satellites, il croise les informations et trouve ta position.</p>']],
+'4-4':[
+['Trois mots','Altitude, hauteur, niveau de vol','<p>Imagine que tu es sur le toit d’un immeuble posé sur une colline. Ta <b>hauteur</b> est la distance jusqu’au sol sous l’immeuble. Ton <b>altitude</b> est la distance jusqu’au niveau de la mer. Le <b>niveau de vol</b> est une altitude mesurée avec une règle commune à tous les avions, pour éviter les collisions en croisière.</p>'],
+['trois calages','Pourquoi caler l’altimètre ?','<p>Un altimètre est un baromètre. Mais la pression change avec la météo : si tu ne le recales pas, il se trompe. Il existe donc trois réglages : <b>QNH</b> (altitude réelle), <b>QFE</b> (zéro sur la piste), <b>1013</b> (référence commune en croisière).</p>'],
+['erreur','De haut en bas, attention en dessous','<p>Si tu voles vers une zone de basse pression sans modifier ton calage, l’altimètre croit que tu es plus haut qu’en réalité : <b>tu es plus bas qu’affiché</b>. Dangereux près des montagnes !</p>']],
+'4-5':[
+['Voler à vue','VFR et IFR : voir ou instruments ?','<p>En <b>VFR</b>, tu pilotes comme on conduit en voiture : tu regardes dehors pour t’orienter et éviter les obstacles. Il faut donc une météo suffisante. En <b>IFR</b>, tu suis tes instruments, même dans les nuages, mais il faut une qualification en plus.</p>'],
+['Évitement','Les règles de priorité : plus c’est difficile à manœuvrer, plus c’est prioritaire','<p>Un ballon ne peut pas changer de direction facilement, donc il est prioritaire sur un planeur, qui l’est sur un avion à moteur. Pour deux avions qui se croisent : <b>celui qui voit l’autre à sa droite cède le passage</b>. Face à face : chacun dévie à droite.</p>'],
+['espace aérien','Les espaces aériens : une carte routière du ciel','<p>Le ciel est divisé en zones, comme les routes. Dans les zones <b>contrôlées</b>, un contrôleur te donne des autorisations. Dans les zones <b>non contrôlées</b>, c’est à toi de regarder dehors. Certaines zones sont <b>interdites</b> ou <b>dangereuses</b> (tirs, parachutages).</p>']],
+'4-6':[
+['face au vent','Pourquoi décoller face au vent ?','<p>Cours avec un cerf-volant : s’il y a du vent de face, il monte plus vite. L’avion aussi : avec le vent de face, l’air passe sur les ailes plus vite, donc il décolle <b>plus tôt</b>, sur une distance plus courte. Et à l’atterrissage, il touche le sol à plus faible vitesse par rapport au sol.</p>'],
+['circuit','Le tour de piste : comme un rond-point','<p>Tous les avions suivent le même parcours, comme des voitures sur un rond-point : <b>montée</b>, <b>vent traversier</b> (virage à 90°), <b>vent arrière</b> (parallèle à la piste), <b>base</b> (virage à 90°) et <b>finale</b> (alignement sur la piste). Cela évite les collisions.</p>'],
+['PAPI','Le PAPI : un feu tricolore de descente','<p>Quatre feux à côté de la piste. De là où tu les vois, ils sont blancs ou rouges selon ton angle de descente. <b>Plus de blanc : tu es haut. Plus de rouge : tu es bas.</b> Deux blancs et deux rouges : tu es pile sur la pente de 3°. Quatre blancs : bien trop haut. Quatre rouges : bien trop bas.</p>']],
+'4-7':[
+['Détresse','Mayday et Pan pan : à quoi les reconnaître ?','<p>« Mayday » vient du français « m’aider ». Il signale un <b>danger grave et immédiat</b>. « Pan pan » signale une <b>urgence</b> sans danger immédiat (un passager qui se sent mal, par exemple). On les dit trois fois pour qu’on les comprenne bien.</p>'],
+['Panne moteur','Aviser, Naviguer, Communiquer','<p>Si le moteur s’arrête, <b>pilote d’abord</b>. Affiche la vitesse de meilleure finesse, choisis un champ, puis appelle à la radio. L’ordre est important : on ne téléphone pas avant d’avoir stabilisé l’avion.</p>']],
+'5-1':[['ballons','Pourquoi 1783 est une date clé ?','<p>Avant 1783, l’homme n’a jamais quitté le sol en toute sécurité. Cette année-là, les frères Montgolfier envoient un ballon, puis des hommes montent dedans à Paris. C’est la première conquête de l’air, grâce à Archimède, avant l’avion.</p>']],
+'5-2':[['Grande Guerre','Pourquoi la guerre a accéléré l’aviation ?','<p>Quand un pays a besoin d’observer l’ennemi et de contrôler le ciel, il investit beaucoup. En quatre ans (1914-1918), l’avion passe de curiosité fragile à machine de guerre puissante, avec moteurs plus forts, mitrailleuses, bombardiers.</p>']],
+'5-3':[['moteur à réaction','Qu’est-ce que le réacteur a changé ?','<p>Avec l’hélice, l’avion est limité en vitesse. Avec le réacteur (1939), l’avion peut aller beaucoup plus vite et plus haut, ce qui permet les vols commerciaux à 900 km/h et le Concorde à Mach 2.</p>']],
+'5-4':[['course','Pourquoi une course à l’espace ?','<p>Après 1945, les États-Unis et l’URSS se disputent la première place dans le monde. Chaque exploit spatial montre la supériorité technique d’un camp. Cette compétition a permis de passer en 12 ans du premier satellite (1957) aux premiers pas sur la Lune (1969).</p>']],
+'5-5':[['lanceurs','Pourquoi réutiliser les fusées ?','<p>Jeter une fusée après un seul vol, c’est comme jeter un avion après chaque trajet. Avec le premier étage réutilisable de Falcon 9, le coût d’un lancement baisse fortement.</p>']],
+'6-1':[['alphabet','Pourquoi un alphabet spécial ?','<p>Au téléphone, B, D, P et T sonnent presque pareil. À la radio, avec du bruit, c’est pire. L’alphabet OACI donne un mot clair à chaque lettre : <b>Bravo, Delta, Papa, Tango</b>. Même dans le bruit, on ne se trompe pas.</p>']],
+'6-3':[['Expressions','Roger, Wilco… ce que ça veut dire','<p><b>Roger</b> : « j’ai bien reçu ». Ce n’est pas « oui ». <b>Wilco</b> : « j’ai compris et je vais le faire ». <b>Affirm</b> = oui, <b>Negative</b> = non. Ce sont des mots très courts pour gagner du temps à la radio.</p>']]
+};
+})();
+
 (function(){
 const F=window.BIA.figs;
 const S=(w,h,body,label)=>'<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="'+label+'">'+body+'</svg>';
@@ -3402,6 +3512,98 @@ F['saynum']={cap:'<b>Dire les chiffres en radio.</b> Pour éviter les confusions
 svg:'<div class="fh"><div class="row2"><span class="tok a">3</span><span>«&nbsp;tree&nbsp;» (et non «&nbsp;three&nbsp;»)</span></div><div class="row2"><span class="tok a">5</span><span>«&nbsp;fife&nbsp;»</span></div><div class="row2"><span class="tok a">9</span><span>«&nbsp;niner&nbsp;» (pour ne pas confondre avec «&nbsp;nine&nbsp;» / «&nbsp;nein&nbsp;»)</span></div><div class="row2"><span class="tok">1 000</span><span>«&nbsp;wun tousand&nbsp;» (on dit le chiffre, puis «&nbsp;tousand&nbsp;»)</span></div><div class="row2"><span class="tok">121,5</span><span>«&nbsp;wun too wun decimal fife&nbsp;» (la fréquence de détresse)</span></div></div>'};
 })();
 
+(function(){ const B=window.BIA, F=B.figs;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), ss=(a,b,t)=>{ t=clamp((t-a)/(b-a),0,1); return t*t*(3-2*t); }, mixc=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t));
+let _s=5; const rnd=()=>{ _s=(_s*16807)%2147483647; return _s/2147483647; };
+const rgb=c=>'rgb('+c[0]+','+c[1]+','+c[2]+')';
+function T(g,t,x,y,o){ o=o||{}; g.font=(o.w||'600')+' '+(o.s||13)+'px Barlow,Segoe UI,sans-serif'; g.textAlign=o.a||'left'; g.textBaseline='alphabetic'; if(o.sh!==0){ g.lineWidth=3.5; g.lineJoin='round'; g.strokeStyle=o.sc||'rgba(255,255,255,.85)'; g.strokeText(t,x,y); } g.fillStyle=o.c||'#12202f'; g.fillText(t,x,y); }
+function puff(g,x,y,r,tint,dark){ const c0=mixc([255,255,255],[96,108,124],dark), c1=mixc([206,216,228],[58,66,80],dark); const gr=g.createRadialGradient(x-r*.35,y-r*.4,r*.1,x,y,r); gr.addColorStop(0,rgb(mixc(c0,tint||c0,0))); gr.addColorStop(.7,rgb(c1)); gr.addColorStop(1,'rgba('+c1[0]+','+c1[1]+','+c1[2]+',0)'); g.fillStyle=gr; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); }
+function sky(g,W,H,gy,top,bot){ const l=g.createLinearGradient(0,0,0,gy); l.addColorStop(0,top); l.addColorStop(1,bot); g.fillStyle=l; g.fillRect(0,0,W,gy); }
+function ground(g,W,H,gy){ const l=g.createLinearGradient(0,gy,0,H); l.addColorStop(0,'#6fae56'); l.addColorStop(1,'#427f3a'); g.fillStyle=l; g.fillRect(0,gy,W,H-gy); g.fillStyle='rgba(30,70,30,.25)'; for(let i=0;i<40;i++){ g.fillRect((i*83)%W,gy+4+((i*37)%(H-gy-8)),14+(i%3)*8,2); } }
+function hills(g,W,gy,col,a,f,ph){ g.fillStyle=col; g.beginPath(); g.moveTo(0,gy); for(let x=0;x<=W;x+=10) g.lineTo(x,gy-a*(.6+.4*Math.sin(x*f+ph))-a*.3*Math.sin(x*f*2.7+ph*2)); g.lineTo(W,gy); g.fill(); }
+function arrow(g,x0,y0,x1,y1,col,w){ g.strokeStyle=col; g.fillStyle=col; g.lineWidth=w||3; g.lineCap='round'; g.beginPath(); g.moveTo(x0,y0); g.lineTo(x1,y1); g.stroke(); const a=Math.atan2(y1-y0,x1-x0); g.beginPath(); g.moveTo(x1,y1); g.lineTo(x1-10*Math.cos(a-.45),y1-10*Math.sin(a-.45)); g.lineTo(x1-10*Math.cos(a+.45),y1-10*Math.sin(a+.45)); g.closePath(); g.fill(); }
+
+/* ======== Naissance d’un nuage ======== */
+const CF={W:640,H:400,cyc:18,
+ draw(g,t){ const W=640,H=400,gy=350,m2y=h=>gy-h*.11, L=m2y(2000);
+  sky(g,W,H,gy,'#2d78cf','#cfe8f7'); const sg=g.createRadialGradient(70,60,0,70,60,150); sg.addColorStop(0,'rgba(255,248,210,1)'); sg.addColorStop(.12,'rgba(255,244,190,.7)'); sg.addColorStop(1,'rgba(255,240,180,0)'); g.fillStyle=sg; g.fillRect(0,0,300,260); g.fillStyle='#fff6c9'; g.beginPath(); g.arc(70,60,22,0,7); g.fill();
+  hills(g,W,gy,'#9cb9c9',34,.012,1); hills(g,W,gy,'#7fa68a',20,.02,3); ground(g,W,H,gy);
+  // rayons du soleil vers le sol
+  g.save(); for(let i=0;i<5;i++){ const x1=150+i*70, a=.12+.1*Math.sin(t*1.5+i); g.strokeStyle='rgba(255,226,120,'+a+')'; g.lineWidth=14; g.beginPath(); g.moveTo(80+i*10,70); g.lineTo(x1,gy); g.stroke(); } g.restore();
+  // sol chaud : ondulations
+  const heat=ss(0,3,t%CF.cyc); for(let i=0;i<7;i++){ const x=170+i*52; g.strokeStyle='rgba(255,120,40,'+(.55*heat)+')'; g.lineWidth=2; g.beginPath(); for(let k=0;k<26;k++){ const yy=gy-k*2.4-((t*30+i*9)%30); g.lineTo(x+Math.sin(k*.6+t*4+i)*4,yy); } g.stroke(); }
+  // règle d’altitude
+  g.strokeStyle='rgba(20,40,60,.55)'; g.lineWidth=1.5; g.beginPath(); g.moveTo(36,gy); g.lineTo(36,m2y(3000)); g.stroke(); for(const h of [0,1000,2000,3000]){ const y=m2y(h); g.beginPath(); g.moveTo(30,y); g.lineTo(42,y); g.stroke();  }
+  for(const h of [0,1000,2000,3000]) T(g,h+' m',48,m2y(h)+4,{s:12,w:'600'});
+  // niveau de condensation
+  g.setLineDash([8,6]); g.strokeStyle='rgba(255,255,255,.95)'; g.lineWidth=2; g.beginPath(); g.moveTo(110,L); g.lineTo(520,L); g.stroke(); g.setLineDash([]);
+  T(g,'Niveau de condensation',60,L+18,{s:12,w:'700'}); T(g,'= base du nuage',60,L+32,{s:12,w:'700'});
+  const tc=t%CF.cyc;
+  // bulles montantes
+  const bub=[[250,0],[330,1.6],[410,3.2]];
+  for(const [bx,off] of bub){ const u=((tc-3-off)/6.5); if(u<0||u>1.15) continue; const uu=clamp(u,0,1), h=uu*2000, y=m2y(h), tair=24-h/100; const r=20+uu*20; const cold=ss(0,1,uu), col=mixc([255,140,60],[110,170,235],cold);
+    const ag=1-ss(1,1.15,u); const gr=g.createRadialGradient(bx-r*.3,y-r*.3,2,bx,y,r*1.15); gr.addColorStop(0,'rgba('+col[0]+','+col[1]+','+col[2]+','+(.75*ag)+')'); gr.addColorStop(1,'rgba('+col[0]+','+col[1]+','+col[2]+','+(.12*ag)+')'); g.fillStyle=gr; g.beginPath(); g.ellipse(bx+Math.sin(t*2+off)*3,y,r,r*1.05,0,0,7); g.fill(); g.strokeStyle='rgba('+col[0]+','+col[1]+','+col[2]+','+(.9*ag)+')'; g.lineWidth=1.5; g.stroke();
+    // molécules de vapeur
+    for(let k=0;k<9;k++){ const a=k*2.4+t*1.7+off, rr=(k%3+1)*r/4.2; const px=bx+Math.cos(a)*rr, py=y+Math.sin(a*1.3)*rr*.9; const drop=ss(.88,1,uu); g.fillStyle=drop>.2?'rgba(255,255,255,'+(.9*ag)+')':'rgba(40,110,200,'+(.75*ag)+')'; g.beginPath(); g.arc(px,py,drop>.2?2.8:1.8,0,7); g.fill(); }
+    T(g,tair.toFixed(0)+' °C',bx+r+6,y+4,{s:13,w:'800',c:rgb(mixc([200,70,10],[20,80,170],cold))});
+    arrow(g,bx,y+r+14,bx,y+r+2,'rgba(220,60,40,.85)',3); }
+  // nuage (cumulus)
+  const g0=ss(5.5,12.5,tc)*(1-ss(16,18,tc)); if(g0>0.01){ _s=11; const P=[]; for(let i=0;i<26;i++){ P.push([370+(rnd()-.5)*190,L-4-rnd()*58,22+rnd()*22,rnd()]); } P.sort((a,b)=>b[1]-a[1]); for(const p of P){ const sc=g0; const y=L-(L-p[1])*sc; puff(g,370+(p[0]-370)*(.35+.65*sc),y,p[2]*(.3+.7*sc),null,.12*(1-(L-p[1])/80)); } T(g,'NUAGE',370,L-84*g0-8,{s:15,w:'800',a:'center',c:'#0e3b66'}); }
+  // panneau d’informations
+  g.fillStyle='rgba(255,255,255,.9)'; g.beginPath(); g.roundRect?g.roundRect(468,16,164,96,10):g.rect(468,16,164,96); g.fill();
+  T(g,'Température de l’air  T',478,38,{s:12,w:'600',sh:0,c:'#52606e'}); T(g,'24 °C → 4 °C',478,58,{s:18,w:'800',sh:0,c:'#c2410c'});
+  T(g,'Point de rosée  Td',478,80,{s:12,w:'600',sh:0,c:'#52606e'}); T(g,'8 °C → 4 °C',478,100,{s:18,w:'800',sh:0,c:'#1d4ed8'});
+  // légende de l’étape
+  const steps=[[0,3,'1 · Le soleil chauffe le sol : l’air du dessous se réchauffe.'],[3,9,'2 · La bulle d’air chaud, plus légère, monte… et se refroidit (≈ 1 °C par 100 m).'],[9,13,'3 · À 4 °C, T = Td : la vapeur se condense en gouttelettes.'],[13,18,'4 · Les gouttelettes, ensemble, forment le nuage (cumulus).']];
+  const st=steps.find(s=>tc>=s[0]&&tc<s[1])||steps[3]; g.fillStyle='rgba(18,32,47,.88)'; g.fillRect(0,H-34,W,34); T(g,st[2],W/2,H-12,{s:14,w:'600',a:'center',c:'#fff',sh:0});
+ }};
+F['cloudform']={cap:'<b>Comment naît un nuage.</b> Le soleil chauffe le sol et l’air qui le touche. Cette bulle d’air chaud, plus légère, monte. En montant, elle se détend et se <b>refroidit</b>. Quand sa température rejoint le <b>point de rosée</b>, la vapeur d’eau se condense en minuscules gouttelettes : c’est un nuage.',svg:'',canvas:CF,alt:'Animation : une bulle d’air chaud monte, se refroidit à 4 °C et forme un nuage à 2 000 m'};
+
+/* ======== Cumulonimbus et orage ======== */
+const CB={W:640,H:430,cyc:22,bolts:[[7.4,250],[9.1,410],[11.0,300],[12.7,440],[14.3,360]],
+ puffs:(function(){ _s=77; const a=[]; for(let i=0;i<150;i++){ const u=rnd(); a.push([ (rnd()-.5), u, 30+rnd()*24, rnd() ]); } return a; })(),
+ bolt(g,x0,y0,x1,y1,seed,al){ _s=seed; const pts=[[x0,y0],[x1,y1]]; for(let k=0;k<5;k++){ for(let i=pts.length-1;i>0;i--){ const a=pts[i-1],b=pts[i]; const mx=(a[0]+b[0])/2+(rnd()-.5)*(60/(k+1)), my=(a[1]+b[1])/2; pts.splice(i,0,[mx,my]); } }
+   g.save(); g.lineJoin='round'; g.lineCap='round'; for(const [w,c] of [[10,'rgba(160,190,255,'+(.25*al)+')'],[5,'rgba(210,225,255,'+(.6*al)+')'],[2,'rgba(255,255,255,'+al+')']]){ g.strokeStyle=c; g.lineWidth=w; g.beginPath(); pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])); g.stroke(); } g.restore(); },
+ draw(g,t){ const W=640,H=430,gy=396,km=h=>gy-h*31, tc=t%CB.cyc;
+  const dev=ss(0,6.5,tc), mat=ss(5.5,8,tc)*(1-ss(15.5,17,tc)), dis=ss(15,21,tc);
+  let flash=0; for(const [bt] of CB.bolts){ const d=tc-bt; if(d>0&&d<.45) flash=Math.max(flash,(1-d/.45)*(.5+.5*Math.sin(d*60)*.5)); }
+  const dark=.35+.5*dev*(1-dis*.6);
+  sky(g,W,H,gy,rgbm(mixc([86,148,214],[52,64,86],dark)),rgbm(mixc([200,226,244],[128,142,160],dark)));
+  if(flash>0){ g.fillStyle='rgba(235,240,255,'+(flash*.35)+')'; g.fillRect(0,0,W,gy); }
+  hills(g,W,gy,'#8aa0ae',30,.011,2); ground(g,W,H,gy);
+  // pluie au sol qui mouille
+  // axe d’altitude et isotherme 0 °C
+  g.strokeStyle='rgba(15,30,45,.6)'; g.lineWidth=1.5; g.beginPath(); g.moveTo(30,gy); g.lineTo(30,km(10.5)); g.stroke(); for(const h of [0,2,4,6,8,10]){ g.beginPath(); g.moveTo(24,km(h)); g.lineTo(36,km(h)); g.stroke(); T(g,h+' km',40,km(h)+4,{s:11,w:'600'}); }
+  g.setLineDash([6,5]); g.strokeStyle='rgba(120,190,255,.9)'; g.lineWidth=1.8; g.beginPath(); g.moveTo(80,km(4)); g.lineTo(620,km(4)); g.stroke(); g.setLineDash([]); T(g,'0 °C : au-dessus, les gouttes gèlent',70,km(4)-5,{s:11,w:'700',c:'#0b4a7a'});
+  // avion qui contourne
+  const px=70+((tc*9)%150), py=km(6.2); g.save(); g.translate(px,py); g.fillStyle='#fff'; g.strokeStyle='#223'; g.lineWidth=1; g.beginPath(); g.ellipse(0,0,14,3.2,0,0,7); g.fill(); g.stroke(); g.beginPath(); g.moveTo(-3,0); g.lineTo(-9,-8); g.lineTo(-5,0); g.lineTo(-9,8); g.closePath(); g.fill(); g.stroke(); g.restore();
+  // nuage
+  const base=km(2.6), top=km(2.6+7.3*dev*(1-dis*.55)), cx=330, wid=(70+40*dev)*(1-.3*dis);
+  const P=CB.puffs.slice().map(p=>({x:cx+p[0]*wid*2*(0.9+.5*(1-p[1])),y:base-p[1]*(base-top),r:p[2]*(.45+.55*dev)*(1-.4*dis),k:p[3],u:p[1]})); P.sort((a,b)=>b.y-a.y);
+  for(const p of P){ const dk=clamp(.15+.55*(1-p.u)*.9+.3*mat-.2*p.k*0,0,.95); puff(g,p.x,p.y,p.r,null,dk*.85+flash*-.2); }
+  // enclume
+  const an=ss(7,10,tc)*(1-ss(15,19,tc)); if(an>.01){ _s=9; for(let i=0;i<40;i++){ const s=(rnd()*2-1), x=cx+s*(120+80*an), y=top+8+rnd()*14+Math.abs(s)*10; puff(g,x,y,(18+rnd()*14)*an,null,.15); } T(g,'ENCLUME',cx,top-10,{s:13,w:'800',a:'center',c:'#10243a'}); }
+  if(flash>0){ { const cy=(base+top)/2, rg=g.createRadialGradient(cx,cy,10,cx,cy,wid*1.5); rg.addColorStop(0,'rgba(255,255,255,'+(flash*.75)+')'); rg.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=rg; g.fillRect(cx-wid*1.6,top-30,wid*3.2,base-top+60); } }
+  // courants ascendants et descendants
+  if(dev>.2){ const ph=(t*60)%40; for(let i=0;i<4;i++){ const y=base-12-i*40-ph*.6; if(y>top+14&&y<base-4) arrow(g,cx-35,y+28,cx-35,y,'rgba(220,40,30,.9)',4); } T(g,'Courant montant',cx-35,base+16,{s:12,w:'800',a:'center',c:'#9b1c1c'}); }
+  // grêle et charges dans le nuage
+  if(mat>.1){ _s=33; for(let i=0;i<14;i++){ const u=rnd(), x=cx-60+rnd()*110, per=2.2+rnd()*1.6, ph=((t/per+rnd())%1), y=top+30+(base-top-60)*(ph<.5?ph*2:2-ph*2); g.fillStyle='rgba(255,255,255,'+(.9*mat)+')'; g.beginPath(); g.arc(x,y,2.6+u*1.6,0,7); g.fill(); g.strokeStyle='rgba(120,150,190,'+(.8*mat)+')'; g.lineWidth=1; g.stroke(); }
+   T(g,'+ + +',cx+4,top+34,{s:15,w:'800',a:'center',c:'#c0222e',sc:'rgba(255,255,255,.7)'}); T(g,'− − −',cx+4,base-8,{s:15,w:'800',a:'center',c:'#1d4ed8',sc:'rgba(255,255,255,.7)'}); T(g,'Grêle',cx+78,(base+top)/2,{s:12,w:'800',c:'#0b3a66'}); }
+  // pluie et courant descendant
+  const rain=mat*(1-ss(16,21,tc)*.9); if(rain>.02){ g.strokeStyle='rgba(60,100,150,'+(.75*rain)+')'; g.lineWidth=1.4; _s=3; for(let i=0;i<90;i++){ const x=cx+40+rnd()*130, sp=300+rnd()*180, y0=base+4+((t*sp+rnd()*400)%(gy-base-4)); g.beginPath(); g.moveTo(x-(y0-base)*.05,y0); g.lineTo(x-(y0-base)*.05-2,y0+10); g.stroke(); }
+   for(let i=0;i<3;i++){ const y=base+30+((t*40+i*60)%120); if(y<gy-26) arrow(g,cx+175,y,cx+175,y+22,'rgba(30,90,200,.9)',4); } T(g,'Courant descendant',cx+178,base+18,{s:12,w:'800',a:'left',c:'#1e3a8a'}); T(g,'Pluie',cx+95,gy-12,{s:12,w:'800',a:'center',c:'#1e3a8a'}); }
+  // éclairs
+  for(const [bt,bx] of CB.bolts){ const d=tc-bt; if(d>0&&d<.45) CB.bolt(g,bx-30+((bt*17)%40),base-4,bx+(bt%5)*3-10,gy,Math.round(bt*100),clamp(1-d/.45,0,1)*(.7+.3*Math.sin(d*70))); if(d>.9&&d<2.6){ T(g,'Éclair… puis, plus tard, BOUM : le tonnerre',470,60,{s:13,w:'800',a:'center',c:'#3b1d6e'}); } }
+  // consigne avion
+  T(g,'Contourner largement !',px,py-14,{s:12,w:'800',a:'center',c:'#7a1f1f'});
+  // onglets des phases
+  const ph=tc<6.5?0:tc<15.5?1:2; const tabs=['1 · Développement','2 · Maturité','3 · Dissipation'], tx=[120,320,520]; for(let i=0;i<3;i++){ g.fillStyle=i===ph?'rgba(194,65,12,.95)':'rgba(18,32,47,.55)'; g.beginPath(); g.roundRect?g.roundRect(tx[i]-95,10,190,26,13):g.rect(tx[i]-95,10,190,26); g.fill(); T(g,tabs[i],tx[i],28,{s:14,w:'700',a:'center',c:'#fff',sh:0}); }
+  const msg=['Un courant d’air chaud et humide monte très vite : le nuage grandit comme une tour.','Pluie, grêle et éclairs. Courants montants et descendants violents : zone interdite aux avions.','Le courant montant faiblit, l’air froid descend : l’orage s’éteint.'][ph]; g.fillStyle='rgba(18,32,47,.88)'; g.fillRect(0,H-26,W,26); T(g,msg,W/2,H-8,{s:13,w:'600',a:'center',c:'#fff',sh:0});
+ }};
+function rgbm(c){ return rgb(c); }
+F['cb']={cap:'<b>Le cumulonimbus (Cb), le nuage d’orage.</b> Il passe par trois phases : <b>développement</b> (un courant d’air chaud monte en tour), <b>maturité</b> (pluie, grêle, éclairs, courants montants et descendants violents) et <b>dissipation</b>. En haut, il s’étale en <b>enclume</b>. On ne le traverse jamais : on le contourne largement.',svg:'',canvas:CB,alt:'Animation du cycle de vie d’un orage : développement, maturité avec éclairs, dissipation'};
+})();
+
 (function(){
 'use strict';
 const B = window.BIA, TH = B.themes;
@@ -3607,6 +3809,14 @@ function ensureDefs(){
 function mountFig(slot){
   const f=B.figs&&B.figs[slot.dataset.fig]; if(!f){ slot.remove(); return; }
   ensureDefs();
+  if(f.canvas){ const C=f.canvas, fig=document.createElement('figure'); fig.className='fig fig-cv'; fig.dataset.anim='1';
+    fig.innerHTML='<canvas role="img" aria-label="'+esc(f.alt||'')+'"></canvas><figcaption>'+f.cap+'<span class="fhint">Touche l’illustration pour mettre l’animation en pause.</span></figcaption>';
+    const cv=fig.querySelector('canvas'), g=B.gfx.setup(cv,C.W,C.H); let t0=null, tt=0, paused=false, vis=true, raf=0, last=0;
+    const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const frame=ts=>{ if(!document.body.contains(cv)){ return; } if(t0===null){ t0=ts; last=ts; } if(!paused&&vis&&!reduce){ tt+=(ts-last)/1000; } last=ts; if(vis||tt===0){ g.clearRect(0,0,C.W,C.H); C.draw(g,reduce?C.still||9:tt); } raf=requestAnimationFrame(frame); };
+    if('IntersectionObserver' in window){ new IntersectionObserver(es=>{ vis=es[0].isIntersecting; }).observe(cv); }
+    fig.addEventListener('click',()=>{ paused=!paused; fig.classList.toggle('paused',paused); });
+    slot.replaceWith(fig); raf=requestAnimationFrame(frame); return; }
   const anim=/animate|animation|class="[^"]*(flow|jig|blink|spin|bob|fade)/.test(f.svg);
   const fig=document.createElement('figure'); fig.className='fig'; if(anim) fig.dataset.anim='1';
   fig.innerHTML=f.svg+'<figcaption>'+f.cap+(anim?'<span class="fhint">Touche l’illustration pour mettre l’animation en pause.</span>':'')+'</figcaption>';
@@ -3623,7 +3833,9 @@ function pChapter(id){
   h+='<div class="goals"><b>À la fin de ce chapitre, tu sais :</b><ul>'+c.goals.map(g=>'<li>'+g+'</li>').join('')+'</ul></div>';
   if(B.intros&&B.intros[c.id]) h+='<div class="idea"><b>L’idée en 20 secondes</b><p>'+B.intros[c.id]+'</p></div>';
   if(B.vocab&&B.vocab[c.id]) h+='<details class="vocab"><summary>Les mots du chapitre <small>(touche pour ouvrir)</small></summary><dl>'+B.vocab[c.id].map(v=>'<dt>'+v[0]+'</dt><dd>'+v[1]+'</dd>').join('')+'</dl></details>';
-  h+=c.body;
+  let body=c.body;
+  if(B.simple&&B.simple[c.id]) B.simple[c.id].forEach(e=>{ const m=new RegExp('<h2[^>]*>[^<]*'+e[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[^<]*</h2>').exec(body); if(!m) return; const start=m.index+m[0].length; let nx=body.indexOf('<h2',start); if(nx<0) nx=body.length; const box='<details class="simple"><summary><span>💡</span> Explique-moi autrement : '+e[1]+'</summary><div class="simple-b">'+e[2]+'</div></details>'; body=body.slice(0,nx)+box+body.slice(nx); });
+  h+=body;
   h+='<div class="keep"><h3>À retenir</h3><ul>'+c.keep.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
   if(c.traps&&c.traps.length) h+='<div class="trap"><h3>Pièges classiques</h3><ul>'+c.traps.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
   h+='<h2>Vérifie-toi</h2><p class="mute small">'+c.qs.length+' questions corrigées. Vise 80 % pour valider le chapitre.</p><div id="cq"></div>';

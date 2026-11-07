@@ -203,6 +203,14 @@ function ensureDefs(){
 function mountFig(slot){
   const f=B.figs&&B.figs[slot.dataset.fig]; if(!f){ slot.remove(); return; }
   ensureDefs();
+  if(f.canvas){ const C=f.canvas, fig=document.createElement('figure'); fig.className='fig fig-cv'; fig.dataset.anim='1';
+    fig.innerHTML='<canvas role="img" aria-label="'+esc(f.alt||'')+'"></canvas><figcaption>'+f.cap+'<span class="fhint">Touche l’illustration pour mettre l’animation en pause.</span></figcaption>';
+    const cv=fig.querySelector('canvas'), g=B.gfx.setup(cv,C.W,C.H); let t0=null, tt=0, paused=false, vis=true, raf=0, last=0;
+    const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const frame=ts=>{ if(!document.body.contains(cv)){ return; } if(t0===null){ t0=ts; last=ts; } if(!paused&&vis&&!reduce){ tt+=(ts-last)/1000; } last=ts; if(vis||tt===0){ g.clearRect(0,0,C.W,C.H); C.draw(g,reduce?C.still||9:tt); } raf=requestAnimationFrame(frame); };
+    if('IntersectionObserver' in window){ new IntersectionObserver(es=>{ vis=es[0].isIntersecting; }).observe(cv); }
+    fig.addEventListener('click',()=>{ paused=!paused; fig.classList.toggle('paused',paused); });
+    slot.replaceWith(fig); raf=requestAnimationFrame(frame); return; }
   const anim=/animate|animation|class="[^"]*(flow|jig|blink|spin|bob|fade)/.test(f.svg);
   const fig=document.createElement('figure'); fig.className='fig'; if(anim) fig.dataset.anim='1';
   fig.innerHTML=f.svg+'<figcaption>'+f.cap+(anim?'<span class="fhint">Touche l’illustration pour mettre l’animation en pause.</span>':'')+'</figcaption>';
@@ -219,7 +227,9 @@ function pChapter(id){
   h+='<div class="goals"><b>À la fin de ce chapitre, tu sais :</b><ul>'+c.goals.map(g=>'<li>'+g+'</li>').join('')+'</ul></div>';
   if(B.intros&&B.intros[c.id]) h+='<div class="idea"><b>L’idée en 20 secondes</b><p>'+B.intros[c.id]+'</p></div>';
   if(B.vocab&&B.vocab[c.id]) h+='<details class="vocab"><summary>Les mots du chapitre <small>(touche pour ouvrir)</small></summary><dl>'+B.vocab[c.id].map(v=>'<dt>'+v[0]+'</dt><dd>'+v[1]+'</dd>').join('')+'</dl></details>';
-  h+=c.body;
+  let body=c.body;
+  if(B.simple&&B.simple[c.id]) B.simple[c.id].forEach(e=>{ const m=new RegExp('<h2[^>]*>[^<]*'+e[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[^<]*</h2>').exec(body); if(!m) return; const start=m.index+m[0].length; let nx=body.indexOf('<h2',start); if(nx<0) nx=body.length; const box='<details class="simple"><summary><span>💡</span> Explique-moi autrement : '+e[1]+'</summary><div class="simple-b">'+e[2]+'</div></details>'; body=body.slice(0,nx)+box+body.slice(nx); });
+  h+=body;
   h+='<div class="keep"><h3>À retenir</h3><ul>'+c.keep.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
   if(c.traps&&c.traps.length) h+='<div class="trap"><h3>Pièges classiques</h3><ul>'+c.traps.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
   h+='<h2>Vérifie-toi</h2><p class="mute small">'+c.qs.length+' questions corrigées. Vise 80 % pour valider le chapitre.</p><div id="cq"></div>';
