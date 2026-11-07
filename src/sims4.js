@@ -61,4 +61,27 @@ mount(root,x){
   x.segBind('dir',v=>{ dir=v; flip=false; draw(); });
   draw();
 }};
+
+/* ---------- 6.4 L’avion en anglais ---------- */
+S.enplane={title:'L’avion en anglais', th:'t6', ch:'6-4',
+desc:'Découvre les noms anglais des grandes parties de l’avion, puis teste-toi : on te donne le mot, tu touches la pièce.',
+try:['Affiche d’abord les noms, puis passe au jeu.','Fais un sans-faute sur les 8 pièces avant de continuer.'],
+mount(root,x){
+  const u=x.uid;
+  const P={hel:['propeller','hélice',[70,80]],mot:['engine','moteur',[158,128]],cab:['cockpit','cabine de pilotage',[262,168]],fus:['fuselage','fuselage',[440,150]],ail:['wing','aile',[250,70]],emh:['elevator','gouverne de profondeur',[528,206]],emv:['rudder','gouverne de direction',[538,58]],tra:['landing gear','train d’atterrissage',[226,226]]};
+  const style='<style>#'+u+'s .pt{cursor:pointer;transition:filter .15s}#'+u+'s .pt:hover,#'+u+'s .pt.on{filter:drop-shadow(0 0 5px #ff8a3d) brightness(1.08)}#'+u+'s .pt.good{filter:drop-shadow(0 0 6px #22c55e)}#'+u+'s .pt.bad{filter:drop-shadow(0 0 6px #ef4444)}#'+u+'s .tag{pointer-events:none}</style>';
+  root.innerHTML=x.seg('mode',[['lab','Noms anglais'],['quiz','Jeu : touche la pièce']],'lab')+'<div style="margin-top:8px">'+window.BIA.planeSVG(u)+'</div>'+style+'<div class="verdict" id="'+u+'v"><b>Touche une pièce.</b></div>';
+  const svg=x.q('#'+u+'s'), v=x.q('#'+u+'v'); const ns='http://www.w3.org/2000/svg';
+  let mode='lab', target=null, round=0, ok=0, order=[];
+  function tags(){ const o=svg.querySelector('#'+u+'lb'); if(o) o.remove(); if(mode!=='lab') return; const g=document.createElementNS(ns,'g'); g.setAttribute('id',u+'lb'); g.setAttribute('class','tag');
+    Object.keys(P).forEach(k=>{ const nm=P[k][0], p=P[k][2], w=nm.length*7.2+16; const r=document.createElementNS(ns,'rect'); r.setAttribute('x',p[0]-w/2); r.setAttribute('y',p[1]-13); r.setAttribute('width',w); r.setAttribute('height',22); r.setAttribute('rx',11); r.setAttribute('fill','#12202f'); r.setAttribute('opacity','.92'); const t=document.createElementNS(ns,'text'); t.setAttribute('x',p[0]); t.setAttribute('y',p[1]+2); t.setAttribute('text-anchor','middle'); t.setAttribute('font-size','12'); t.setAttribute('font-weight','700'); t.setAttribute('fill','#fff'); t.textContent=nm; g.appendChild(r); g.appendChild(t); }); svg.appendChild(g); }
+  function clear(){ x.qa('.pt').forEach(p=>p.classList.remove('on','good','bad')); }
+  function next(){ clear(); if(round>=8){ v.className='verdict '+(ok===8?'ok':'warn'); v.innerHTML='<b>Terminé : '+ok+' / 8 du premier coup.</b> '+(ok===8?'Sans faute !':'Recommence pour viser le sans-faute.')+' <button type="button" class="btn sm" id="'+u+'r" style="margin-left:8px">Rejouer</button>'; x.q('#'+u+'r').onclick=start; target=null; return; } target=order[round]; v.className='verdict'; v.innerHTML='<b>Question '+(round+1)+' / 8 :</b> touche le <b style="font-size:1.15em">'+P[target][0]+'</b>'; }
+  function start(){ order=B.shuffle(Object.keys(P)); round=0; ok=0; next(); }
+  function click(g){ const k=g.dataset.p; if(mode==='lab'){ clear(); g.classList.add('on'); v.className='verdict'; v.innerHTML='<b>'+P[k][0]+'</b> = '+P[k][1]; return; }
+    if(!target) return; clear(); if(k===target){ g.classList.add('good'); ok+=0; if(!g._miss) ok++; round++; x.qa('.pt').forEach(p=>p._miss=false); v.className='verdict ok'; v.innerHTML='Oui ! <b>'+P[k][0]+'</b> = '+P[k][1]+'.'; setTimeout(next,900); } else { g.classList.add('bad'); const pg=svg.querySelector('.pt[data-p="'+target+'"]'); pg._miss=true; v.className='verdict bad'; v.innerHTML='Non, ça c’est <b>'+P[k][0]+'</b> ('+P[k][1]+'). Cherche le <b>'+P[target][0]+'</b>.'; } }
+  x.qa('.pt').forEach(g=>{ g.addEventListener('click',()=>click(g)); g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); click(g); } }); });
+  x.segBind('mode',m=>{ mode=m; clear(); tags(); if(m==='quiz') start(); else { v.className='verdict'; v.innerHTML='<b>Touche une pièce</b> pour voir sa traduction.'; } });
+  tags();
+}};
 })();

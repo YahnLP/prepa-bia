@@ -4,23 +4,8 @@ const f1 = (x,d)=>x.toFixed(d===undefined?1:d).replace('.',',');
 const rad=a=>a*Math.PI/180;
 const pad3=n=>String(Math.round(n)).padStart(3,'0');
 
-/* ---------- 3.1 Anatomie d’un avion ---------- */
-S.plane={title:'Anatomie d’un avion léger', th:'t3', ch:'3-1',
-desc:'Touche chaque partie de l’avion pour connaître son rôle et son nom en anglais.',
-try:['Retrouve les deux parties de l’empennage horizontal : une fixe, une mobile.','Repère quelle gouverne se trouve sur l’aile et laquelle sur l’empennage.'],
-mount(root,x){
-  const info={
-   hel:['Hélice (propeller)','Transforme la puissance du moteur en traction. Chaque pale est un petit profil d’aile qui « visse » l’avion dans l’air.'],
-   mot:['Moteur et capot (engine, cowling)','Le groupe motopropulseur fournit la puissance. Le capot le protège et canalise l’air de refroidissement.'],
-   cab:['Cabine (cockpit)','Le poste de pilotage : manche, palonnier, manette des gaz, instruments. Le pilote y garde une vue dégagée pour « voir et éviter ».'],
-   fus:['Fuselage (fuselage)','Le corps de l’avion. Il relie l’aile, l’empennage et le train, et accueille cabine et soute. Structure souvent semi-monocoque : cadres, lisses et revêtement porteur.'],
-   ail:['Voilure ou aile (wing)','Produit la portance. On y trouve les ailerons (roulis), les volets (flaps) qui augmentent la portance à basse vitesse, et souvent les réservoirs.'],
-   emh:['Empennage horizontal (horizontal stabilizer)','Plan fixe qui stabilise en tangage, prolongé par la gouverne de profondeur (elevator), mobile, qui commande le tangage.'],
-   emv:['Empennage vertical (vertical stabilizer, fin)','La dérive fixe stabilise en lacet. La gouverne de direction (rudder), mobile, commandée par le palonnier, commande le lacet.'],
-   tra:['Train d’atterrissage (landing gear)','Roues, amortisseurs et freins. Ici un train tricycle : deux roues principales sous l’aile et une roue avant orientable.']
-  };
-  const u=x.uid;
-  root.innerHTML='<svg viewBox="0 0 640 290" id="'+u+'s" role="group" aria-label="Avion léger à aile haute, vue de profil">'+
+/* dessin partagé de l’avion léger (utilisé par 3-1 et par l’anglais 6-4) */
+window.BIA.planeSVG=function(u){ return '<svg viewBox="0 0 640 290" id="'+u+'s" role="group" aria-label="Avion léger à aile haute, vue de profil">'+
   '<defs>'+
   '<linearGradient id="'+u+'sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fb1e6"/><stop offset="1" stop-color="#dcedf9"/></linearGradient>'+
   '<linearGradient id="'+u+'bd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#eef2f6"/><stop offset="1" stop-color="#aeb9c5"/></linearGradient>'+
@@ -89,7 +74,24 @@ mount(root,x){
     '<path d="M560 74 L582 78 Q586 84 584 92 L590 164 L558 164 Z" fill="#f3f5f8" stroke="#8d99a6" stroke-width="1.5"/>'+
     '<path d="M560 74 L558 164" stroke="#6b7782" stroke-width="1.6"/><path d="M522 88 L548 74 L560 74 L556 104 L512 108 Z" fill="#d94a3a"/><path d="M570 112 L586 112" stroke="#b7c0ca"/><circle cx="584" cy="86" r="3" fill="#ff3b30"/>'+
     '<path d="M588 150 L596 166 L584 166 Z" fill="#dde3ea" stroke="#8d99a6" stroke-width="1"/>'+
-  '</g></svg>'+
+  '</g></svg>'; };
+/* ---------- 3.1 Anatomie d’un avion ---------- */
+S.plane={title:'Anatomie d’un avion léger', th:'t3', ch:'3-1',
+desc:'Touche chaque partie de l’avion pour connaître son rôle et son nom en anglais.',
+try:['Retrouve les deux parties de l’empennage horizontal : une fixe, une mobile.','Repère quelle gouverne se trouve sur l’aile et laquelle sur l’empennage.'],
+mount(root,x){
+  const info={
+   hel:['Hélice (propeller)','Transforme la puissance du moteur en traction. Chaque pale est un petit profil d’aile qui « visse » l’avion dans l’air.'],
+   mot:['Moteur et capot (engine, cowling)','Le groupe motopropulseur fournit la puissance. Le capot le protège et canalise l’air de refroidissement.'],
+   cab:['Cabine (cockpit)','Le poste de pilotage : manche, palonnier, manette des gaz, instruments. Le pilote y garde une vue dégagée pour « voir et éviter ».'],
+   fus:['Fuselage (fuselage)','Le corps de l’avion. Il relie l’aile, l’empennage et le train, et accueille cabine et soute. Structure souvent semi-monocoque : cadres, lisses et revêtement porteur.'],
+   ail:['Voilure ou aile (wing)','Produit la portance. On y trouve les ailerons (roulis), les volets (flaps) qui augmentent la portance à basse vitesse, et souvent les réservoirs.'],
+   emh:['Empennage horizontal (horizontal stabilizer)','Plan fixe qui stabilise en tangage, prolongé par la gouverne de profondeur (elevator), mobile, qui commande le tangage.'],
+   emv:['Empennage vertical (vertical stabilizer, fin)','La dérive fixe stabilise en lacet. La gouverne de direction (rudder), mobile, commandée par le palonnier, commande le lacet.'],
+   tra:['Train d’atterrissage (landing gear)','Roues, amortisseurs et freins. Ici un train tricycle : deux roues principales sous l’aile et une roue avant orientable.']
+  };
+  const u=x.uid;
+  root.innerHTML=window.BIA.planeSVG(u)+
   '<style>#'+u+'s .pt{cursor:pointer;transition:filter .15s}#'+u+'s .pt:hover,#'+u+'s .pt.on{filter:drop-shadow(0 0 5px #ff8a3d) brightness(1.08)}#'+u+'s .tag{pointer-events:none}</style><div class="verdict" id="'+u+'t"><b>Touche une partie.</b></div>';
   const t=x.q('#'+x.uid+'t');
   function pick(g){ x.qa('.pt').forEach(p=>p.classList.toggle('on',p===g)); const i=info[g.dataset.p]; t.innerHTML='<b>'+i[0]+'</b><br>'+i[1];
