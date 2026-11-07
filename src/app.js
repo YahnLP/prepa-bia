@@ -218,6 +218,7 @@ function pChapter(id){
   h+='<article class="lesson" style="--tc:var(--c'+t.n+')"><div class="lesson-head"><div class="kicker">Chapitre '+c.id.replace('-','.')+' · '+c.min+' min</div><h1>'+esc(c.title)+'</h1></div>';
   h+='<div class="goals"><b>À la fin de ce chapitre, tu sais :</b><ul>'+c.goals.map(g=>'<li>'+g+'</li>').join('')+'</ul></div>';
   if(B.intros&&B.intros[c.id]) h+='<div class="idea"><b>L’idée en 20 secondes</b><p>'+B.intros[c.id]+'</p></div>';
+  if(B.vocab&&B.vocab[c.id]) h+='<details class="vocab"><summary>Les mots du chapitre <small>(touche pour ouvrir)</small></summary><dl>'+B.vocab[c.id].map(v=>'<dt>'+v[0]+'</dt><dd>'+v[1]+'</dd>').join('')+'</dl></details>';
   h+=c.body;
   h+='<div class="keep"><h3>À retenir</h3><ul>'+c.keep.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
   if(c.traps&&c.traps.length) h+='<div class="trap"><h3>Pièges classiques</h3><ul>'+c.traps.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';

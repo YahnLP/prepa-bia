@@ -39,7 +39,7 @@ body:`
 <p>La pression dynamique augmente avec le <b>carré</b> de la vitesse : à vitesse double, elle est multipliée par 4.</p>
 <h2>Bernoulli : accélérer, c’est perdre de la pression statique</h2>
 <div class="callout en-clair"><b>Théorème de Bernoulli</b>Dans un écoulement d’air sans frottement, quand la vitesse <b>augmente</b>, la pression <b>statique</b> <b>diminue</b> (la pression totale reste constante).</div>
-<p>Le <b>tube de Venturi</b> le montre bien : l’air est forcé de passer par un rétrécissement. Le débit étant constant, il accélère dans le col (équation de continuité : section réduite, vitesse augmentée). Résultat : la pression statique y baisse.</p>
+<p>Le tube de Venturi le montre bien : l’air est forcé de passer par un rétrécissement. Comme pour l’eau d’un tuyau d’arrosage que l’on pince avec le pouce, l’air doit aller plus vite là où le passage est étroit (c’est l’équation de continuité). Résultat : la pression statique y baisse.</p>
 <div class="figslot" data-fig="venturi"></div>
 <div class="simslot" data-sim="venturi"></div>
 <h2>Comment l’avion mesure sa vitesse</h2>
@@ -48,7 +48,7 @@ body:`
 <div class="tw"><table><tr><th>Vitesse</th><th>Sens</th></tr><tr><td><dfn>Vitesse indiquée</dfn> (IAS)</td><td>Ce que lit le pilote sur l’anémomètre</td></tr><tr><td><dfn>Vitesse propre</dfn> (TAS)</td><td>Vitesse réelle de l’avion dans l’air. En altitude, elle est plus grande que la vitesse indiquée (l’air est moins dense).</td></tr><tr><td><dfn>Vitesse sol</dfn> (GS)</td><td>Vitesse par rapport au sol = vitesse propre corrigée du vent. Vent de face : GS &lt; TAS ; vent arrière : GS &gt; TAS.</td></tr><tr><td><dfn>Nombre de Mach</dfn></td><td>Rapport de la vitesse de l’avion à la vitesse du son. Mach 1 = vitesse du son (≈ 340 m/s, soit 1 225 km/h au niveau de la mer en ISA ; ≈ 1 060 km/h à 11 000 m car il y fait plus froid).</td></tr></table></div>
 <p>Régimes de vol : subsonique (&lt; Mach 0,8), transsonique (0,8 à 1,2), supersonique (&gt; 1,2). Passer le mur du son produit une onde de choc, perçue au sol comme un <b>bang</b>.</p>
 <h2>La couche limite</h2>
-<p>L’air colle à la surface de l’avion : tout près, il est ralenti par frottement. Cette mince couche d’air est la <dfn>couche limite</dfn>. Elle est d’abord régulière (laminaire), puis devient turbulente. Quand elle se détache du profil, on parle de décollement : c’est le début du décrochage.</p>
+<p>L’air colle à la surface de l’avion : tout près, il est ralenti par frottement. Cette mince couche d’air est la couche limite. Elle est d’abord régulière (laminaire : l’air glisse en filets bien rangés), puis devient turbulente (il tourbillonne). Quand elle se détache de l’aile, on parle de décollement : c’est le début du décrochage.</p>
 `,
 keep:['Pression dynamique : q = ½ρV². À vitesse double, ×4.','Pression totale = statique + dynamique.','Bernoulli : vitesse ↑ ⇒ pression statique ↓.','L’anémomètre indique la vitesse indiquée ; en altitude la vitesse propre est plus élevée.','Vent de face : vitesse sol inférieure à la vitesse propre.'],
 traps:['Ne confonds pas pression dynamique (liée au mouvement) et pression totale.','Mach 1 n’est pas une vitesse fixe : elle dépend de la température.'],
@@ -68,7 +68,7 @@ body:`
 <ul><li><dfn>Bord d’attaque</dfn> : l’avant de l’aile ; <dfn>bord de fuite</dfn> : l’arrière.</li><li><dfn>Extrados</dfn> : le dessus ; <dfn>intrados</dfn> : le dessous.</li><li><dfn>Corde</dfn> : ligne droite du bord d’attaque au bord de fuite.</li><li><dfn>Vent relatif</dfn> : l’air vu depuis l’aile, de direction opposée à la trajectoire.</li><li><dfn>Incidence</dfn> : angle entre la corde et le vent relatif.</li></ul>
 <div class="callout attention"><b>Incidence, assiette, pente</b>Ce sont trois angles différents. L’<b>assiette</b> est l’angle du fuselage avec l’horizon. La <b>pente</b> est l’angle de la trajectoire avec l’horizon. Et <b>incidence = assiette − pente</b>.</div>
 <h2>Pourquoi l’aile porte</h2>
-<p>L’aile <b>dévie l’air vers le bas</b> ; par réaction, l’air pousse l’aile vers le haut. En même temps, l’air accélère sur l’extrados, la pression statique y baisse (Bernoulli) et cette <b>dépression</b> « aspire » l’aile vers le haut ; en dessous, la pression augmente légèrement. La somme de ces forces de pression est la <b>résultante aérodynamique</b>. On la décompose en :</p>
+<p>L’aile <b>dévie l’air vers le bas</b> ; par réaction, l’air pousse l’aile vers le haut. En même temps, l’air accélère sur l’extrados, la pression statique y baisse (Bernoulli) et cette <b>dépression</b> « aspire » l’aile vers le haut ; en dessous, la pression augmente légèrement. Toutes ces petites forces de pression s’additionnent en une seule force : la résultante aérodynamique. On la décompose en :</p>
 <div class="figslot" data-fig="airfoil"></div>
 <ul><li>la <b>portance</b> (Fz), perpendiculaire au vent relatif ;</li><li>la <b>traînée</b> (Fx), parallèle au vent relatif et qui s’oppose à l’avancement.</li></ul>
 <p class="formule">Portance = ½ × ρ × S × V² × Cz</p>
@@ -79,11 +79,11 @@ body:`
 <div class="figslot" data-fig="stall"></div>
 <ul><li>Le décrochage dépend de l’<b>incidence</b>, pas directement de la vitesse : on peut décrocher à n’importe quelle vitesse, dans n’importe quelle attitude (virage, forte accélération).</li><li><b>Signes avant-coureurs</b> : avertisseur de décrochage, vibrations (buffeting), commandes molles, avion qui s’enfonce.</li><li><b>Récupération</b> : <b>diminuer l’incidence</b> (manche vers l’avant), remettre de la puissance, redresser progressivement.</li><li>La vitesse de décrochage <b>augmente</b> avec la masse, le facteur de charge (virage) et le givrage ; elle <b>diminue</b> avec les volets sortis.</li></ul>
 <h2>La traînée</h2>
-<ul><li><b>Traînée parasite</b> : forme, frottement, interférences. Elle augmente avec la vitesse (au carré).</li><li><b>Traînée induite</b> : liée à la production de portance, elle vient des tourbillons marginaux en bout d’aile. Elle est plus forte à basse vitesse, forte incidence. Les winglets la réduisent.</li></ul>
+<ul><li><b>Traînée parasite</b> : forme, frottement, interférences. Elle augmente avec la vitesse (au carré).</li><li><b>Traînée induite</b> : c’est le « prix à payer » pour obtenir de la portance. Elle vient des tourbillons qui se forment au bout des ailes (tourbillons marginaux). Elle est plus forte à basse vitesse, forte incidence. Les winglets la réduisent.</li></ul>
 <h2>La finesse</h2>
-<p>La <dfn>finesse</dfn> est le rapport portance/traînée (Cz/Cx). C’est aussi la distance parcourue en vol plané pour une hauteur perdue. Un planeur de finesse 40 parcourt 40 km depuis 1 000 m d’altitude (air calme). Un avion de ligne a une finesse d’environ 17, un avion léger de 9 à 10.</p>
+<p>La finesse est le rapport portance/traînée (Cz/Cx) : elle dit combien de portance tu obtiens pour chaque unité de traînée. C’est aussi la distance parcourue en vol plané pour une hauteur perdue. Un planeur de finesse 40 parcourt 40 km depuis 1 000 m d’altitude (air calme). Un avion de ligne a une finesse d’environ 17, un avion léger de 9 à 10.</p>
 <h2>Volets, becs, aérofreins</h2>
-<p>Les <b>volets</b> et les <b>becs</b> sont des dispositifs <b>hypersustentateurs</b> : ils augmentent Cz et permettent de voler plus lentement au décollage et à l’atterrissage. Les <b>aérofreins</b> et <b>spoilers</b> augmentent la traînée et diminuent la portance pour descendre ou ralentir.</p>
+<p>Les <b>volets</b> et les <b>becs</b> sont des dispositifs hypersustentateurs (des dispositifs qui augmentent la portance) : ils augmentent Cz, le coefficient de portance, et permettent de voler plus lentement au décollage et à l’atterrissage. Les <b>aérofreins</b> et <b>spoilers</b> augmentent la traînée et diminuent la portance pour descendre ou ralentir.</p>
 `,
 keep:['Incidence : angle entre la corde et le vent relatif ; incidence = assiette − pente.','Portance = ½ρSV²Cz : proportionnelle à S, ρ, V² et Cz.','Décrochage : incidence trop grande (≈ 15°), écoulement décollé. Le remède : diminuer l’incidence.','Finesse = portance/traînée = distance parcourue / hauteur perdue.','Les volets augmentent la portance et réduisent la vitesse de décrochage.'],
 traps:['Le décrochage n’est pas une « vitesse trop faible » seulement : c’est une incidence trop élevée.','Idée fausse très répandue : « l’air met le même temps au-dessus et en dessous ». Ce n’est pas ce qui crée la portance.'],
@@ -113,7 +113,7 @@ body:`
 <h2>Vitesses repères</h2>
 <p><b>Vs</b> : vitesse de décrochage. <b>Vfe</b> : vitesse maximale volets sortis. <b>Vno</b> : limite de l’utilisation normale. <b>Vne</b> : vitesse à ne jamais dépasser. L’anémomètre les code en couleurs (arc blanc, arc vert, arc jaune, trait rouge).</p>
 <h2>Facteur de charge</h2>
-<p>Le <dfn>facteur de charge</dfn> n est le rapport portance / poids. Il vaut 1 en palier. Il augmente en virage, en ressource et en turbulence, jusqu’à une limite de structure (par exemple +3,8 g pour un avion de catégorie normale).</p>
+<p>Le <dfn>facteur de charge</dfn> n est le rapport portance / poids. Il vaut 1 en palier. Il augmente en virage, quand on redresse l’avion après un piqué (la « ressource ») et en turbulence, jusqu’à une limite de structure (par exemple +3,8 g pour un avion de catégorie normale).</p>
 `,
 keep:['Palier : portance = poids ; traction = traînée.','En montée : traction = traînée + composante du poids.','Vol plané : sans traction, la pente dépend de la finesse.','Avion plus lourd : vitesse de décrochage et distances plus grandes.','Facteur de charge n = portance / poids (1 g en palier).'],
 traps:['Monter ne se fait pas seulement en tirant sur le manche : il faut de la puissance en excès.','Centre de gravité trop arrière : plus de maniabilité apparente mais risque d’instabilité.'],
@@ -138,13 +138,13 @@ body:`
 <p>Pour tourner, on <b>incline</b> les ailes. La portance, perpendiculaire aux ailes, se décompose en deux : une composante <b>verticale</b> qui soutient l’avion, et une composante <b>horizontale</b> qui le fait tourner. La composante verticale est plus petite que la portance totale : pour rester en palier il faut donc <b>augmenter la portance</b>, en tirant légèrement sur le manche.</p>
 <div class="figslot" data-fig="bank"></div>
 <p class="formule">n = 1 / cos(inclinaison)</p>
-<ul><li>À 60° d’inclinaison, n = 2 : l’avion et ses occupants « pèsent » deux fois plus.</li><li>La vitesse de décrochage est multipliée par √n : à 60°, par 1,4. On peut donc décrocher en virage serré à une vitesse où l’on volait très bien en palier.</li></ul>
+<ul><li>À 60° d’inclinaison, n = 2 : l’avion et ses occupants « pèsent » deux fois plus.</li><li>La vitesse de décrochage est multipliée par √n (la racine carrée de n) : à 60°, n = 2 et √2 ≈ 1,4, donc la vitesse de décrochage est 40 % plus élevée. On peut donc décrocher en virage serré à une vitesse où l’on volait très bien en palier.</li></ul>
 <div class="simslot" data-sim="turn"></div>
 <p>Un <b>virage coordonné</b> est un virage sans dérapage : la <b>bille</b> de l’indicateur de virage est au centre. On l’obtient en actionnant ensemble manche (roulis) et palonnier (lacet).</p>
 <h2>Stabilité</h2>
-<ul><li>L’<b>empennage horizontal</b> stabilise le tangage ; la <b>dérive</b> stabilise le lacet ; le <b>dièdre</b> des ailes (ailes relevées en V) stabilise le roulis.</li><li>Un <b>avion stable</b> revient de lui-même vers son équilibre après une perturbation.</li><li>Le <b>centre de gravité</b> bien placé est essentiel à la stabilité.</li></ul>
+<ul><li>L’<b>empennage horizontal</b> stabilise le tangage ; la <b>dérive</b> stabilise le lacet ; le dièdre des ailes (ailes légèrement relevées en V, comme un oiseau qui plane) stabilise le roulis.</li><li>Un <b>avion stable</b> revient de lui-même vers son équilibre après une perturbation.</li><li>Le <b>centre de gravité</b> bien placé est essentiel à la stabilité.</li></ul>
 <h2>La vrille</h2>
-<p>La vrille est un décrochage asymétrique avec rotation. En sortie : réduire les gaz, contrer la rotation au palonnier, manche vers l’avant pour diminuer l’incidence, puis redresser en douceur.</p>
+<p>La vrille est un décrochage où une aile décroche plus que l’autre : l’avion tourne sur lui-même en descendant. En sortie : réduire les gaz, contrer la rotation au palonnier, manche vers l’avant pour diminuer l’incidence, puis redresser en douceur.</p>
 `,
 keep:['Tangage : profondeur / manche avant-arrière. Roulis : ailerons / manche latéral. Lacet : direction / palonnier.','Virage : on incline, la portance se décompose, il faut en augmenter la valeur.','Facteur de charge en virage n = 1/cos φ ; à 60°, n = 2.','Vitesse de décrochage en virage : Vs × √n.','Virage coordonné : bille centrée.'],
 traps:['Le palonnier ne sert pas à tourner : il sert à coordonner le virage et à contrôler le lacet.','Le facteur de charge ne dépend pas de la vitesse, seulement de l’inclinaison en virage en palier.'],

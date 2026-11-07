@@ -21,7 +21,7 @@ body:`
 <ul><li><dfn>Envergure</dfn> (b) : distance d’un bout d’aile à l’autre ; <dfn>surface alaire</dfn> (S).</li><li><dfn>Allongement</dfn> : λ = b² / S. Une aile longue et étroite (grand λ) produit moins de traînée induite : les planeurs ont de grands allongements.</li><li><dfn>Charge alaire</dfn> : masse / S, en kg/m².</li></ul>
 <div class="callout exemple"><b>Exemple</b>Un planeur d’envergure 15 m et de surface 10,5 m² : λ = 15² / 10,5 ≈ 21,4.</div>
 <h2>Matériaux et structure</h2>
-<p>La structure moderne est le plus souvent <b>semi-monocoque</b> : des cadres (fuselage) et des nervures (ailes) reliés par des lisses et des longerons, recouverts d’un revêtement qui porte une part des efforts. Les matériaux : bois et toile (avions anciens), <b>alliages d’aluminium</b> (duralumin), <b>matériaux composites</b> à base de fibres de carbone ou de verre (plus légers à résistance égale, très utilisés sur Airbus A350), titane pour les parties chaudes.</p>
+<p>La structure moderne est le plus souvent <b>semi-monocoque</b> : un squelette (des cadres dans le fuselage, des nervures dans les ailes, reliés par de longues barres : lisses et longerons) recouvert d’une peau métallique qui supporte elle aussi une partie des efforts. C’est comme une canette : une coque fine mais solide, parce qu’elle est bien structurée. Les matériaux : bois et toile (avions anciens), <b>alliages d’aluminium</b> (duralumin), <b>matériaux composites</b> à base de fibres de carbone ou de verre (plus légers à résistance égale, très utilisés sur Airbus A350), titane pour les parties chaudes.</p>
 <div class="figslot" data-fig="wingstruct"></div>
 `,
 keep:['Aérostats : plus légers que l’air. Aérodynes : plus lourds, soutenus par une aile fixe ou tournante.','Avion : fuselage, voilure, empennage (horizontal + vertical), train, groupe motopropulseur.','Allongement = envergure² / surface ; charge alaire = masse / surface.','Les composites sont plus légers à résistance égale.'],
@@ -41,8 +41,8 @@ body:`
 <h2>Moteur à pistons</h2>
 <p>Un moteur à pistons à quatre temps accomplit un cycle en deux tours de vilebrequin :</p>
 <div class="simslot" data-sim="engine"></div>
-<ol><li><b>Admission</b> : le piston descend et aspire le mélange air-carburant.</li><li><b>Compression</b> : le piston remonte et comprime le mélange.</li><li><b>Combustion-détente</b> : la bougie enflamme le mélange, la pression pousse le piston. C’est le temps moteur.</li><li><b>Échappement</b> : le piston remonte et chasse les gaz brûlés.</li></ol>
-<p>Un moteur d’avion léger est refroidi par air et possède un <b>double allumage</b> (deux magnétos et deux bougies par cylindre) : en cas de panne de l’un, le second assure le fonctionnement. Il fait tourner une <b>hélice</b>, dont chaque pale est un petit profil d’aile qui crée une force de traction. Une hélice à <b>pas variable</b> adapte l’angle des pales à la vitesse. Carburant : essence aviation <b>AVGAS 100LL</b>.</p>
+<ol><li><b>Admission</b> : le piston descend et aspire le mélange air-carburant.</li><li><b>Compression</b> : le piston remonte et comprime le mélange.</li><li><b>Combustion-détente</b> : la bougie enflamme le mélange, la pression pousse le piston vers le bas. C’est le seul temps où le moteur fournit de la puissance (le « temps moteur »).</li><li><b>Échappement</b> : le piston remonte et chasse les gaz brûlés.</li></ol>
+<p>Un moteur d’avion léger est refroidi par air et possède un <b>double allumage</b> (deux magnétos et deux bougies par cylindre) : en cas de panne de l’un, le second assure le fonctionnement. Il fait tourner une <b>hélice</b>, dont chaque pale est un petit profil d’aile qui crée une force de traction. Une hélice à pas variable peut changer l’inclinaison de ses pales selon la vitesse, comme on change de vitesse sur un vélo. Carburant : essence aviation <b>AVGAS 100LL</b>.</p>
 <h2>Turbomachines</h2>
 <div class="tw"><table><tr><th>Moteur</th><th>Principe</th><th>Utilisation</th></tr>
 <tr><td><dfn>Turboréacteur</dfn></td><td>Compresseur → chambre de combustion → turbine → tuyère. Les gaz éjectés à grande vitesse poussent l’avion (poussée).</td><td>Avions rapides</td></tr>
@@ -52,7 +52,7 @@ body:`
 <tr><td><dfn>Statoréacteur</dfn></td><td>Pas de pièces mobiles : l’air est comprimé par la vitesse même de l’engin. Ne fonctionne qu’à grande vitesse.</td><td>Missiles, projets supersoniques</td></tr></table></div>
 <p>Les turbines brûlent du <b>kérosène</b> (Jet A-1).</p>
 <h2>Le moteur-fusée</h2>
-<p>Une fusée emporte à la fois son <b>carburant</b> et son <b>comburant</b> (les ergols). Elle n’a donc pas besoin de l’air extérieur et fonctionne dans le vide. Les ergols peuvent être <b>liquides</b> (hydrogène et oxygène liquides du moteur Vulcain) ou <b>solides</b> (poudre des boosters).</p>
+<p>Une fusée emporte à la fois son carburant et son comburant (le comburant est ce qui permet au carburant de brûler : l’oxygène). Ensemble, on les appelle les ergols. Elle n’a donc pas besoin de l’air extérieur et fonctionne dans le vide. Les ergols peuvent être <b>liquides</b> (hydrogène et oxygène liquides du moteur Vulcain) ou <b>solides</b> (poudre des boosters).</p>
 <h2>Qui pour quelle vitesse ?</h2>
 <p>Hélice : bas régime subsonique. Turbosoufflante : vitesse proche de Mach 0,8. Statoréacteur : supersonique. Fusée : spatial.</p>
 <h2>Moteurs et environnement</h2>
@@ -74,12 +74,12 @@ body:`
 <p>Le tableau de bord de base d’un avion léger regroupe six instruments. Il faut savoir ce qu’ils mesurent, comment, et ce qui se passe quand ils se trompent.</p>
 <h2>Les instruments « pitot-statique »</h2>
 <div class="figslot" data-fig="pitotstatic"></div>
-<ul><li><b>Anémomètre</b> : vitesse indiquée. Relié à la prise Pitot (pression totale) <b>et</b> à la prise statique.</li><li><b>Altimètre</b> : altitude. Relié à la prise statique : il convertit la pression en altitude.</li><li><b>Variomètre</b> : vitesse verticale (en ft/min ou m/s). Relié à la statique : il mesure la vitesse à laquelle la pression varie.</li></ul>
+<ul><li><b>Anémomètre</b> : vitesse indiquée. Relié à la prise Pitot (pression totale) <b>et</b> à la prise statique.</li><li><b>Altimètre</b> : altitude. Relié à la prise statique : il convertit la pression en altitude.</li><li><b>Variomètre</b> : vitesse verticale (en ft/min ou m/s). Relié à la prise statique : il détecte si la pression baisse (tu montes) ou augmente (tu descends), et à quelle vitesse.</li></ul>
 <h2>Les instruments gyroscopiques</h2>
-<ul><li><b>Horizon artificiel</b> : indique l’attitude de l’avion (tangage et inclinaison). Un gyroscope garde une direction fixe dans l’espace.</li><li><b>Conservateur de cap</b> (directionnel) : indique le cap. Il dérive lentement : on le recale régulièrement sur le compas magnétique.</li><li><b>Indicateur de virage et bille</b> (coordinateur) : taux de virage et qualité de la coordination.</li></ul>
+<ul><li><b>Horizon artificiel</b> : indique l’attitude de l’avion (tangage et inclinaison). Un gyroscope est une toupie qui tourne très vite : comme une toupie, elle garde son axe dans la même direction, même quand l’avion s’incline autour d’elle.</li><li><b>Conservateur de cap</b> (directionnel) : indique le cap. Il dérive lentement : on le recale régulièrement sur le compas magnétique.</li><li><b>Indicateur de virage et bille</b> (coordinateur) : taux de virage et qualité de la coordination.</li></ul>
 <div class="simslot" data-sim="panel"></div>
 <h2>Le compas magnétique</h2>
-<p>Indique le nord magnétique. Il est simple, sans électricité, mais il est faussé en virage et en accélération, et par la <b>déviation</b> due aux masses métalliques de l’avion.</p>
+<p>Indique le nord magnétique. Il est simple, sans électricité, mais il est faussé en virage et en accélération, et le métal de l’avion (moteur, structure) perturbe un peu l’aiguille (c’est la déviation).</p>
 <h2>Instruments moteur</h2>
 <p>Compte-tours, pression d’huile, température d’huile, indicateur de carburant. Une pression d’huile trop basse est une alerte grave.</p>
 <h2>Quand une prise se bouche</h2>
@@ -103,9 +103,9 @@ C.push({id:'3-4', th:'t3', title:'Hélicoptères, planeurs, ULM et drones', min:
 goals:['expliquer comment vole et se pilote un hélicoptère','comprendre l’autorotation','décrire le vol à voile, l’ULM et les règles de base des drones'],
 body:`
 <h2>L’hélicoptère</h2>
-<p>Le <b>rotor principal</b> est une grande aile tournante. Il fournit à la fois la <b>portance</b> et la <b>propulsion</b>, en inclinant son disque. L’hélicoptère peut décoller à la verticale, rester en <b>vol stationnaire</b>, reculer. En contrepartie, sa vitesse est limitée (environ 300 km/h) et il consomme beaucoup.</p>
+<p>Le rotor principal est une grande aile qui tourne. Il fournit à la fois la portance (il soutient l’hélicoptère) et la propulsion : en inclinant le disque qu’il forme en tournant, l’hélicoptère avance dans cette direction. L’hélicoptère peut décoller à la verticale, rester en <b>vol stationnaire</b>, reculer. En contrepartie, sa vitesse est limitée (environ 300 km/h) et il consomme beaucoup.</p>
 <div class="simslot" data-sim="heli"></div>
-<p>Quand le rotor tourne dans un sens, le fuselage a tendance à tourner dans l’autre (action-réaction) : c’est le <b>couple de réaction</b>. Le <b>rotor anti-couple</b> (à l’arrière), ou le fenestron (rotor caréné), le contre et permet de diriger l’appareil en lacet.</p>
+<p>Quand le rotor tourne dans un sens, le fuselage a tendance à tourner dans l’autre (action-réaction) : c’est le <b>couple de réaction</b>. Pour compenser, l’hélicoptère a un petit rotor à l’arrière : le rotor anti-couple (ou le fenestron, un rotor placé dans un carénage). Il empêche le fuselage de tourner et permet aussi de choisir où pointe le nez (c’est le lacet).</p>
 <div class="tabset"><div class="tb"><button type="button" data-t="a">Pas collectif</button><button type="button" data-t="b">Cyclique</button><button type="button" data-t="c">Palonnier</button></div>
 <div class="pane" data-p="a"><p><b>Levier du pas collectif</b> (main gauche) : change l’angle de toutes les pales en même temps. Plus de pas, plus de portance : l’hélicoptère <b>monte</b>. On le baisse pour descendre. La puissance moteur est ajustée en conséquence.</p></div>
 <div class="pane" data-p="b"><p><b>Manche cyclique</b> (main droite) : change l’angle des pales à chaque tour, ce qui <b>incline le disque rotor</b>. L’hélicoptère se déplace dans la direction où le disque est incliné : avant, arrière, côtés.</p></div>
@@ -137,7 +137,7 @@ C.push({id:'3-5', th:'t3', title:'Engins spatiaux et orbites', min:20,
 goals:['expliquer la propulsion d’une fusée et le principe de l’étagement','comprendre ce qu’est une orbite et pourquoi on est en apesanteur','citer les grandes orbites et leurs usages'],
 body:`
 <h2>Une fusée : action et réaction</h2>
-<p>Une fusée expulse des gaz à très grande vitesse vers l’arrière : par <b>réaction</b>, elle avance vers l’avant (troisième loi de Newton). Elle n’a besoin ni d’air ni de sol pour s’appuyer, et peut donc fonctionner dans le vide.</p>
+<p>Une fusée expulse des gaz à très grande vitesse vers l’arrière : par <b>réaction</b>, elle avance vers l’avant (troisième loi de Newton : à chaque action correspond une réaction opposée, comme quand tu repousses le bord de la piscine et que tu pars en arrière). Elle n’a besoin ni d’air ni de sol pour s’appuyer, et peut donc fonctionner dans le vide.</p>
 <div class="figslot" data-fig="stages"></div>
 <div class="simslot" data-sim="rocket"></div>
 <p>Elle est <b>étagée</b> : à mesure que les réservoirs se vident, les étages vides sont largués pour ne pas porter de poids inutile. Ariane 6 comprend deux ou quatre boosters à poudre, un étage principal (moteur Vulcain 2.1) et un étage supérieur (moteur Vinci).</p>
@@ -145,7 +145,7 @@ body:`
 <ul><li>Située à 5° de l’équateur, la base de Kourou (Guyane) profite de la rotation de la Terre : le sol y tourne vers l’est à environ 460 m/s, ce qui donne un gain de vitesse « gratuit ».</li><li>Le lancement se fait vers l’est, au-dessus de l’océan Atlantique : en cas de problème, les retombées ne menacent pas d’habitations.</li><li>C’est idéal pour atteindre l’orbite géostationnaire.</li></ul>
 <h2>Qu’est-ce qu’une orbite ?</h2>
 <div class="callout en-clair"><b>En clair</b>Un satellite ne « flotte » pas : il <b>tombe en permanence</b>, mais il va si vite horizontalement (environ 7,7 km/s, soit 28 000 km/h à 400 km) que la Terre se dérobe sous lui. Il retombe sans jamais toucher le sol. Les astronautes de la station spatiale ne sont donc pas hors de la gravité : ils sont en <b>chute libre</b>, d’où l’apesanteur.</div>
-<p>Plus l’orbite est haute, plus la vitesse du satellite est faible et plus sa période est longue (troisième loi de Kepler).</p>
+<p>Plus l’orbite est haute, plus la vitesse du satellite est faible et plus sa période est longue (c’est une loi découverte par l’astronome Kepler).</p>
 <div class="simslot" data-sim="orbit"></div>
 <h2>Les principales orbites</h2>
 <div class="figslot" data-fig="orbits"></div>

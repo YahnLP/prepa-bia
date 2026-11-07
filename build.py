@@ -3,7 +3,7 @@ import os
 root=os.path.dirname(os.path.abspath(__file__))
 src=os.path.join(root,'src')+'/'
 css=open(src+'style.css').read()
-order=['boot.js','content-1.js','content-2.js','content-3.js','content-4.js','content-5.js','content-6.js','sims1.js','sims2.js','sims3.js','sims4.js','gfx.js','flightmodel.js','sims5.js','sims6.js','intros.js','figs1.js','figs2.js','figs3.js','figs4.js','app.js']
+order=['boot.js','content-1.js','content-2.js','content-3.js','content-4.js','content-5.js','content-6.js','sims1.js','sims2.js','sims3.js','sims4.js','gfx.js','flightmodel.js','sims5.js','sims6.js','intros.js','vocab.js','figs1.js','figs2.js','figs3.js','figs4.js','app.js']
 js='\n'.join(open(src+f).read() for f in order)
 js=js.replace('</script>','<\\/script>')
 html='''<!DOCTYPE html>
