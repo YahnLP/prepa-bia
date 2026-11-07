@@ -279,7 +279,7 @@ input[type=range]{width:100%;height:34px;background:transparent;accent-color:var
 .coach li.ok{color:var(--ok);text-decoration:line-through;text-decoration-thickness:1px}
 .coach .hint{background:var(--soft);border-radius:6px;padding:8px 10px;font-size:.95rem}
 .coach .bravo{background:var(--okbg);color:var(--ok);border-radius:6px;padding:8px 10px;font-weight:700}
-.sim .seg{flex-wrap:wrap}
+
 
 .vocab{background:var(--surface);border:1px solid var(--line);border-radius:8px;margin:12px 0;padding:0}
 .vocab summary{cursor:pointer;font-weight:700;padding:11px 14px;color:var(--tc,var(--acc))}
@@ -287,3 +287,48 @@ input[type=range]{width:100%;height:34px;background:transparent;accent-color:var
 .vocab dl{margin:0;padding:0 14px 12px}
 .vocab dt{font-weight:700;margin-top:8px}
 .vocab dd{margin:2px 0 0}
+
+/* ---- simulateur de vol plein écran ---- */
+body.fl-lock{overflow:hidden}
+.fl-launch{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:18px;background:linear-gradient(#cfe7f6,#e9f2f8);border-radius:10px}
+.fl-poster{font-size:3rem}
+.fl-app{display:none}
+.flight-fs .fl-launch{display:none}
+.flight-fs{position:fixed;inset:0;z-index:500;background:#0b1118;padding:max(6px,env(safe-area-inset-top)) 6px max(6px,env(safe-area-inset-bottom));color:#e8edf2}
+.flight-fs .fl-app{display:grid;height:100%;gap:6px;grid-template-rows:auto minmax(0,34fr) minmax(0,31fr) auto;grid-template-areas:"top" "view" "ins" "ctl";position:relative}
+.fl-top{grid-area:top;display:flex;gap:6px;align-items:center}
+.fl-top select{flex:1;min-width:0;height:38px;border-radius:8px;border:1px solid #3a4756;background:#18212b;color:#e8edf2;font:600 .95rem var(--body);padding:0 8px}
+.fb{height:38px;min-width:38px;border-radius:8px;border:1px solid #3a4756;background:#18212b;color:#e8edf2;font:600 1rem var(--body);cursor:pointer;padding:0 8px}
+.fb[aria-pressed=true]{background:var(--acc);border-color:var(--acc)}
+.fb.wide{padding:0 12px;font-size:.9rem}
+.fl-view{grid-area:view;position:relative;min-height:0;display:flex;align-items:center;justify-content:center}
+.fl-view canvas,.fl-ins canvas{width:auto!important;height:auto!important;max-width:100%;max-height:100%;border-radius:8px}
+.fl-ins{grid-area:ins;min-height:0;display:flex;align-items:center;justify-content:center}
+.fl-hint{position:absolute;left:4px;right:4px;top:4px;background:rgba(8,16,28,.72);color:#fff;border-radius:8px;padding:5px 8px;font-size:.78rem;line-height:1.25;pointer-events:none}
+.fl-hint span{color:#ffe27a}
+.fl-ctl{grid-area:ctl;display:flex;gap:10px;align-items:center}
+.fl-ctl .padbox{flex:0 0 auto;max-width:none}
+.fl-ctl .padbox canvas{width:min(34vw,150px)!important;height:min(34vw,150px)!important;aspect-ratio:1}
+.fl-ctl .sl{flex:1;min-width:0}
+.fl-ctl .rng{margin:0 0 4px}
+.fl-ctl .rng label{font-size:.8rem;color:#c3cfdb;display:flex;justify-content:space-between}
+.fl-ctl .rng output{color:#ffb02e}
+.fl-row{display:flex;gap:6px;align-items:center}
+.fl-row .seg{flex:1}
+.fl-row .seg button{padding:6px 2px;font-size:.85rem;background:#18212b;color:#e8edf2;border-color:#3a4756}
+.fl-row .seg button[aria-pressed=true]{background:var(--acc);color:#fff}
+.fl-drawer{position:absolute;inset:44px 0 0 0;background:rgba(11,17,24,.97);overflow:auto;border-radius:10px;padding:10px;z-index:5}
+.fl-drawer[hidden]{display:none}
+.fl-dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.fl-wd select{height:34px;border-radius:8px;background:#18212b;color:#e8edf2;border:1px solid #3a4756;padding:0 6px}
+.flight-fs .coach{background:#141c25;border-color:#2c3946;color:#e8edf2}
+.flight-fs .coach li{color:#9fb0c1}.flight-fs .coach li.cur{color:#fff}
+.flight-fs .coach .hint{background:#1d2935}
+.flight-fs .readout>div{background:#141c25;color:#e8edf2}
+@media (orientation:landscape) and (max-height:600px){
+ .flight-fs .fl-app{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"top top" "view ins" "view ctl"}
+ .fl-ctl .padbox canvas{width:min(26vh,120px)!important;height:min(26vh,120px)!important}
+ .fl-view canvas{width:100%!important;height:auto!important}
+ .fl-hint{font-size:.72rem}
+}
+.fl-row .seg button{flex:1}.fl-row .seg{display:flex}

@@ -48,15 +48,20 @@ try:['Leçon 1 : décolle. Plein gaz, 55 kt, tire doucement. Observe le variomè
 mount(root,x){
   const u=x.uid;
   root.innerHTML=
-   x.seg('view',[['cock','Cockpit'],['ext','Vue extérieure']],'cock')+
-   '<div style="height:8px"></div><canvas id="'+u+'v" role="img" aria-label="Vue depuis le cockpit"></canvas>'+
-   '<canvas id="'+u+'i" role="img" aria-label="Instruments de bord" style="margin-top:8px"></canvas>'+
-   '<div class="ctrl"><div class="padbox"><canvas id="'+u+'p" width="190" height="190" aria-label="Manche : glisse le doigt ou la souris" style="touch-action:none"></canvas><small>Manche<br><b>↑</b> nez bas · <b>↓</b> nez haut<br><b>←</b> <b>→</b> inclinaison</small></div>'+
-   '<div class="sl">'+x.r('thr','Puissance (manette des gaz)',0,100,1,0,' %')+x.r('trim','Compensateur (trim) : vitesse d’équilibre',-10,10,.1,0,'')+
-   '<div class="lab">Volets</div>'+x.seg('fl',[['0','0°'],['1','10°'],['2','20°'],['3','30°']],'0')+'</div></div>'+
-   '<div class="row" style="margin:8px 0"><button type="button" class="btn sec sm" data-a="brake" aria-pressed="false">Freins</button><button type="button" class="btn sec sm" data-a="pause" aria-pressed="false">⏸ Pause</button><button type="button" class="btn sec sm" data-a="reset">↺ Recommencer</button></div>'+
-   '<div class="lab">Choisis une leçon</div>'+x.seg('ms',[['free','Libre'],['m1','1 Décollage'],['m2','2 Palier'],['m3','3 Virage'],['m4','4 Décrochage'],['m5','5 Atterrissage']],'m1')+x.seg('wd',[['0','Calme'],['1','Vent de face'],['2','Vent de travers']],'0')+
-   '<div class="coach" id="'+u+'co"></div><div class="readout" id="'+u+'ro"></div><div class="verdict" id="'+u+'vd"></div>';
+   '<div class="fl-launch"><div class="fl-poster">🛩</div><p><b>Un poste de pilotage qui tient sur l’écran.</b><br>Le simulateur s’ouvre en plein écran : vue, instruments, manche et gaz sont visibles en même temps, sans défiler. Sur téléphone, c’est encore mieux en mode paysage.</p><button type="button" class="btn" data-a="open">Piloter en plein écran</button></div>'+
+   '<div class="fl-app">'+
+    '<div class="fl-top"><button type="button" class="fb" data-a="close" aria-label="Quitter le plein écran">✕</button>'+
+     '<select id="'+u+'ms" aria-label="Choisir une leçon"><option value="free">Vol libre</option><option value="m1" selected>1 · Décollage</option><option value="m2">2 · Palier</option><option value="m3">3 · Virage</option><option value="m4">4 · Décrochage</option><option value="m5">5 · Atterrissage</option></select>'+
+     '<button type="button" class="fb" data-a="view" aria-label="Changer de vue">👁</button><button type="button" class="fb" data-a="pause" aria-pressed="false" aria-label="Pause">⏸</button><button type="button" class="fb" data-a="reset" aria-label="Recommencer">↺</button><button type="button" class="fb" data-a="drawer" aria-label="Leçon et détails">📋</button></div>'+
+    '<div class="fl-view"><canvas id="'+u+'v" role="img" aria-label="Vue depuis le cockpit"></canvas><div class="fl-hint" id="'+u+'hn"></div></div>'+
+    '<div class="fl-ins"><canvas id="'+u+'i" role="img" aria-label="Instruments de bord"></canvas></div>'+
+    '<div class="fl-ctl"><div class="padbox"><canvas id="'+u+'p" width="190" height="190" aria-label="Manche : glisse le doigt ou la souris" style="touch-action:none"></canvas></div>'+
+     '<div class="sl">'+x.r('thr','Gaz',0,100,1,0,' %')+x.r('trim','Trim',-10,10,.1,0,'')+
+     '<div class="fl-row">'+x.seg('fl',[['0','0°'],['1','10°'],['2','20°'],['3','30°']],'0')+'<button type="button" class="fb wide" data-a="brake" aria-pressed="false">Freins</button></div></div></div>'+
+    '<div class="fl-drawer" id="'+u+'dr" hidden><div class="fl-dh"><b>Leçon et détails</b><button type="button" class="fb" data-a="drawer" aria-label="Fermer">✕</button></div>'+
+     '<label class="fl-wd">Vent : <select id="'+u+'wd"><option value="0">Calme</option><option value="1">Vent de face</option><option value="2">Vent de travers</option></select></label>'+
+     '<div class="coach" id="'+u+'co"></div><div class="readout" id="'+u+'ro"></div><div class="verdict" id="'+u+'vd"></div></div>'+
+   '</div>';
   const cv=x.q('#'+u+'v'), W=640, H=340, g=G.setup(cv,W,H);
   const ci=x.q('#'+u+'i'), IW=480, IH=340, gi=G.setup(ci,IW,IH);
   const pad=x.q('#'+u+'p'), pg=G.setup(pad,190,190);
@@ -86,13 +91,16 @@ mount(root,x){
   root.tabIndex=0; root.style.outline='none';
   root.addEventListener('keydown',e=>{ const k=e.key; if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(k)){ keys[k]=true; e.preventDefault(); } if(k==='PageUp'||k==='+'){ x.setv('thr',Math.min(100,x.v('thr')+5)); } if(k==='PageDown'||k==='-'){ x.setv('thr',Math.max(0,x.v('thr')-5)); } });
   root.addEventListener('keyup',e=>{ if(keys[e.key]){ keys[e.key]=false; e.preventDefault(); } });
-  root.addEventListener('click',e=>{ const b=e.target.closest('button[data-a]'); if(!b) return; const a=b.dataset.a; if(a==='reset') reset(); else if(a==='pause'){ paused=!paused; b.setAttribute('aria-pressed',paused); b.textContent=paused?'▶ Reprendre':'⏸ Pause'; } });
+  let fs=false;
+  const setFs=v=>{ fs=v; root.classList.toggle('flight-fs',v); document.body.classList.toggle('fl-lock',v); if(v) root.focus(); };
+  root.addEventListener('click',e=>{ const b=e.target.closest('button[data-a]'); if(!b) return; const a=b.dataset.a; if(a==='reset') reset(); else if(a==='open') setFs(true); else if(a==='close') setFs(false); else if(a==='view'){ view=view==='cock'?'ext':'cock'; } else if(a==='drawer'){ const d=x.q('#'+u+'dr'); d.hidden=!d.hidden; } else if(a==='pause'){ paused=!paused; b.setAttribute('aria-pressed',paused); b.textContent=paused?'▶':'⏸'; } });
+  root.addEventListener('keydown',e=>{ if(e.key==='Escape'&&fs) setFs(false); });
+  x.onCleanup(()=>document.body.classList.remove('fl-lock'));
   const bk=x.q('[data-a=brake]'); ['pointerdown'].forEach(ev=>bk.addEventListener(ev,()=>{ brake=true; bk.setAttribute('aria-pressed','true'); })); ['pointerup','pointerleave','pointercancel'].forEach(ev=>bk.addEventListener(ev,()=>{ brake=false; bk.setAttribute('aria-pressed','false'); }));
   x.qa('input[type=range]').forEach(i=>i.addEventListener('input',()=>{ const o=x.q('#'+i.id+'-o'); if(o) o.textContent=i.value+i.dataset.unit; }));
   x.segBind('fl',v=>{ s.fl=+v; });
-  x.segBind('view',v=>{ view=v; });
-  x.segBind('ms',v=>{ mission=v; reset(); });
-  x.segBind('wd',v=>{ windMode=+v; reset(); });
+  x.q('#'+u+'ms').addEventListener('change',e=>{ mission=e.target.value; reset(); });
+  x.q('#'+u+'wd').addEventListener('change',e=>{ windMode=+e.target.value; reset(); });
 
   // ---------- rendu 3D du cockpit ----------
   const FOC=330, CXs=W/2, CYo=H*.45; let cam=null;
@@ -197,6 +205,7 @@ mount(root,x){
     const inp={aile:dead(stick.hx),pull:dead(stick.hy),thr:x.v('thr')/100,trim:x.v('trim'),brake};
     if(!paused){ const n=Math.ceil(dt0/.008); for(let i=0;i<n;i++) FM.step(s,inp,dt0/n); missionUpdate(dt0); }
     prop+=dt0;
+    if(!fs){ return; }
     if(view==='cock') render3D(t); else renderExt(t);
     // alerte
     if(s.aoa>FM.acrit(s.fl)-2.5&&!s.ground&&!s.stalled&&Math.floor(t*6)%2===0) text(g,'AVERTISSEUR DE DÉCROCHAGE',W/2,38,{s:16,w:'800',a:'center',c:'#ffd23f',sh:1});
@@ -207,6 +216,7 @@ mount(root,x){
       const kt=s.V*KT, fpm=Math.round(s.vs*FT*60), hd=Math.round(((s.psi*R2D)%360+360)%360);
       x.q('#'+u+'ro').innerHTML='<div><small>Vitesse air</small><b>'+Math.round(kt)+' kt</b></div><div><small>Altitude</small><b>'+Math.round(s.h*FT)+' ft</b></div><div><small>Variomètre</small><b>'+(fpm>=0?'+':'')+fpm+' ft/min</b></div><div><small>Cap</small><b>'+String(hd).padStart(3,'0')+'°</b></div><div><small>Charge</small><b>'+(s.ground?1:s.nz).toFixed(2).replace('.',',')+' G</b></div><div><small>Incidence</small><b>'+s.aoa.toFixed(0)+'° / '+FM.acrit(s.fl)+'°</b></div><div><small>Vs (décroch.)</small><b>'+Math.round(FM.vstall(s.h,s.fl,Math.max(1,s.ground?1:s.nz)))+' kt</b></div>'+(windMode?'<div><small>Vent</small><b>'+(windMode===1?'de face 12 kt':'de travers 12 kt')+'</b></div>':'');
       x.q('#'+u+'co').innerHTML=coachHTML();
+      { const m=M[mission], st=m.steps[ms.i]; const hn=x.q('#'+u+'hn'); hn.innerHTML=st?'<b>'+(ms.i+1)+'/'+m.steps.length+'</b> '+st[0]+'<br><span>💡 '+st[2](s)+'</span>':(m.steps.length?'✔ Leçon réussie !':'Vol libre'); hn.style.display=fs?'':'none'; }
       let c='',m=''; if(s.msg){ c=s.msg[0]; m=s.msg[1]; } else if(s.td&&s.ground&&s.td.vs!==undefined&&!tdShown){ tdShown=true; }
       if(!s.msg&&s.ground&&s.td){ const q=s.td; c=q.vs<350&&q.onRw?'ok':q.vs<700?'warn':'bad'; m='Atterrissage : taux de chute '+q.vs+' ft/min à '+q.kt+' kt'+(q.onRw?'':' (hors de la piste)')+'. '+(q.vs<350?'Très doux : bel arrondi !':q.vs<700?'Correct, mais un arrondi plus tardif et plus doux serait mieux.':'Dur : tire plus au moment de l’arrondi.'); }
       if(!m){ if(s.ground){ m=s.V<1?'Au sol, à l’arrêt. Mets les gaz à 100 % puis, vers 55 kt, tire doucement le manche.':'Roulage : '+Math.round(kt)+' kt. Rotation à 55 kt.'; } else if(s.stalled){ c='bad'; m='Décrochage : l’air ne suit plus l’aile (incidence > '+FM.acrit(s.fl)+'°). Pousse le manche pour réduire l’incidence, puis remets de la puissance.'; } else if(kt<FM.vstall(s.h,s.fl,Math.max(1,s.nz))+6){ c='warn'; m='Vitesse proche du décrochage. Baisse le nez et/ou ajoute de la puissance.'; } else if(fpm>300){ c='ok'; m='Tu montes ('+fpm+' ft/min).'; } else if(fpm<-300){ c='warn'; m='Tu descends ('+(-fpm)+' ft/min).'; } else { c='ok'; m='Vol en palier : la portance équilibre le poids, la traction équilibre la traînée.'; } }
