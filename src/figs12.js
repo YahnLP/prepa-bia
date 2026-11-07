@@ -16,16 +16,17 @@ const LY={W:640,H:430,cyc:22,
  temp(h){ const k=[[0,15],[11,-56],[20,-56],[32,-44],[47,-2],[51,-2],[71,-58],[85,-90],[100,-40],[120,200]]; for(let i=1;i<k.length;i++) if(h<=k[i][0]) return mix(k[i-1][1],k[i][1],(h-k[i-1][0])/(k[i][0]-k[i-1][0])); return 200; },
  draw(g,t){ const W=640,H=430,tc=t%22; const hh=tc<2?0:tc<18?ss(2,18,tc)*105:105*(1-ss(18,22,tc)); const L=LY, y=L.yOf;
   const x0=40,x1=360; // colonne
-  L.layers.forEach((l,i)=>{ const yt=y(l.length?l[2]:l[2]), yb=y(l[1]); const gr=g.createLinearGradient(0,yt,0,yb); const cols=[['#2f7fd6','#cfe9f8'],['#1f4a99','#3a74c4'],['#10215c','#2a4aa0'],['#05030f','#18104a']][i]; gr.addColorStop(0,cols[0]); gr.addColorStop(1,cols[1]); g.fillStyle=gr; g.fillRect(x0,yt,x1-x0,yb-yt); g.strokeStyle='rgba(255,255,255,.7)'; g.setLineDash([6,4]); g.lineWidth=1.5; g.beginPath(); g.moveTo(x0,yt); g.lineTo(x1,yt); g.stroke(); g.setLineDash([]); const dk=i===0; T(g,l[0],x0+10,yb-10,{s:15,w:'800',c:dk?'#0b3a66':'#fff',sc:dk?'rgba(255,255,255,.9)':'rgba(0,0,0,.45)'}); T(g,l[4]+' · limite '+Math.round(l[2])+' km',x0+10,yb-27,{s:11,w:'700',c:dk?'#0b3a66':'#e6f0ff',sc:dk?'rgba(255,255,255,.9)':'rgba(0,0,0,.45)'}); });
+  L.layers.forEach((l,i)=>{ const yt=y(l.length?l[2]:l[2]), yb=y(l[1]); const gr=g.createLinearGradient(0,yt,0,yb); const cols=[['#2f7fd6','#cfe9f8'],['#1f4a99','#3a74c4'],['#10215c','#2a4aa0'],['#05030f','#18104a']][i]; gr.addColorStop(0,cols[0]); gr.addColorStop(1,cols[1]); g.fillStyle=gr; g.fillRect(x0,yt,x1-x0,yb-yt); g.strokeStyle='rgba(255,255,255,.7)'; g.setLineDash([6,4]); g.lineWidth=1.5; g.beginPath(); g.moveTo(x0,yt); g.lineTo(x1,yt); g.stroke(); g.setLineDash([]); });
   // étoiles
   g.globalAlpha=.8; G.stars(g,320,60,24); g.globalAlpha=1;
   // contenu : sol, nuages, avion de ligne, ballon stratosphérique, météore, aurore, ISS
   g.fillStyle='#4f8a3d'; g.fillRect(x0,y(0),x1-x0,10); G.cloud(g,70,y(0)-18,.9,.95); G.cloud(g,230,y(0)-24,1.1,.9); G.cloud(g,150,y(5)-20,.7,.55);
-  G.plane(g,((t*30)%400)+10,y(10.5),.28,0,{prop:t*40,thr:.6,flaps:0}); T(g,'avion de ligne ≈ 11 km',210,y(10.5)-18,{s:11,w:'800',c:'#fff',sc:'rgba(0,0,0,.5)'});
+  G.plane(g,((t*30)%400)+10,y(10.5),.28,0,{prop:t*40,thr:.6,flaps:0}); T(g,'avion de ligne ≈ 11 km',250,y(10.5)-34,{s:11,w:'800',c:'#fff',sc:'rgba(0,0,0,.5)'});
   g.fillStyle='rgba(255,255,255,.9)'; g.beginPath(); g.ellipse(100,y(30)-16+Math.sin(t)*3,12,16,0,0,7); g.fill(); g.fillStyle='#e4572e'; g.fillRect(98,y(30)+2+Math.sin(t)*3,4,6); T(g,'ballon-sonde ≈ 30 km',122,y(30),{s:11,w:'800',c:'#fff',sc:'rgba(0,0,0,.5)'});
   g.fillStyle='rgba(70,230,150,.28)'; for(let i=0;i<5;i++){ g.beginPath(); g.ellipse(250+i*15,y(100)+Math.sin(t*1.2+i)*3,10,40,0,0,7); g.fill(); } T(g,'aurores',280,y(100)-34,{s:11,w:'800',c:'#9ff0c8',sc:'rgba(0,0,0,.5)'});
   const mt=(t*.9)%1; g.strokeStyle='rgba(255,255,255,'+(1-mt)+')'; g.lineWidth=2; g.beginPath(); g.moveTo(300-mt*60,y(70)-30+mt*70); g.lineTo(312-mt*60,y(70)-52+mt*70); g.stroke(); T(g,'étoiles filantes',195,y(70)-26,{s:11,w:'800',c:'#c8d4ff',sc:'rgba(0,0,0,.5)'});
   g.save(); g.translate(325,y(110)); g.fillStyle='#e9eef5'; g.fillRect(-6,-3,12,6); g.fillStyle='#2b6cb0'; g.fillRect(-26,-2,16,4); g.fillRect(10,-2,16,4); g.restore(); T(g,'ISS ≈ 400 km',340,y(110)+16,{s:11,w:'800',a:'right',c:'#fff',sc:'rgba(0,0,0,.5)'}); T(g,'(bien plus haut)',340,y(110)+29,{s:10,w:'700',a:'right',c:'#c8d4ff',sc:'rgba(0,0,0,.5)'});
+  L.layers.forEach((l,i)=>{ const yb=y(l[1]); const w=190; g.fillStyle='rgba(8,20,48,.72)'; rr(g,x0+6,yb-48,w,42,8); g.fill(); T(g,l[0],x0+14,yb-30,{s:15,w:'800',c:'#fff',sh:0}); T(g,l[4]+' · limite '+Math.round(l[2])+' km',x0+14,yb-14,{s:11,w:'700',c:'#cfe3ff',sh:0}); });
   // courbe de température
   const gx=392,gw=124; g.fillStyle='rgba(255,255,255,.96)'; rr(g,380,10,250,398-26,10); g.fill(); T(g,'Température',394,34,{s:13,w:'800',sh:0}); g.strokeStyle='#52606e'; g.lineWidth=1; g.beginPath(); g.moveTo(gx,18+30); g.lineTo(gx,y(0)); g.stroke();
   const tx=T0=>gx+(T0+100)/320*gw+10; g.strokeStyle='#e4572e'; g.lineWidth=3; g.beginPath(); for(let h=0;h<=120;h+=1){ const px=tx(L.temp(h)), py=y(h); h?g.lineTo(px,py):g.moveTo(px,py); } g.stroke();
@@ -33,7 +34,7 @@ const LY={W:640,H:430,cyc:22,
   // repère altitude sur la colonne
   g.fillStyle='#ffd23f'; g.beginPath(); g.moveTo(x1-2,y(hh)); g.lineTo(x1+14,y(hh)-8); g.lineTo(x1+14,y(hh)+8); g.closePath(); g.fill(); g.strokeStyle='rgba(255,210,63,.8)'; g.lineWidth=1.5; g.setLineDash([3,3]); g.beginPath(); g.moveTo(x0,y(hh)); g.lineTo(tx(Tn),y(hh)); g.stroke(); g.setLineDash([]);
   const P=1013*Math.exp(-Math.min(hh,100)/7.2); T(g,'Altitude',520,250,{s:11,w:'700',sh:0,c:'#52606e'}); T(g,Math.round(hh)+' km',520,274,{s:22,w:'800',sh:0}); T(g,'Température',520,298,{s:11,w:'700',sh:0,c:'#52606e'}); T(g,Math.round(Tn)+' °C',520,320,{s:20,w:'800',sh:0,c:'#c2410c'}); T(g,'Pression',520,342,{s:11,w:'700',sh:0,c:'#52606e'}); T(g,(P>=10?Math.round(P):P.toFixed(2).replace('.',','))+' hPa',520,364,{s:18,w:'800',sh:0,c:'#1d4ed8'});
-  T(g,'La température ne baisse pas toujours en montant',394,400-18,{s:11,w:'800',sh:0,c:'#334155'});
+  T(g,'Elle ne baisse pas toujours en montant',394,392,{s:11,w:'800',sh:0,c:'#334155'});
   bar(g,W,H,'Échelle déformée : en réalité la troposphère est très mince (11 km sur 100).');
  }};
 setF('layers',LY,'Animation qui monte dans les quatre couches de l’atmosphère avec température et pression');
