@@ -22,16 +22,11 @@ window.BIA.planeSVG=function(u){ return '<svg viewBox="0 0 640 290" id="'+u+'s" 
   '<rect y="250" width="640" height="40" fill="#646e79"/><rect y="250" width="640" height="3" fill="#868f99"/><g fill="#f4f6f8" opacity=".85"><rect x="40" y="272" width="60" height="4"/><rect x="170" y="272" width="60" height="4"/><rect x="300" y="272" width="60" height="4"/><rect x="430" y="272" width="60" height="4"/><rect x="560" y="272" width="60" height="4"/></g>'+
   '<ellipse cx="350" cy="256" rx="230" ry="7" fill="#000" opacity=".28"/>'+
   /* train */
-  '<g class="pt" data-p="tra" tabindex="0">'+
+  '<g class="pt" data-p="tra" tabindex="0"><rect x="118" y="198" width="214" height="58" rx="10" fill="#000" fill-opacity="0"/>'+
     '<path d="M151 196 L147 226" stroke="#59636e" stroke-width="7" stroke-linecap="round"/><path d="M151 196 L149.5 210" stroke="#c7ced6" stroke-width="3" stroke-linecap="round"/>'+
     '<ellipse cx="146" cy="238" rx="17" ry="15" fill="#cfd6de" stroke="#8d99a6" stroke-width="1.5"/><circle cx="146" cy="238" r="13" fill="url(#'+u+'wh)"/>'+
     '<path d="M292 196 Q298 214 306 224" fill="none" stroke="#4d5762" stroke-width="9" stroke-linecap="round"/><path d="M292 196 Q297 212 303 220" fill="none" stroke="#9aa6b3" stroke-width="3" stroke-linecap="round"/>'+
     '<ellipse cx="306" cy="237" rx="21" ry="17" fill="#e7ebf0" stroke="#8d99a6" stroke-width="1.5"/><circle cx="306" cy="237" r="15" fill="url(#'+u+'wh)"/><path d="M290 232 L270 226" stroke="#d94a3a" stroke-width="3" stroke-linecap="round"/>'+
-  '</g>'+
-  /* empennage horizontal */
-  '<g class="pt" data-p="emh" tabindex="0">'+
-    '<path d="M484 158 Q520 154 566 157 L566 168 Q520 169 486 168 Z" fill="url(#'+u+'wg)" stroke="#8d99a6" stroke-width="1.2"/>'+
-    '<path d="M566 157 L604 159 Q608 163 604 167 L566 168 Z" fill="#dde3ea" stroke="#8d99a6" stroke-width="1.2"/><path d="M566 157 L566 168" stroke="#6b7782" stroke-width="1.5"/><path d="M570 163 L600 163" stroke="#b7c0ca" stroke-width="1"/>'+
   '</g>'+
   /* fuselage */
   '<g class="pt" data-p="fus" tabindex="0">'+
@@ -39,6 +34,11 @@ window.BIA.planeSVG=function(u){ return '<svg viewBox="0 0 640 290" id="'+u+'s" 
     '<path d="M196 178 L330 184 L566 169" fill="none" stroke="#d94a3a" stroke-width="5" stroke-linecap="round"/><path d="M196 187 L330 192 L560 175" fill="none" stroke="#1f4e8c" stroke-width="3" stroke-linecap="round"/>'+
     '<g stroke="#b7c0ca" stroke-width="1" fill="none"><path d="M402 112 L405 196"/><path d="M450 130 L452 192"/><path d="M500 146 L500 184"/></g>'+
     '<text x="430" y="176" font-size="13" font-weight="700" fill="#1f4e8c" font-family="Barlow,sans-serif" transform="rotate(-4 430 176)">F-BIA</text>'+
+  '</g>'+
+  /* empennage horizontal */
+  '<g class="pt" data-p="emh" tabindex="0"><rect x="500" y="152" width="116" height="26" rx="8" fill="#000" fill-opacity="0"/>'+
+    '<path d="M484 158 Q520 154 566 157 L566 168 Q520 169 486 168 Z" fill="url(#'+u+'wg)" stroke="#8d99a6" stroke-width="1.2"/>'+
+    '<path d="M566 157 L604 159 Q608 163 604 167 L566 168 Z" fill="#dde3ea" stroke="#8d99a6" stroke-width="1.2"/><path d="M566 157 L566 168" stroke="#6b7782" stroke-width="1.5"/><path d="M570 163 L600 163" stroke="#b7c0ca" stroke-width="1"/>'+
   '</g>'+
   /* cabine */
   '<g class="pt" data-p="cab" tabindex="0">'+
@@ -49,7 +49,7 @@ window.BIA.planeSVG=function(u){ return '<svg viewBox="0 0 640 290" id="'+u+'s" 
     '<path d="M298 110 L299 192" stroke="#8d99a6" stroke-width="1.5"/><rect x="304" y="156" width="14" height="4" rx="2" fill="#6b7782"/>'+
   '</g>'+
   /* aile haute */
-  '<g class="pt" data-p="ail" tabindex="0">'+
+  '<g class="pt" data-p="ail" tabindex="0"><rect x="190" y="82" width="250" height="30" fill="#000" fill-opacity="0"/>'+
     '<path d="M300 198 L334 106 L342 108 L306 200 Z" fill="#d9dfe6" stroke="#8d99a6" stroke-width="1.2"/>'+
     '<path d="M196 99 Q262 86 336 88 L430 97 Q438 101 430 105 L336 108 Q262 110 196 106 Q190 102 196 99 Z" fill="url(#'+u+'wg)" stroke="#8d99a6" stroke-width="1.5"/>'+
     '<path d="M300 100 L426 101" stroke="#b7c0ca" stroke-width="1.2" fill="none"/><path d="M380 98 L380 106" stroke="#8d99a6" stroke-width="1.5"/>'+
@@ -62,14 +62,14 @@ window.BIA.planeSVG=function(u){ return '<svg viewBox="0 0 640 290" id="'+u+'s" 
     '<path d="M168 202 L176 214 L200 214" fill="none" stroke="#75808c" stroke-width="5" stroke-linecap="round"/>'+
   '</g>'+
   /* hélice */
-  '<g class="pt" data-p="hel" tabindex="0">'+
+  '<g class="pt" data-p="hel" tabindex="0"><rect x="98" y="90" width="36" height="170" fill="#000" fill-opacity="0"/>'+
     '<ellipse cx="116" cy="172" rx="14" ry="86" fill="url(#'+u+'pb)"/>'+
     '<path d="M112 172 Q108 172 110 150 L116 96 Q122 92 123 98 L120 150 Q122 172 118 172 Z" fill="#26313d"/><path d="M113 172 Q109 172 111 194 L116 248 Q121 251 123 245 L120 194 Q121 172 118 172 Z" fill="#26313d"/>'+
     '<path d="M112 98 L123 98 L122 108 L113 108 Z" fill="#f2c230"/><path d="M112 242 L122 242 L121 250 L113 250 Z" fill="#f2c230"/>'+
     '<path d="M126 172 Q126 158 138 152 L138 192 Q126 186 126 172 Z" fill="url(#'+u+'sp)" stroke="#8d99a6" stroke-width="1.2"/><ellipse cx="119" cy="172" rx="7" ry="20" fill="url(#'+u+'sp)" stroke="#8d99a6" stroke-width="1.2"/>'+
   '</g>'+
   /* empennage vertical */
-  '<g class="pt" data-p="emv" tabindex="0">'+
+  '<g class="pt" data-p="emv" tabindex="0"><rect x="500" y="70" width="96" height="84" fill="#000" fill-opacity="0"/>'+
     '<path d="M494 150 L522 88 Q530 76 548 74 L560 74 L558 160 L500 158 Z" fill="url(#'+u+'wg)" stroke="#8d99a6" stroke-width="1.5"/>'+
     '<path d="M560 74 L582 78 Q586 84 584 92 L590 164 L558 164 Z" fill="#f3f5f8" stroke="#8d99a6" stroke-width="1.5"/>'+
     '<path d="M560 74 L558 164" stroke="#6b7782" stroke-width="1.6"/><path d="M522 88 L548 74 L560 74 L556 104 L512 108 Z" fill="#d94a3a"/><path d="M570 112 L586 112" stroke="#b7c0ca"/><circle cx="584" cy="86" r="3" fill="#ff3b30"/>'+
