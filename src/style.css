@@ -341,3 +341,24 @@ body.fl-lock{overflow:hidden}
 .simple-b{padding:0 14px 10px}
 .simple-b p,.simple-b li{font-size:1.02rem}
 .fig-cv canvas{width:100%;height:auto;display:block;border-radius:8px;background:#cfe8f7;cursor:pointer}
+
+/* coach pédagogique et mental */
+.cbx{display:flex;gap:12px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--tc,var(--acc));border-radius:10px;padding:12px 14px;margin:14px 0}
+.cbx .av{flex:0 0 42px;height:42px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:22px}
+.cbx>div:last-child{min-width:0}
+.cbx .t{display:block;font:700 .78rem var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--tc,var(--acc));margin-bottom:2px}
+.cbx p{margin:5px 0}
+.cbx .mental{font-style:italic;color:var(--mute)}
+.cbx.pause{border-left-color:var(--ok)}
+.cbx.good{background:var(--okbg);border-left-color:var(--ok)}
+.cbx .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.cbx .chip{display:inline-block;background:var(--soft);border-radius:999px;padding:5px 12px;font:600 .85rem var(--body);color:var(--ink);text-decoration:none}
+.cbx .chip.link{background:var(--acc);color:var(--acc-ink)}
+.steps4,.tips{padding-left:22px}.steps4 li,.tips li{margin:8px 0}
+.breath{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 12px;margin:12px 0}
+.breath .orb{width:150px;height:150px;border-radius:50%;margin:8px auto;background:radial-gradient(circle at 35% 30%,#7dd3fc,#2563eb);display:grid;place-items:center;color:#fff;font:700 1.1rem var(--body);box-shadow:0 0 40px rgba(37,99,235,.35);will-change:transform}
+.chk label{display:flex;gap:10px;align-items:flex-start;padding:8px 2px;border-bottom:1px solid var(--line)}
+.chk input{margin-top:4px;width:20px;height:20px;flex:0 0 auto}
+.wins{list-style:none;padding:0;margin:10px 0}
+.wins li{display:flex;justify-content:space-between;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0}
+.wins small{color:var(--mute);white-space:nowrap}

@@ -353,6 +353,27 @@ body.fl-lock{overflow:hidden}
 .simple-b p,.simple-b li{font-size:1.02rem}
 .fig-cv canvas{width:100%;height:auto;display:block;border-radius:8px;background:#cfe8f7;cursor:pointer}
 
+/* coach pédagogique et mental */
+.cbx{display:flex;gap:12px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--tc,var(--acc));border-radius:10px;padding:12px 14px;margin:14px 0}
+.cbx .av{flex:0 0 42px;height:42px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:22px}
+.cbx>div:last-child{min-width:0}
+.cbx .t{display:block;font:700 .78rem var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--tc,var(--acc));margin-bottom:2px}
+.cbx p{margin:5px 0}
+.cbx .mental{font-style:italic;color:var(--mute)}
+.cbx.pause{border-left-color:var(--ok)}
+.cbx.good{background:var(--okbg);border-left-color:var(--ok)}
+.cbx .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.cbx .chip{display:inline-block;background:var(--soft);border-radius:999px;padding:5px 12px;font:600 .85rem var(--body);color:var(--ink);text-decoration:none}
+.cbx .chip.link{background:var(--acc);color:var(--acc-ink)}
+.steps4,.tips{padding-left:22px}.steps4 li,.tips li{margin:8px 0}
+.breath{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 12px;margin:12px 0}
+.breath .orb{width:150px;height:150px;border-radius:50%;margin:8px auto;background:radial-gradient(circle at 35% 30%,#7dd3fc,#2563eb);display:grid;place-items:center;color:#fff;font:700 1.1rem var(--body);box-shadow:0 0 40px rgba(37,99,235,.35);will-change:transform}
+.chk label{display:flex;gap:10px;align-items:flex-start;padding:8px 2px;border-bottom:1px solid var(--line)}
+.chk input{margin-top:4px;width:20px;height:20px;flex:0 0 auto}
+.wins{list-style:none;padding:0;margin:10px 0}
+.wins li{display:flex;justify-content:space-between;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0}
+.wins small{color:var(--mute);white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -3181,6 +3202,160 @@ B.simple={
 };
 })();
 
+(function(){ const B=window.BIA; const K=B.coach={};
+const DAY=864e5, ymd=d=>{ const x=new Date(d); return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'); };
+const pick=(arr,n)=>arr[((n%arr.length)+arr.length)%arr.length];
+const dayNo=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/DAY);
+
+const THEME_TIP={
+ t1:'Ici, tout est une chaîne de causes et d’effets. Pour chaque phénomène, demande-toi « pourquoi ? » puis « et alors ? ». Regarde l’animation avant de lire le texte : ça aide énormément.',
+ t2:'La physique se comprend avec le corps. Imagine les forces, joue avec les simulateurs, et seulement ensuite retiens les mots. Si tu peux expliquer un schéma à voix haute, tu l’as compris.',
+ t3:'Retiens trois choses pour chaque pièce ou machine : son nom, son rôle, et à quoi elle ressemble. Refais le dessin de mémoire : c’est la méthode la plus efficace.',
+ t4:'La navigation s’apprend en faisant. Refais les calculs à la main sur un brouillon, puis vérifie avec le simulateur. Les erreurs de calcul sont normales au début.',
+ t5:'L’histoire, c’est d’abord des histoires. Retiens des personnages et quelques dates-repères, pas une liste interminable. Une petite frise dessinée de mémoire vaut mieux que dix relectures.',
+ t6:'Une langue s’apprend avec la bouche autant qu’avec les yeux : dis les mots à voix haute. Cinq minutes par jour valent bien mieux qu’une heure la veille.'};
+
+const CH_TIP={
+ '1-1':'Cite les quatre couches de l’atmosphère dans l’ordre, puis dis dans laquelle se passe la météo.',
+ '1-2':'Explique pourquoi le vent souffle des hautes vers les basses pressions, comme l’air qui sort d’un ballon qu’on ouvre.',
+ '1-3':'Raconte en quatre phrases le voyage d’une bulle d’air chaud qui monte, refroidit et devient un nuage.',
+ '1-4':'Dessine de mémoire un front froid et un front chaud, puis compare avec le cours.',
+ '1-5':'Cite trois phénomènes dangereux et dis ce que le pilote doit faire face à chacun.',
+ '1-6':'Lis un METAR à voix haute, mot par mot, comme une langue étrangère. Au bout de deux ou trois essais, ça devient facile.',
+ '2-1':'Explique pourquoi un ballon monte en utilisant la poussée d’Archimède, sans lire ton cours.',
+ '2-2':'Explique comment l’air accélère dans un passage qui se rétrécit, avec un tuyau d’arrosage dont on pince le bout.',
+ '2-3':'Explique à quelqu’un pourquoi un avion décroche quand l’incidence devient trop grande.',
+ '2-4':'Nomme les quatre forces et dis, pour chacune, laquelle l’équilibre en vol stabilisé.',
+ '2-5':'Sans hésiter : quelle commande agit sur le roulis, le tangage et le lacet ?',
+ '3-1':'Pointe chaque pièce de l’avion sur le simulateur et dis son rôle en une phrase.',
+ '3-2':'Explique les quatre temps du moteur avec tes mots, puis le chemin de l’air dans un réacteur.',
+ '3-3':'Dis quel instrument utilise la pression statique et lequel utilise aussi la pression totale.',
+ '3-4':'Explique pourquoi un hélicoptère a besoin d’un rotor de queue.',
+ '3-5':'Explique pourquoi un satellite « tombe » sans jamais toucher la Terre.',
+ '4-1':'Retrouve la latitude et la longitude de ta ville, puis explique ce que signifie chaque nombre.',
+ '4-2':'Refais un calcul de cap avec un vent de travers, étape par étape, sur un brouillon.',
+ '4-3':'Explique en deux phrases ce que fait un GNSS et pourquoi il faut au moins quatre satellites.',
+ '4-4':'Explique la différence entre altitude, hauteur et niveau de vol avec un exemple chiffré.',
+ '4-5':'Dis qui a la priorité dans chacune des quatre situations de croisement.',
+ '4-6':'Trace de mémoire un circuit d’aérodrome avec ses cinq branches dans l’ordre.',
+ '4-7':'Redis l’ordre des priorités en cas d’urgence : piloter, naviguer, puis communiquer.',
+ '5-1':'Place sur une frise cinq dates clés avant 1914, de la montgolfière aux frères Wright.',
+ '5-2':'Associe quatre pionniers de cette période à leur exploit, sans regarder.',
+ '5-3':'Classe dans l’ordre chronologique les grandes étapes de l’avion à réaction.',
+ '5-4':'Place sur une frise Spoutnik, Gagarine et Apollo 11, avec leur année.',
+ '5-5':'Cite trois acteurs de l’espace d’aujourd’hui et ce qu’ils font.',
+ '6-1':'Épelle ton nom et celui de ta ville avec l’alphabet OACI, à voix haute.',
+ '6-2':'Retourne dix cartes de vocabulaire en moins de deux minutes.',
+ '6-3':'Joue à voix haute un échange pilote–tour pour un décollage, avec les bons mots.',
+ '6-4':'Fais le jeu « touche la pièce » sans faute, puis recommence en cachant les noms.'};
+
+const MENTAL=[
+ 'Tu n’as pas besoin d’être parfait, seulement régulier. Dix minutes aujourd’hui valent mieux qu’une heure jamais commencée.',
+ 'Ne pas comprendre tout de suite, c’est normal : c’est le signe que ton cerveau construit quelque chose de nouveau.',
+ 'Tous les pilotes ont ouvert un jour une première leçon sans rien savoir. Toi aussi, tu es en train de décoller.',
+ 'Compare-toi à toi-même d’il y a une semaine, pas aux autres. C’est ça, le vrai progrès.',
+ 'Une erreur corrigée aujourd’hui, c’est un point gagné le jour de l’examen.',
+ 'Si ça coince, change de méthode : dessine, explique à voix haute, ou joue avec le simulateur.',
+ 'Les pilotes aussi ont le trac. Ils s’entraînent justement pour que les bons gestes deviennent des réflexes. C’est pareil pour toi.',
+ 'Tu as déjà appris des choses bien plus difficiles : marcher, parler, lire. Là, tu apprends à comprendre le ciel.',
+ 'Fais des pauses : un cerveau qui se repose retient mieux. Cinq minutes d’air frais, et tu repars.',
+ 'Fixe-toi un tout petit objectif pour aujourd’hui, et fais-le. Le reste suivra.',
+ 'Dormir fait partie de la révision : la nuit, ton cerveau range ce que tu as appris.',
+ 'Demande de l’aide quand tu bloques : un prof, un copain, un pilote. Ça fait gagner du temps et ça ne dévalorise personne.'];
+const PAUSE=[
+ 'Pause de 20 secondes : ferme les yeux et redis, avec tes mots, ce que tu viens de comprendre. Si tu bloques, relis seulement le dernier paragraphe.',
+ 'Tu es à mi-parcours. Lève-toi, bois un verre d’eau, puis reviens. Retenir se fait mieux par petites séances.',
+ 'Petit test mental : pourrais-tu expliquer ce que tu viens de lire à un copain de ta classe ? Sinon, relis l’encadré « Explique-moi autrement ».',
+ 'Bravo, tu avances. Prends dix secondes pour respirer profondément avant de continuer : ça aide à rester concentré.'];
+
+/* ---- séries et suivi ---- */
+K.streak=function(days){ if(!days||!days.length) return 0; const set=new Set(days); let n=0; let d=new Date(); if(!set.has(ymd(d))) d=new Date(Date.now()-DAY); while(set.has(ymd(d))){ n++; d=new Date(d.getTime()-DAY); } return n; };
+K.today=()=>ymd(Date.now());
+
+/* ---- carte au début d’un chapitre ---- */
+K.chapterCard=function(c,mem,idx){
+  const o=mem.ch[c.id], best=o?o.best:0;
+  let hi;
+  if(!o) hi='On démarre ce chapitre ensemble. Pas de pression : lis à ton rythme, tout est expliqué.';
+  else if(best>=80) hi='Tu as déjà validé ce chapitre ('+best+' %). Bravo ! Relis-le vite pour le fixer, ou passe au suivant.';
+  else hi='Tu as déjà obtenu '+best+' % ici : tu es sur la bonne voie. Relis les passages qui te posent problème, puis retente les questions.';
+  return '<aside class="cbx" aria-label="Conseil du coach"><div class="av" aria-hidden="true">🧭</div><div><b class="t">Ton coach</b><p>'+hi+'</p><p><b>Ta méthode ici.</b> '+THEME_TIP[c.th]+'</p></div></aside>';
+};
+K.pause=function(idx){ return '<aside class="cbx pause" aria-label="Pause du coach"><div class="av" aria-hidden="true">☕</div><div><b class="t">Pause coach</b><p>'+pick(PAUSE,idx)+'</p><p class="mental">'+pick(MENTAL,idx+3)+'</p></div></aside>'; };
+K.beforeQuiz=function(c){ return '<aside class="cbx" style="--tc:var(--ok)"><div class="av" aria-hidden="true">🎯</div><div><b class="t">Avant de te tester</b>'+(CH_TIP[c.id]?'<p><b>Défi.</b> '+CH_TIP[c.id]+' Si tu y arrives sans regarder, tu es prêt.</p>':'')+'<p>Une erreur n’est pas un échec : c’est l’endroit exact où ton cerveau apprend le plus. Tu peux recommencer autant de fois que tu veux.</p><p>Et le jour de l’examen, réponds toujours à toutes les questions : une mauvaise réponse ne retire aucun point.</p></div></aside>'; };
+
+/* ---- retour après un quiz ---- */
+K.quizBox=function(res,prev){
+  const p=res.pct; let t,m,cls='';
+  if(p===100){ t='Sans faute !'; m='Tout est juste. Prends une seconde pour être fier de toi, tu l’as mérité. Demain, reviens sur trois questions pour que ça reste.'; cls=' good'; }
+  else if(p>=80){ t='Chapitre validé'; m='Très bon résultat. Regarde quand même les erreurs ci-dessous : ce sont tes points faciles de demain.'; cls=' good'; }
+  else if(p>=50){ t='Tu y es presque'; m='Tu en sais déjà plus de la moitié. Lis les explications des erreurs, puis recommence : tu vas monter, c’est presque toujours le cas.'; }
+  else { t='C’est un début, pas un verdict'; m='Personne ne retient tout du premier coup. Relis la leçon, surtout les encadrés « Explique-moi autrement », puis retente. Un seul petit pas à la fois.'; }
+  if(prev!=null && prev>0 && p>prev) m+=' <b>Tu progresses : tu étais à '+prev+' %.</b>';
+  return '<div class="cbx'+cls+'" style="margin:14px 0"><div class="av" aria-hidden="true">'+(p>=80?'🎉':p>=50?'💪':'🌱')+'</div><div><b class="t">Ton coach : '+t+'</b><p>'+m+'</p></div></div>';
+};
+K.examBox=function(total,weak,zero,full){
+  let t,m;
+  if(zero){ t='Un thème à rattraper en priorité'; m='Un zéro sur un thème est éliminatoire à l’examen, donc commence par là. Bonne nouvelle : le premier chapitre d’un thème fait déjà gagner plusieurs points.'; }
+  else if(total>=70){ t='Excellent travail'; m='Tu es très à l’aise. Continue les examens blancs pour garder le rythme et surveille ton temps.'; }
+  else if(total>=50){ t='Tu es dans la zone de réussite'; m='Bravo. Pour être tranquille le jour J, vise une marge : retravaille ton thème le plus faible, c’est là que tu gagneras le plus de points.'; }
+  else { t='Pas encore, mais tu sais quoi travailler'; m='Un examen blanc sert justement à repérer ce qu’il reste à apprendre. Regarde tes thèmes les plus faibles et fais un chapitre par jour : ça va monter vite.'; }
+  return '<div class="cbx'+(total>=50&&!zero?' good':'')+'" style="margin:14px 0"><div class="av" aria-hidden="true">🧭</div><div><b class="t">Ton coach : '+t+'</b><p>'+m+'</p><p class="small mute">Rappelle-toi : un examen blanc est un entraînement, pas un jugement.</p></div></div>';
+};
+
+/* ---- carte d’accueil ---- */
+K.homeCard=function(mem,info){
+  const st=K.streak(mem.days), todayDone=(mem.days||[]).indexOf(K.today())>-1, dl=info.dl, val=info.validated, tot=info.total;
+  let msg;
+  if(!mem.days||!mem.days.length) msg='Bienvenue à bord ! Le plus dur, c’est de commencer, et tu es déjà là. Lance la prochaine étape ci-dessous : une dizaine de minutes suffisent pour aujourd’hui.';
+  else if(dl!==null && dl>=0 && dl<=1) msg=dl===0?'C’est aujourd’hui ! Respire, fais-toi confiance : tu as préparé ça. Lis le sujet calmement et réponds à tout.':'Veille d’examen : relis seulement les fiches, prépare ton sac, dors bien. Tu n’apprends plus rien de nouveau ce soir, tu te rassures.';
+  else if(dl!==null && dl>=0 && dl<=7) msg='Dernière ligne droite : J-'+dl+'. Refais un examen blanc, relis les fiches de révision et soigne ton sommeil.';
+  else if(dl!==null && dl>7 && dl<=30) msg='Plus que '+dl+' jours : c’est le bon moment pour les examens blancs. Chaque erreur repérée maintenant est un point gagné plus tard.';
+  else if(!todayDone && st===0 && (mem.days||[]).length>0) msg='Content de te retrouver ! Une pause, ça arrive à tout le monde. Reprends doucement : un chapitre ou dix questions, et tu es reparti.';
+  else if(!todayDone) msg='Tu as déjà '+st+' jour'+(st>1?'s':'')+' de suite : ne casse pas la série ! Même dix minutes comptent aujourd’hui.';
+  else msg='Séance du jour faite, bravo ! Tu peux t’arrêter fier de toi, ou continuer si tu as encore de l’énergie.';
+  let mile='';
+  if(val>=tot&&tot>0) mile='🏆 Tous les chapitres sont validés ! Il ne reste qu’à t’entraîner avec les examens blancs.';
+  else if(val>=20) mile='🌟 '+val+' chapitres validés sur '+tot+' : tu as passé le cap des deux tiers.';
+  else if(val>=10) mile='⭐ '+val+' chapitres validés : tu es bien lancé.';
+  else if(val>=1) mile='✅ '+val+' chapitre'+(val>1?'s':'')+' validé'+(val>1?'s':'')+' : le premier pas est fait.';
+  return '<div class="cbx home"><div class="av" aria-hidden="true">🧭</div><div><b class="t">Ton coach</b><p>'+msg+'</p>'+(mile?'<p class="small">'+mile+'</p>':'')+'<p class="mental">'+pick(MENTAL,dayNo())+'</p><div class="chips">'+(st>0?'<span class="chip">🔥 '+st+' jour'+(st>1?'s':'')+' de suite</span>':'')+'<a class="chip link" href="#coach">Méthode, stress, carnet de victoires →</a></div></div></div>';
+};
+
+/* ---- page « Ton coach » ---- */
+const WIN_TIPS=['J’ai compris pourquoi…','Aujourd’hui, j’ai réussi à…','Je suis fier de moi parce que…'];
+K.page=function(mem,info){
+  const st=K.streak(mem.days), nd=(mem.days||[]).length, last=mem.exams[mem.exams.length-1];
+  const tile=(v,l)=>'<div><b>'+v+'</b><span class="small mute">'+l+'</span></div>';
+  let h='<h1>Ton coach</h1><p class="mute">Réussir le BIA, ce n’est pas une question de talent : c’est une bonne méthode, un rythme régulier et un peu de confiance. Tout est ici.</p>';
+  h+='<div class="stat">'+tile(st,'jour'+(st>1?'s':'')+' de suite')+tile(nd,'jour'+(nd>1?'s':'')+' d’entraînement')+tile(info.validated+' / '+info.total,'chapitres validés')+'</div>';
+  h+='<div class="stat" style="margin-top:8px">'+tile(info.answers,'réponses données')+tile(info.rate+' %','de réussite')+tile(last?last.total+' /100':'—','dernier examen blanc')+'</div>';
+  h+='<h2>La méthode en 4 gestes</h2><ol class="steps4"><li><b>Comprendre.</b> Lis la leçon, regarde l’animation, manipule le simulateur. Ne cherche pas encore à retenir.</li><li><b>Dire avec tes mots.</b> Ferme le cours et explique à voix haute, comme à un copain. Si tu bloques, c’est là qu’il faut relire.</li><li><b>Te tester.</b> Réponds aux questions du chapitre. À partir de 80 %, le chapitre est validé.</li><li><b>Revoir demain.</b> La révision espacée te repropose les questions juste avant que tu ne les oublies. C’est la méthode la plus efficace qui existe.</li></ol>';
+  h+='<h2>Un rythme qui tient</h2><p>Mieux vaut <b>20 minutes presque tous les jours</b> qu’une grosse séance le dimanche. Exemple de séance : 15 minutes de leçon ou de simulateur, 5 minutes de questions, puis une vraie pause. Si tu n’as que dix minutes, fais dix questions de révision : ça compte aussi.</p>';
+  h+='<h2>Le jour de l’examen : ta stratégie</h2><ul class="tips"><li><b>Le temps.</b> 100 questions en 2 h 30, soit environ 1 min 30 par question. Si une question te bloque, marque-la et passe à la suivante.</li><li><b>Lis les quatre propositions</b> avant de répondre, puis élimine celles qui sont impossibles.</li><li><b>Ne laisse jamais une case vide.</b> Une mauvaise réponse ne retire aucun point : au pire tu ne gagnes rien, au mieux tu gagnes un point.</li><li><b>Ne néglige aucun thème.</b> Un zéro sur un thème est éliminatoire, alors mieux vaut gagner quelques points partout.</li><li><b>Relis</b> tes questions marquées s’il te reste du temps, mais ne change une réponse que si tu es sûr de ton erreur.</li></ul>';
+  h+='<h2>Gérer le stress</h2><p>Avoir le trac, c’est normal : cela veut dire que tu tiens à réussir. Voici un exercice simple, utilisé par beaucoup de gens pour se calmer avant une épreuve ou un oral : inspirer 5 secondes, expirer 5 secondes, pendant trois minutes.</p><div class="breath" id="breath"><div class="orb" id="orb"><span id="bt">Prêt ?</span></div><div class="row" style="justify-content:center;margin-top:10px"><button type="button" class="btn" id="bgo">Commencer (3 min)</button></div><p class="small mute" id="bc" style="text-align:center;margin:8px 0 0"></p></div>';
+  h+='<ul class="tips"><li><b>Trou noir ?</b> Respire trois fois lentement, passe à la question suivante et reviens-y après.</li><li><b>La veille :</b> pas de nouvelle leçon. Relis les fiches, prépare ton sac et couche-toi à une heure raisonnable.</li><li><b>Le matin :</b> mange un vrai petit-déjeuner et arrive un peu en avance.</li></ul>';
+  h+='<h2>Ma check-list de la veille et du jour J</h2><div class="chk" id="chk">'+[['sac','Mon sac, ma convocation et ce que mon établissement demande sont prêts'],['fiches','Je relis seulement les fiches de révision'],['dodo','Je me couche à une heure raisonnable'],['dej','Je mange un vrai petit-déjeuner'],['avance','J’arrive un peu en avance'],['resp','Je respire trois fois avant d’ouvrir le sujet']].map(x=>'<label><input type="checkbox" data-k="'+x[0]+'"'+(mem.chk&&mem.chk[x[0]]?' checked':'')+'> <span>'+x[1]+'</span></label>').join('')+'</div>';
+  h+='<h2>Mon carnet de victoires</h2><p class="mute small">Chaque soir, note une chose que tu as comprise ou réussie, même toute petite. Relire ses victoires donne confiance.</p><div class="row"><label for="win" class="sr">Une victoire</label><input type="text" id="win" maxlength="140" placeholder="'+WIN_TIPS[dayNo()%3]+'" style="flex:1;min-width:0"><button type="button" class="btn sm" id="wadd">Ajouter</button></div><ul class="wins" id="wins"></ul>';
+  h+='<h2>Quand tu doutes</h2><p>Tout le monde doute, y compris ceux qui réussissent. Quand ça arrive : <b>change de méthode</b> (dessine, parle à voix haute, joue avec un simulateur), <b>réduis la marche</b> (un seul chapitre, un seul objectif) et <b>demande de l’aide</b> à un professeur, un camarade ou un pilote. Tu as déjà fait le plus dur : t’y mettre.</p>';
+  h+='<div class="row" style="margin-top:14px"><a class="btn" href="#home">Retour à l’accueil</a><a class="btn sec" href="#exam">Faire un examen blanc</a></div>';
+  return h;
+};
+K.wins=function(el,mem,save){
+  const ul=el.querySelector('#wins'); const draw=()=>{ ul.innerHTML=(mem.wins||[]).slice().reverse().slice(0,30).map(w=>'<li><span>'+w.t.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))+'</span><small>'+w.d+'</small></li>').join('')||'<li class="mute">Ta première victoire t’attend.</li>'; };
+  draw(); const add=()=>{ const i=el.querySelector('#win'); const t=i.value.trim(); if(!t) return; mem.wins=mem.wins||[]; mem.wins.push({t:t,d:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}); i.value=''; save(); draw(); };
+  el.querySelector('#wadd').onclick=add; el.querySelector('#win').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); add(); } });
+  el.querySelectorAll('#chk input').forEach(i=>i.addEventListener('change',()=>{ mem.chk=mem.chk||{}; mem.chk[i.dataset.k]=i.checked; save(); }));
+};
+K.breath=function(el,onStop){
+  const orb=el.querySelector('#orb'), bt=el.querySelector('#bt'), go=el.querySelector('#bgo'), bc=el.querySelector('#bc'); let run=false, t0=0, raf=0;
+  const stop=()=>{ run=false; cancelAnimationFrame(raf); orb.style.transform='scale(.7)'; bt.textContent='Bravo'; go.textContent='Recommencer (3 min)'; };
+  function loop(now){ if(!run) return; const s=(now-t0)/1000; if(s>=180){ stop(); bc.textContent='Terminé. Tu peux reprendre le travail, plus calme.'; return; } const ph=s%10; const inh=ph<5; const k=inh?ph/5:(ph-5)/5; const e=.5-.5*Math.cos(Math.PI*k); const sc=inh?.7+.5*e:1.2-.5*e; orb.style.transform='scale('+sc.toFixed(3)+')'; const lab=inh?'Inspire…':'Expire…'; if(bt.textContent!==lab) bt.textContent=lab; bc.textContent='Il reste '+Math.ceil(180-s)+' s'; raf=requestAnimationFrame(loop); }
+  go.onclick=()=>{ if(run){ stop(); bc.textContent=''; go.textContent='Commencer (3 min)'; bt.textContent='Prêt ?'; return; } run=true; t0=performance.now(); go.textContent='Arrêter'; raf=requestAnimationFrame(loop); };
+  orb.style.transform='scale(.7)'; onStop(()=>{ run=false; cancelAnimationFrame(raf); });
+};
+})();
+
 (function(){
 const F=window.BIA.figs;
 const S=(w,h,body,label)=>'<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="'+label+'">'+body+'</svg>';
@@ -4676,9 +4851,10 @@ const DAY = 864e5;
 
 /* ---------- state ---------- */
 const KEY='cap-bia-v1'; let mem={};
-function load(){ try{ const s=localStorage.getItem(KEY); if(s) mem=JSON.parse(s)||{}; }catch(e){} mem.qs=mem.qs||{}; mem.ch=mem.ch||{}; mem.exams=mem.exams||[]; mem.date=mem.date||''; }
+function load(){ try{ const s=localStorage.getItem(KEY); if(s) mem=JSON.parse(s)||{}; }catch(e){} mem.qs=mem.qs||{}; mem.ch=mem.ch||{}; mem.exams=mem.exams||[]; mem.date=mem.date||''; mem.days=mem.days||[]; mem.wins=mem.wins||[]; mem.chk=mem.chk||{}; }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
 load();
+function touch(){ const d=B.coach.today(); if(mem.days[mem.days.length-1]!==d){ mem.days.push(d); if(mem.days.length>400) mem.days.shift(); save(); } }
 
 /* ---------- questions ---------- */
 const Q=[]; B.chapters.forEach(c=>{ c.qs.forEach((r,i)=>{ Q.push({id:c.id+'.'+i, th:c.th, ch:c.id, q:r[0], ok:r[1], wr:[r[2],r[3],r[4]], e:r[5]}); }); });
@@ -4689,7 +4865,7 @@ const chDone = id => chBest(id)>=80;
 const chOf = th => B.chapters.filter(c=>c.th===th);
 const thProg = th => { const cs=chOf(th); return cs.length?Math.round(cs.reduce((a,c)=>a+chBest(c.id),0)/cs.length):0; };
 function thStatus(th){ const cs=chOf(th), d=cs.filter(c=>chDone(c.id)).length; if(d===cs.length) return ['ACQUIS','ok']; if(cs.some(c=>mem.ch[c.id])) return [d+'/'+cs.length+' CHAP.','mid']; return ['À FAIRE','no']; }
-function rec(qid, ok){ const s=mem.qs[qid]||{b:0,n:0,k:0}; s.n++; if(ok){s.k++; s.b=Math.min(5,s.b+1);} else s.b=0; s.last=ok?1:0; s.due=Date.now()+[0,1,2,4,8,16][s.b]*DAY; mem.qs[qid]=s; save(); }
+function rec(qid, ok){ touch(); const s=mem.qs[qid]||{b:0,n:0,k:0}; s.n++; if(ok){s.k++; s.b=Math.min(5,s.b+1);} else s.b=0; s.last=ok?1:0; s.due=Date.now()+[0,1,2,4,8,16][s.b]*DAY; mem.qs[qid]=s; save(); }
 const dueList = () => Q.filter(q=>{const s=mem.qs[q.id]; return s && s.due<=Date.now();});
 const wrongList = () => Q.filter(q=>{const s=mem.qs[q.id]; return s && s.last===0;});
 
@@ -4766,6 +4942,7 @@ function runQuiz(root, list, o){
     let h='<div class="quiz"><div class="kicker">'+esc(o.title||'Résultat')+'</div><div class="score-big">'+res.ok+' / '+res.n+'</div><p>'+(res.pct>=80?'Très bien : ce point est acquis.':res.pct>=50?'C’est en bonne voie. Relis les explications ci-dessous puis recommence.':'Relis la leçon, puis recommence : tu progresseras vite.')+'</p>';
     h+='<div class="bar"><i style="width:'+res.pct+'%"></i></div><div class="row" style="margin-top:14px"><button type="button" class="btn" data-a="again">Recommencer</button>'+(bad.length?'<button type="button" class="btn sec" data-a="errs">Refaire mes erreurs</button>':'')+'</div></div>';
     if(bad.length) h+='<div class="quiz"><div class="kicker">À revoir ('+bad.length+')</div>'+reviewHTML(bad)+'</div>';
+    h=h.replace('<div class="bar"><i style="width:'+res.pct+'%"></i></div>','<div class="bar"><i style="width:'+res.pct+'%"></i></div>'+B.coach.quizBox(res,o.getPrev?o.getPrev():null));
     root.innerHTML=h; root._res=res;
   }
   root.onclick=function(e){
@@ -4801,7 +4978,7 @@ const icons={
 const tabs=[['home','Accueil'],['cours','Cours'],['sims','Simuler'],['train','Réviser'],['exam','Examen']];
 function setTab(h){
   const k=h.split('-')[0];
-  const map={home:'home',cours:'cours',c:'cours',th:'cours',fiches:'cours',gloss:'cours',sims:'sims',sim:'sims',train:'train',exam:'exam'};
+  const map={home:'home',coach:'home',cours:'cours',c:'cours',th:'cours',fiches:'cours',gloss:'cours',sims:'sims',sim:'sims',train:'train',exam:'exam'};
   const cur=map[k]||'home';
   $('#tabbar').innerHTML='<nav aria-label="Navigation principale">'+tabs.map(t=>'<a href="#'+t[0]+'"'+(t[0]===cur?' aria-current="page"':'')+'>'+icons[t[0]]+'<span>'+t[1]+'</span></a>').join('')+'</nav>';
 }
@@ -4822,6 +4999,7 @@ function pHome(){
   const last=mem.exams[mem.exams.length-1];
   let h=topbar();
   h+='<div class="hero"><div class="kicker">Brevet d’initiation aéronautique</div><h1>Prépare ton BIA, thème par thème.</h1><p>Chaque chapitre te fait comprendre avant de retenir : une leçon courte, un simulateur à manipuler, puis des questions corrigées comme à l’examen.</p></div>';
+  h+=B.coach.homeCard(mem,{dl:dl,validated:B.chapters.filter(c=>chDone(c.id)).length,total:B.chapters.length});
   h+='<div class="checklist" role="list"><div class="ch-h"><span>Check-list avant le jour J</span><span>Statut</span></div>';
   TH.forEach(t=>{ const s=thStatus(t.id); h+='<a class="cl-row t'+t.n+'" href="#th-'+t.id+'" role="listitem"><b><span class="dot"></span>'+esc(t.short.toUpperCase())+(t.optional?' (OPTION)':'')+'</b><span class="lead"></span><span class="st '+s[1]+'">'+s[0]+' '+thProg(t.id)+'%</span></a>'; });
   h+='</div>';
@@ -4830,12 +5008,18 @@ function pHome(){
   if(due) h+='<div class="row" style="margin:12px 0"><a class="btn sec" href="#train" id="goRev">Lancer la révision espacée</a></div>';
   h+='<div class="card"><div class="kicker">Ma date d’examen</div><div class="row"><label for="exd" class="sr">Date de l’examen</label><input type="date" id="exd" value="'+esc(mem.date)+'"><button type="button" class="btn sec sm" id="exs">Enregistrer</button></div>'+plan+'</div>';
   h+='<details class="card"><summary>Comment se passe l’examen ?</summary><ul class="small"><li>Épreuve nationale écrite de <b>2 h 30</b> : 5 questionnaires de <b>20 questions</b> (100 au total), un par thème.</li><li>Questions à choix unique (QCU) : une seule bonne réponse parmi les propositions.</li><li>Chaque bonne réponse vaut 1 point, une mauvaise réponse n’enlève rien : réponds toujours.</li><li>Les 5 thèmes ont le même coefficient ; une note de 0 sur un thème est éliminatoire.</li><li>Épreuve facultative d’anglais : 20 questions en 30 minutes ; seuls les points au-dessus de 10 comptent.</li><li>Le seuil d’admission et les dates exactes sont fixés chaque année : vérifie la note de service de ta session sur le site du ministère.</li></ul></details>';
-  h+='<div class="row"><a class="btn sec sm" href="#gloss">Lexique</a><a class="btn sec sm" href="#fiches">Fiches de révision</a></div>';
+  h+='<div class="row"><a class="btn sec sm" href="#gloss">Lexique</a><a class="btn sec sm" href="#fiches">Fiches de révision</a><a class="btn sec sm" href="#coach">Ton coach</a></div>';
   return {html:h, after:el=>{
     $('#exs',el).onclick=()=>{ mem.date=$('#exd',el).value; save(); route(); };
   }};
 }
 
+function pCoach(){
+  const seen=Object.keys(mem.qs), tot=seen.reduce((a,k)=>a+mem.qs[k].n,0), good=seen.reduce((a,k)=>a+mem.qs[k].k,0);
+  const info={validated:B.chapters.filter(c=>chDone(c.id)).length,total:B.chapters.length,answers:tot,rate:tot?Math.round(good/tot*100):0};
+  touch();
+  return {html:topbar()+B.coach.page(mem,info), after:el=>{ B.coach.wins(el,mem,save); B.coach.breath(el,f=>cleanups.push(f)); }};
+}
 function chRow(c){
   const b=chBest(c.id), t=thOf(c.th);
   return '<a class="chap t'+t.n+'" style="--tc:var(--c'+t.n+')" href="#c-'+c.id+'"><span class="n">'+c.id.replace('-','.')+'</span><span class="t">'+esc(c.title)+'<small>environ '+c.min+' min · '+c.qs.length+' questions</small></span>'+(b>=80?'<span class="badge ok">Acquis '+b+' %</span>':mem.ch[c.id]?'<span class="badge mid">'+b+' %</span>':'<span class="badge">À faire</span>')+'</a>';
@@ -4843,7 +5027,7 @@ function chRow(c){
 function pCours(){
   let h=topbar()+'<h1>Cours</h1><p class="mute">Suis l’ordre proposé, ou pars du thème qui te pose le plus de difficultés. Un chapitre est « acquis » à partir de 80 % aux questions.</p>';
   TH.forEach(t=>{ h+='<h2 class="tc'+t.n+'" style="margin-top:1.1em">'+t.n+'. '+esc(t.name)+'</h2>'+chOf(t.id).map(chRow).join(''); });
-  h+='<div class="row" style="margin-top:14px"><a class="btn sec sm" href="#fiches">Fiches de révision</a><a class="btn sec sm" href="#gloss">Lexique</a></div>';
+  h+='<div class="row" style="margin-top:14px"><a class="btn sec sm" href="#fiches">Fiches de révision</a><a class="btn sec sm" href="#gloss">Lexique</a><a class="btn sec sm" href="#coach">Ton coach</a></div>';
   return {html:h};
 }
 function pTheme(id){
@@ -4890,21 +5074,23 @@ function pChapter(id){
   let h=topbar('<a class="crumb" href="#th-'+t.id+'">'+esc(t.short)+'</a>');
   h+='<article class="lesson" style="--tc:var(--c'+t.n+')"><div class="lesson-head"><div class="kicker">Chapitre '+c.id.replace('-','.')+' · '+c.min+' min</div><h1>'+esc(c.title)+'</h1></div>';
   h+='<div class="goals"><b>À la fin de ce chapitre, tu sais :</b><ul>'+c.goals.map(g=>'<li>'+g+'</li>').join('')+'</ul></div>';
+  touch(); h+=B.coach.chapterCard(c,mem,idx);
   if(B.intros&&B.intros[c.id]) h+='<div class="idea"><b>L’idée en 20 secondes</b><p>'+B.intros[c.id]+'</p></div>';
   if(B.vocab&&B.vocab[c.id]) h+='<details class="vocab"><summary>Les mots du chapitre <small>(touche pour ouvrir)</small></summary><dl>'+B.vocab[c.id].map(v=>'<dt>'+v[0]+'</dt><dd>'+v[1]+'</dd>').join('')+'</dl></details>';
   let body=c.body;
   if(B.simple&&B.simple[c.id]) B.simple[c.id].forEach(e=>{ const m=new RegExp('<h2[^>]*>[^<]*'+e[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[^<]*</h2>').exec(body); if(!m) return; const start=m.index+m[0].length; let nx=body.indexOf('<h2',start); if(nx<0) nx=body.length; const box='<details class="simple"><summary><span>💡</span> Explique-moi autrement : '+e[1]+'</summary><div class="simple-b">'+e[2]+'</div></details>'; body=body.slice(0,nx)+box+body.slice(nx); });
+  { const hs=[]; const re=/<h2/g; let m; while((m=re.exec(body))) hs.push(m.index); if(hs.length>=4){ const at=hs[Math.floor(hs.length/2)]; body=body.slice(0,at)+B.coach.pause(idx)+body.slice(at); } }
   h+=body;
   h+='<div class="keep"><h3>À retenir</h3><ul>'+c.keep.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
   if(c.traps&&c.traps.length) h+='<div class="trap"><h3>Pièges classiques</h3><ul>'+c.traps.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
-  h+='<h2>Vérifie-toi</h2><p class="mute small">'+c.qs.length+' questions corrigées. Vise 80 % pour valider le chapitre.</p><div id="cq"></div>';
+  h+='<h2>Vérifie-toi</h2><p class="mute small">'+c.qs.length+' questions corrigées. Vise 80 % pour valider le chapitre.</p>'+B.coach.beforeQuiz(c)+'<div id="cq"></div>';
   h+='<div class="navrow">'+(prev?'<a class="btn sec" href="#c-'+prev.id+'">← '+prev.id.replace('-','.')+'</a>':'<span></span>')+(next?'<a class="btn sec" href="#c-'+next.id+'">'+next.id.replace('-','.')+' →</a>':'<a class="btn sec" href="#cours">Retour aux cours</a>')+'</div></article>';
   return {html:h, after:el=>{
     $$('.figslot',el).forEach(mountFig);
     $$('.simslot',el).forEach(s=>mountSim(s, s.dataset.sim, {era:s.dataset.era}));
     $$('.tabset',el).forEach(ts=>{ const bs=$$('.tb button',ts), ps=$$('.pane',ts); const sel=k=>{ bs.forEach(b=>b.setAttribute('aria-selected',b.dataset.t===k)); ps.forEach(p=>p.classList.toggle('on',p.dataset.p===k)); }; bs.forEach(b=>b.addEventListener('click',()=>sel(b.dataset.t))); sel(bs[0].dataset.t); });
     const qs=c.qs.map((r,i)=>QBY[c.id+'.'+i]);
-    runQuiz($('#cq',el), shuffle(qs), {title:'Chapitre '+c.id.replace('-','.'), onDone:res=>{ const o=mem.ch[c.id]||{best:0}; o.best=Math.max(o.best,res.pct); o.ts=Date.now(); mem.ch[c.id]=o; save(); }});
+    runQuiz($('#cq',el), shuffle(qs), {title:'Chapitre '+c.id.replace('-','.'), getPrev:()=>chBest(c.id), onDone:res=>{ const o=mem.ch[c.id]||{best:0}; o.best=Math.max(o.best,res.pct); o.ts=Date.now(); mem.ch[c.id]=o; save(); }});
   }};
 }
 
@@ -4978,12 +5164,13 @@ function examResult(root, res, meta){
   }
   h+=core.map(t=>'<div class="th-bar t'+t.n+'"><span class="small"><span class="dot"></span>'+esc(t.short)+'</span><div class="bar"><i style="width:'+(sc(t)/20*100)+'%"></i></div><span class="mono small">'+sc(t)+'/20</span></div>').join('');
   if(by.t6&&by.t6.n){ h+='<div class="th-bar t6"><span class="small"><span class="dot"></span>Anglais (option)</span><div class="bar"><i style="width:'+(by.t6.ok/by.t6.n*100)+'%"></i></div><span class="mono small">'+by.t6.ok+'/'+by.t6.n+'</span></div>'; }
+  if(core.length===5) h+=B.coach.examBox(total,weak,zero,full);
   if(core.length===5) h+='<p class="small" style="margin-top:12px">À travailler en priorité : '+weak.map(t=>'<a href="#th-'+t.id+'">'+esc(t.short)+'</a>').join(' et ')+'.</p>';
   h+='<div class="row" style="margin-top:12px"><a class="btn" href="#exam">Nouvel examen blanc</a><a class="btn sec" href="#home">Accueil</a></div></div>';
   const bad=res.items.filter(it=>it.pick===null||!it.opts[it.pick].ok);
   h+='<div class="quiz"><div class="kicker">Correction détaillée — erreurs et oublis ('+bad.length+')</div>'+(bad.length?reviewHTML(bad):'<p>Aucune erreur. Beau travail.</p>')+'</div>';
   root.innerHTML=h;
-  if(meta&&meta.save){ mem.exams.push({ts:Date.now(), total:Math.round(total*(5/ (core.length||5))), full:!!full, by:Object.fromEntries(core.map(t=>[t.id,sc(t)]))}); save(); }
+  if(meta&&meta.save){ touch(); mem.exams.push({ts:Date.now(), total:Math.round(total*(5/ (core.length||5))), full:!!full, by:Object.fromEntries(core.map(t=>[t.id,sc(t)]))}); save(); }
   window.scrollTo(0,0);
 }
 function pExam(){
@@ -5015,7 +5202,7 @@ function route(){
   const parts=h.split('-'), k=parts[0], rest=parts.slice(1).join('-');
   let p;
   if(k==='c') p=pChapter(rest); else if(k==='sim') p=pSim(rest); else if(k==='th') p=pTheme(rest);
-  else p=({home:pHome,cours:pCours,sims:pSims,train:pTrain,exam:pExam,fiches:pFiches,gloss:pGloss}[h]||pHome)();
+  else p=({home:pHome,coach:pCoach,cours:pCours,sims:pSims,train:pTrain,exam:pExam,fiches:pFiches,gloss:pGloss}[h]||pHome)();
   main.innerHTML=p.html; setTab(h);
   if(p.after) p.after(main);
   window.scrollTo(0,0);

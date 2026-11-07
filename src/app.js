@@ -11,9 +11,10 @@ const DAY = 864e5;
 
 /* ---------- state ---------- */
 const KEY='cap-bia-v1'; let mem={};
-function load(){ try{ const s=localStorage.getItem(KEY); if(s) mem=JSON.parse(s)||{}; }catch(e){} mem.qs=mem.qs||{}; mem.ch=mem.ch||{}; mem.exams=mem.exams||[]; mem.date=mem.date||''; }
+function load(){ try{ const s=localStorage.getItem(KEY); if(s) mem=JSON.parse(s)||{}; }catch(e){} mem.qs=mem.qs||{}; mem.ch=mem.ch||{}; mem.exams=mem.exams||[]; mem.date=mem.date||''; mem.days=mem.days||[]; mem.wins=mem.wins||[]; mem.chk=mem.chk||{}; }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
 load();
+function touch(){ const d=B.coach.today(); if(mem.days[mem.days.length-1]!==d){ mem.days.push(d); if(mem.days.length>400) mem.days.shift(); save(); } }
 
 /* ---------- questions ---------- */
 const Q=[]; B.chapters.forEach(c=>{ c.qs.forEach((r,i)=>{ Q.push({id:c.id+'.'+i, th:c.th, ch:c.id, q:r[0], ok:r[1], wr:[r[2],r[3],r[4]], e:r[5]}); }); });
@@ -24,7 +25,7 @@ const chDone = id => chBest(id)>=80;
 const chOf = th => B.chapters.filter(c=>c.th===th);
 const thProg = th => { const cs=chOf(th); return cs.length?Math.round(cs.reduce((a,c)=>a+chBest(c.id),0)/cs.length):0; };
 function thStatus(th){ const cs=chOf(th), d=cs.filter(c=>chDone(c.id)).length; if(d===cs.length) return ['ACQUIS','ok']; if(cs.some(c=>mem.ch[c.id])) return [d+'/'+cs.length+' CHAP.','mid']; return ['À FAIRE','no']; }
-function rec(qid, ok){ const s=mem.qs[qid]||{b:0,n:0,k:0}; s.n++; if(ok){s.k++; s.b=Math.min(5,s.b+1);} else s.b=0; s.last=ok?1:0; s.due=Date.now()+[0,1,2,4,8,16][s.b]*DAY; mem.qs[qid]=s; save(); }
+function rec(qid, ok){ touch(); const s=mem.qs[qid]||{b:0,n:0,k:0}; s.n++; if(ok){s.k++; s.b=Math.min(5,s.b+1);} else s.b=0; s.last=ok?1:0; s.due=Date.now()+[0,1,2,4,8,16][s.b]*DAY; mem.qs[qid]=s; save(); }
 const dueList = () => Q.filter(q=>{const s=mem.qs[q.id]; return s && s.due<=Date.now();});
 const wrongList = () => Q.filter(q=>{const s=mem.qs[q.id]; return s && s.last===0;});
 
@@ -101,6 +102,7 @@ function runQuiz(root, list, o){
     let h='<div class="quiz"><div class="kicker">'+esc(o.title||'Résultat')+'</div><div class="score-big">'+res.ok+' / '+res.n+'</div><p>'+(res.pct>=80?'Très bien : ce point est acquis.':res.pct>=50?'C’est en bonne voie. Relis les explications ci-dessous puis recommence.':'Relis la leçon, puis recommence : tu progresseras vite.')+'</p>';
     h+='<div class="bar"><i style="width:'+res.pct+'%"></i></div><div class="row" style="margin-top:14px"><button type="button" class="btn" data-a="again">Recommencer</button>'+(bad.length?'<button type="button" class="btn sec" data-a="errs">Refaire mes erreurs</button>':'')+'</div></div>';
     if(bad.length) h+='<div class="quiz"><div class="kicker">À revoir ('+bad.length+')</div>'+reviewHTML(bad)+'</div>';
+    h=h.replace('<div class="bar"><i style="width:'+res.pct+'%"></i></div>','<div class="bar"><i style="width:'+res.pct+'%"></i></div>'+B.coach.quizBox(res,o.getPrev?o.getPrev():null));
     root.innerHTML=h; root._res=res;
   }
   root.onclick=function(e){
@@ -136,7 +138,7 @@ const icons={
 const tabs=[['home','Accueil'],['cours','Cours'],['sims','Simuler'],['train','Réviser'],['exam','Examen']];
 function setTab(h){
   const k=h.split('-')[0];
-  const map={home:'home',cours:'cours',c:'cours',th:'cours',fiches:'cours',gloss:'cours',sims:'sims',sim:'sims',train:'train',exam:'exam'};
+  const map={home:'home',coach:'home',cours:'cours',c:'cours',th:'cours',fiches:'cours',gloss:'cours',sims:'sims',sim:'sims',train:'train',exam:'exam'};
   const cur=map[k]||'home';
   $('#tabbar').innerHTML='<nav aria-label="Navigation principale">'+tabs.map(t=>'<a href="#'+t[0]+'"'+(t[0]===cur?' aria-current="page"':'')+'>'+icons[t[0]]+'<span>'+t[1]+'</span></a>').join('')+'</nav>';
 }
@@ -157,6 +159,7 @@ function pHome(){
   const last=mem.exams[mem.exams.length-1];
   let h=topbar();
   h+='<div class="hero"><div class="kicker">Brevet d’initiation aéronautique</div><h1>Prépare ton BIA, thème par thème.</h1><p>Chaque chapitre te fait comprendre avant de retenir : une leçon courte, un simulateur à manipuler, puis des questions corrigées comme à l’examen.</p></div>';
+  h+=B.coach.homeCard(mem,{dl:dl,validated:B.chapters.filter(c=>chDone(c.id)).length,total:B.chapters.length});
   h+='<div class="checklist" role="list"><div class="ch-h"><span>Check-list avant le jour J</span><span>Statut</span></div>';
   TH.forEach(t=>{ const s=thStatus(t.id); h+='<a class="cl-row t'+t.n+'" href="#th-'+t.id+'" role="listitem"><b><span class="dot"></span>'+esc(t.short.toUpperCase())+(t.optional?' (OPTION)':'')+'</b><span class="lead"></span><span class="st '+s[1]+'">'+s[0]+' '+thProg(t.id)+'%</span></a>'; });
   h+='</div>';
@@ -165,12 +168,18 @@ function pHome(){
   if(due) h+='<div class="row" style="margin:12px 0"><a class="btn sec" href="#train" id="goRev">Lancer la révision espacée</a></div>';
   h+='<div class="card"><div class="kicker">Ma date d’examen</div><div class="row"><label for="exd" class="sr">Date de l’examen</label><input type="date" id="exd" value="'+esc(mem.date)+'"><button type="button" class="btn sec sm" id="exs">Enregistrer</button></div>'+plan+'</div>';
   h+='<details class="card"><summary>Comment se passe l’examen ?</summary><ul class="small"><li>Épreuve nationale écrite de <b>2 h 30</b> : 5 questionnaires de <b>20 questions</b> (100 au total), un par thème.</li><li>Questions à choix unique (QCU) : une seule bonne réponse parmi les propositions.</li><li>Chaque bonne réponse vaut 1 point, une mauvaise réponse n’enlève rien : réponds toujours.</li><li>Les 5 thèmes ont le même coefficient ; une note de 0 sur un thème est éliminatoire.</li><li>Épreuve facultative d’anglais : 20 questions en 30 minutes ; seuls les points au-dessus de 10 comptent.</li><li>Le seuil d’admission et les dates exactes sont fixés chaque année : vérifie la note de service de ta session sur le site du ministère.</li></ul></details>';
-  h+='<div class="row"><a class="btn sec sm" href="#gloss">Lexique</a><a class="btn sec sm" href="#fiches">Fiches de révision</a></div>';
+  h+='<div class="row"><a class="btn sec sm" href="#gloss">Lexique</a><a class="btn sec sm" href="#fiches">Fiches de révision</a><a class="btn sec sm" href="#coach">Ton coach</a></div>';
   return {html:h, after:el=>{
     $('#exs',el).onclick=()=>{ mem.date=$('#exd',el).value; save(); route(); };
   }};
 }
 
+function pCoach(){
+  const seen=Object.keys(mem.qs), tot=seen.reduce((a,k)=>a+mem.qs[k].n,0), good=seen.reduce((a,k)=>a+mem.qs[k].k,0);
+  const info={validated:B.chapters.filter(c=>chDone(c.id)).length,total:B.chapters.length,answers:tot,rate:tot?Math.round(good/tot*100):0};
+  touch();
+  return {html:topbar()+B.coach.page(mem,info), after:el=>{ B.coach.wins(el,mem,save); B.coach.breath(el,f=>cleanups.push(f)); }};
+}
 function chRow(c){
   const b=chBest(c.id), t=thOf(c.th);
   return '<a class="chap t'+t.n+'" style="--tc:var(--c'+t.n+')" href="#c-'+c.id+'"><span class="n">'+c.id.replace('-','.')+'</span><span class="t">'+esc(c.title)+'<small>environ '+c.min+' min · '+c.qs.length+' questions</small></span>'+(b>=80?'<span class="badge ok">Acquis '+b+' %</span>':mem.ch[c.id]?'<span class="badge mid">'+b+' %</span>':'<span class="badge">À faire</span>')+'</a>';
@@ -178,7 +187,7 @@ function chRow(c){
 function pCours(){
   let h=topbar()+'<h1>Cours</h1><p class="mute">Suis l’ordre proposé, ou pars du thème qui te pose le plus de difficultés. Un chapitre est « acquis » à partir de 80 % aux questions.</p>';
   TH.forEach(t=>{ h+='<h2 class="tc'+t.n+'" style="margin-top:1.1em">'+t.n+'. '+esc(t.name)+'</h2>'+chOf(t.id).map(chRow).join(''); });
-  h+='<div class="row" style="margin-top:14px"><a class="btn sec sm" href="#fiches">Fiches de révision</a><a class="btn sec sm" href="#gloss">Lexique</a></div>';
+  h+='<div class="row" style="margin-top:14px"><a class="btn sec sm" href="#fiches">Fiches de révision</a><a class="btn sec sm" href="#gloss">Lexique</a><a class="btn sec sm" href="#coach">Ton coach</a></div>';
   return {html:h};
 }
 function pTheme(id){
@@ -225,21 +234,23 @@ function pChapter(id){
   let h=topbar('<a class="crumb" href="#th-'+t.id+'">'+esc(t.short)+'</a>');
   h+='<article class="lesson" style="--tc:var(--c'+t.n+')"><div class="lesson-head"><div class="kicker">Chapitre '+c.id.replace('-','.')+' · '+c.min+' min</div><h1>'+esc(c.title)+'</h1></div>';
   h+='<div class="goals"><b>À la fin de ce chapitre, tu sais :</b><ul>'+c.goals.map(g=>'<li>'+g+'</li>').join('')+'</ul></div>';
+  touch(); h+=B.coach.chapterCard(c,mem,idx);
   if(B.intros&&B.intros[c.id]) h+='<div class="idea"><b>L’idée en 20 secondes</b><p>'+B.intros[c.id]+'</p></div>';
   if(B.vocab&&B.vocab[c.id]) h+='<details class="vocab"><summary>Les mots du chapitre <small>(touche pour ouvrir)</small></summary><dl>'+B.vocab[c.id].map(v=>'<dt>'+v[0]+'</dt><dd>'+v[1]+'</dd>').join('')+'</dl></details>';
   let body=c.body;
   if(B.simple&&B.simple[c.id]) B.simple[c.id].forEach(e=>{ const m=new RegExp('<h2[^>]*>[^<]*'+e[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[^<]*</h2>').exec(body); if(!m) return; const start=m.index+m[0].length; let nx=body.indexOf('<h2',start); if(nx<0) nx=body.length; const box='<details class="simple"><summary><span>💡</span> Explique-moi autrement : '+e[1]+'</summary><div class="simple-b">'+e[2]+'</div></details>'; body=body.slice(0,nx)+box+body.slice(nx); });
+  { const hs=[]; const re=/<h2/g; let m; while((m=re.exec(body))) hs.push(m.index); if(hs.length>=4){ const at=hs[Math.floor(hs.length/2)]; body=body.slice(0,at)+B.coach.pause(idx)+body.slice(at); } }
   h+=body;
   h+='<div class="keep"><h3>À retenir</h3><ul>'+c.keep.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
   if(c.traps&&c.traps.length) h+='<div class="trap"><h3>Pièges classiques</h3><ul>'+c.traps.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
-  h+='<h2>Vérifie-toi</h2><p class="mute small">'+c.qs.length+' questions corrigées. Vise 80 % pour valider le chapitre.</p><div id="cq"></div>';
+  h+='<h2>Vérifie-toi</h2><p class="mute small">'+c.qs.length+' questions corrigées. Vise 80 % pour valider le chapitre.</p>'+B.coach.beforeQuiz(c)+'<div id="cq"></div>';
   h+='<div class="navrow">'+(prev?'<a class="btn sec" href="#c-'+prev.id+'">← '+prev.id.replace('-','.')+'</a>':'<span></span>')+(next?'<a class="btn sec" href="#c-'+next.id+'">'+next.id.replace('-','.')+' →</a>':'<a class="btn sec" href="#cours">Retour aux cours</a>')+'</div></article>';
   return {html:h, after:el=>{
     $$('.figslot',el).forEach(mountFig);
     $$('.simslot',el).forEach(s=>mountSim(s, s.dataset.sim, {era:s.dataset.era}));
     $$('.tabset',el).forEach(ts=>{ const bs=$$('.tb button',ts), ps=$$('.pane',ts); const sel=k=>{ bs.forEach(b=>b.setAttribute('aria-selected',b.dataset.t===k)); ps.forEach(p=>p.classList.toggle('on',p.dataset.p===k)); }; bs.forEach(b=>b.addEventListener('click',()=>sel(b.dataset.t))); sel(bs[0].dataset.t); });
     const qs=c.qs.map((r,i)=>QBY[c.id+'.'+i]);
-    runQuiz($('#cq',el), shuffle(qs), {title:'Chapitre '+c.id.replace('-','.'), onDone:res=>{ const o=mem.ch[c.id]||{best:0}; o.best=Math.max(o.best,res.pct); o.ts=Date.now(); mem.ch[c.id]=o; save(); }});
+    runQuiz($('#cq',el), shuffle(qs), {title:'Chapitre '+c.id.replace('-','.'), getPrev:()=>chBest(c.id), onDone:res=>{ const o=mem.ch[c.id]||{best:0}; o.best=Math.max(o.best,res.pct); o.ts=Date.now(); mem.ch[c.id]=o; save(); }});
   }};
 }
 
@@ -313,12 +324,13 @@ function examResult(root, res, meta){
   }
   h+=core.map(t=>'<div class="th-bar t'+t.n+'"><span class="small"><span class="dot"></span>'+esc(t.short)+'</span><div class="bar"><i style="width:'+(sc(t)/20*100)+'%"></i></div><span class="mono small">'+sc(t)+'/20</span></div>').join('');
   if(by.t6&&by.t6.n){ h+='<div class="th-bar t6"><span class="small"><span class="dot"></span>Anglais (option)</span><div class="bar"><i style="width:'+(by.t6.ok/by.t6.n*100)+'%"></i></div><span class="mono small">'+by.t6.ok+'/'+by.t6.n+'</span></div>'; }
+  if(core.length===5) h+=B.coach.examBox(total,weak,zero,full);
   if(core.length===5) h+='<p class="small" style="margin-top:12px">À travailler en priorité : '+weak.map(t=>'<a href="#th-'+t.id+'">'+esc(t.short)+'</a>').join(' et ')+'.</p>';
   h+='<div class="row" style="margin-top:12px"><a class="btn" href="#exam">Nouvel examen blanc</a><a class="btn sec" href="#home">Accueil</a></div></div>';
   const bad=res.items.filter(it=>it.pick===null||!it.opts[it.pick].ok);
   h+='<div class="quiz"><div class="kicker">Correction détaillée — erreurs et oublis ('+bad.length+')</div>'+(bad.length?reviewHTML(bad):'<p>Aucune erreur. Beau travail.</p>')+'</div>';
   root.innerHTML=h;
-  if(meta&&meta.save){ mem.exams.push({ts:Date.now(), total:Math.round(total*(5/ (core.length||5))), full:!!full, by:Object.fromEntries(core.map(t=>[t.id,sc(t)]))}); save(); }
+  if(meta&&meta.save){ touch(); mem.exams.push({ts:Date.now(), total:Math.round(total*(5/ (core.length||5))), full:!!full, by:Object.fromEntries(core.map(t=>[t.id,sc(t)]))}); save(); }
   window.scrollTo(0,0);
 }
 function pExam(){
@@ -350,7 +362,7 @@ function route(){
   const parts=h.split('-'), k=parts[0], rest=parts.slice(1).join('-');
   let p;
   if(k==='c') p=pChapter(rest); else if(k==='sim') p=pSim(rest); else if(k==='th') p=pTheme(rest);
-  else p=({home:pHome,cours:pCours,sims:pSims,train:pTrain,exam:pExam,fiches:pFiches,gloss:pGloss}[h]||pHome)();
+  else p=({home:pHome,coach:pCoach,cours:pCours,sims:pSims,train:pTrain,exam:pExam,fiches:pFiches,gloss:pGloss}[h]||pHome)();
   main.innerHTML=p.html; setTab(h);
   if(p.after) p.after(main);
   window.scrollTo(0,0);
