@@ -19,18 +19,82 @@ mount(root,x){
    emv:['Empennage vertical (vertical stabilizer, fin)','La dérive fixe stabilise en lacet. La gouverne de direction (rudder), mobile, commandée par le palonnier, commande le lacet.'],
    tra:['Train d’atterrissage (landing gear)','Roues, amortisseurs et freins. Ici un train tricycle : deux roues principales sous l’aile et une roue avant orientable.']
   };
-  root.innerHTML='<svg viewBox="0 0 640 270" id="'+x.uid+'s" role="group" aria-label="Avion léger, vue de profil"><rect width="640" height="270" fill="var(--sky)" opacity=".45"/><rect y="240" width="640" height="30" fill="var(--ground)" opacity=".6"/>'+
-  '<g class="pt" data-p="tra" tabindex="0"><line x1="140" y1="170" x2="132" y2="232" stroke="var(--ink)" stroke-width="6"/><circle cx="132" cy="236" r="10" fill="var(--ink)"/><line x1="290" y1="168" x2="300" y2="232" stroke="var(--ink)" stroke-width="6"/><circle cx="300" cy="236" r="12" fill="var(--ink)"/></g>'+
-  '<g class="pt" data-p="ail" tabindex="0"><ellipse cx="270" cy="88" rx="150" ry="9" fill="var(--c2)"/><line x1="230" y1="92" x2="215" y2="132" stroke="var(--ink)" stroke-width="4"/><line x1="300" y1="92" x2="300" y2="128" stroke="var(--ink)" stroke-width="4"/></g>'+
-  '<g class="pt" data-p="fus" tabindex="0"><path d="M120 150 L130 128 L330 118 L545 142 L545 156 L330 176 L130 176 Z" fill="var(--c6)"/></g>'+
-  '<g class="pt" data-p="cab" tabindex="0"><path d="M190 125 L215 98 L318 98 L344 120 Z" fill="var(--sky)" stroke="var(--ink)" stroke-width="3"/></g>'+
-  '<g class="pt" data-p="mot" tabindex="0"><path d="M86 154 Q86 132 120 128 L192 126 L192 176 L120 176 Q86 172 86 154 Z" fill="var(--c3)"/></g>'+
-  '<g class="pt" data-p="hel" tabindex="0"><rect x="72" y="86" width="9" height="136" rx="4" fill="var(--ink)"/></g>'+
-  '<g class="pt" data-p="emv" tabindex="0"><path d="M488 140 L512 62 L556 58 L550 144 Z" fill="var(--mag)"/><path d="M556 58 L574 60 L566 142 L550 144 Z" fill="var(--acc)"/></g>'+
-  '<g class="pt" data-p="emh" tabindex="0"><path d="M470 146 L548 142 L548 152 L470 156 Z" fill="var(--c1)"/><path d="M548 142 L586 144 L586 152 L548 152 Z" fill="var(--acc)"/></g></svg>'+
-  '<style>#'+x.uid+'s .pt{cursor:pointer}#'+x.uid+'s .pt:hover,#'+x.uid+'s .pt.on{filter:brightness(1.25);stroke:var(--acc);stroke-width:3}</style><div class="verdict" id="'+x.uid+'t"><b>Touche une partie.</b></div>';
+  const u=x.uid;
+  root.innerHTML='<svg viewBox="0 0 640 290" id="'+u+'s" role="group" aria-label="Avion léger à aile haute, vue de profil">'+
+  '<defs>'+
+  '<linearGradient id="'+u+'sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fb1e6"/><stop offset="1" stop-color="#dcedf9"/></linearGradient>'+
+  '<linearGradient id="'+u+'bd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#eef2f6"/><stop offset="1" stop-color="#aeb9c5"/></linearGradient>'+
+  '<linearGradient id="'+u+'wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#e6ebf0"/><stop offset="1" stop-color="#9aa7b4"/></linearGradient>'+
+  '<linearGradient id="'+u+'gl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2c4a6e"/><stop offset=".5" stop-color="#16293f"/><stop offset="1" stop-color="#0e1b2b"/></linearGradient>'+
+  '<linearGradient id="'+u+'cw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f6f9"/><stop offset="1" stop-color="#9eabb8"/></linearGradient>'+
+  '<radialGradient id="'+u+'pb" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#1b2735" stop-opacity=".05"/><stop offset=".8" stop-color="#1b2735" stop-opacity=".22"/><stop offset="1" stop-color="#1b2735" stop-opacity="0"/></radialGradient>'+
+  '<radialGradient id="'+u+'wh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#cfd6de"/><stop offset=".45" stop-color="#8e99a6"/><stop offset=".5" stop-color="#1a1f26"/><stop offset="1" stop-color="#0b0e12"/></radialGradient>'+
+  '<linearGradient id="'+u+'sp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d8dee5"/><stop offset=".5" stop-color="#ffffff"/><stop offset="1" stop-color="#8f9ba8"/></linearGradient>'+
+  '</defs>'+
+  '<rect width="640" height="290" fill="url(#'+u+'sk)"/>'+
+  '<g fill="#fff" opacity=".7"><ellipse cx="520" cy="46" rx="60" ry="14"/><ellipse cx="560" cy="56" rx="44" ry="11"/><ellipse cx="110" cy="38" rx="50" ry="11"/></g>'+
+  '<path d="M0 222 Q90 200 180 214 T360 208 T540 212 T640 204 L640 252 L0 252 Z" fill="#86b768"/><path d="M0 236 Q120 224 240 232 T480 230 T640 228 L640 252 L0 252 Z" fill="#6fa356"/>'+
+  '<rect y="250" width="640" height="40" fill="#646e79"/><rect y="250" width="640" height="3" fill="#868f99"/><g fill="#f4f6f8" opacity=".85"><rect x="40" y="272" width="60" height="4"/><rect x="170" y="272" width="60" height="4"/><rect x="300" y="272" width="60" height="4"/><rect x="430" y="272" width="60" height="4"/><rect x="560" y="272" width="60" height="4"/></g>'+
+  '<ellipse cx="350" cy="256" rx="230" ry="7" fill="#000" opacity=".28"/>'+
+  /* train */
+  '<g class="pt" data-p="tra" tabindex="0">'+
+    '<path d="M151 196 L147 226" stroke="#59636e" stroke-width="7" stroke-linecap="round"/><path d="M151 196 L149.5 210" stroke="#c7ced6" stroke-width="3" stroke-linecap="round"/>'+
+    '<ellipse cx="146" cy="238" rx="17" ry="15" fill="#cfd6de" stroke="#8d99a6" stroke-width="1.5"/><circle cx="146" cy="238" r="13" fill="url(#'+u+'wh)"/>'+
+    '<path d="M292 196 Q298 214 306 224" fill="none" stroke="#4d5762" stroke-width="9" stroke-linecap="round"/><path d="M292 196 Q297 212 303 220" fill="none" stroke="#9aa6b3" stroke-width="3" stroke-linecap="round"/>'+
+    '<ellipse cx="306" cy="237" rx="21" ry="17" fill="#e7ebf0" stroke="#8d99a6" stroke-width="1.5"/><circle cx="306" cy="237" r="15" fill="url(#'+u+'wh)"/><path d="M290 232 L270 226" stroke="#d94a3a" stroke-width="3" stroke-linecap="round"/>'+
+  '</g>'+
+  /* empennage horizontal */
+  '<g class="pt" data-p="emh" tabindex="0">'+
+    '<path d="M484 158 Q520 154 566 157 L566 168 Q520 169 486 168 Z" fill="url(#'+u+'wg)" stroke="#8d99a6" stroke-width="1.2"/>'+
+    '<path d="M566 157 L604 159 Q608 163 604 167 L566 168 Z" fill="#dde3ea" stroke="#8d99a6" stroke-width="1.2"/><path d="M566 157 L566 168" stroke="#6b7782" stroke-width="1.5"/><path d="M570 163 L600 163" stroke="#b7c0ca" stroke-width="1"/>'+
+  '</g>'+
+  /* fuselage */
+  '<g class="pt" data-p="fus" tabindex="0">'+
+    '<path d="M186 152 L214 148 L242 112 L326 104 L402 112 L470 140 L566 158 L586 163 L586 171 L566 177 L330 202 L186 202 Z" fill="url(#'+u+'bd)" stroke="#8d99a6" stroke-width="1.5"/>'+
+    '<path d="M196 178 L330 184 L566 169" fill="none" stroke="#d94a3a" stroke-width="5" stroke-linecap="round"/><path d="M196 187 L330 192 L560 175" fill="none" stroke="#1f4e8c" stroke-width="3" stroke-linecap="round"/>'+
+    '<g stroke="#b7c0ca" stroke-width="1" fill="none"><path d="M402 112 L405 196"/><path d="M450 130 L452 192"/><path d="M500 146 L500 184"/></g>'+
+    '<text x="430" y="176" font-size="13" font-weight="700" fill="#1f4e8c" font-family="Barlow,sans-serif" transform="rotate(-4 430 176)">F-BIA</text>'+
+  '</g>'+
+  /* cabine */
+  '<g class="pt" data-p="cab" tabindex="0">'+
+    '<path d="M228 148 L248 115 L292 110 L296 147 Z" fill="url(#'+u+'gl)" stroke="#5a6672" stroke-width="2"/>'+
+    '<path d="M300 110 L330 108 L352 130 L358 147 L300 147 Z" fill="url(#'+u+'gl)" stroke="#5a6672" stroke-width="2"/>'+
+    '<path d="M364 114 L398 116 L436 134 L366 142 Z" fill="url(#'+u+'gl)" stroke="#5a6672" stroke-width="2"/>'+
+    '<path d="M254 114 L270 113 L252 142 L240 142 Z" fill="#fff" opacity=".18"/><path d="M306 112 L316 111 L334 142 L322 142 Z" fill="#fff" opacity=".14"/>'+
+    '<path d="M298 110 L299 192" stroke="#8d99a6" stroke-width="1.5"/><rect x="304" y="156" width="14" height="4" rx="2" fill="#6b7782"/>'+
+  '</g>'+
+  /* aile haute */
+  '<g class="pt" data-p="ail" tabindex="0">'+
+    '<path d="M300 198 L334 106 L342 108 L306 200 Z" fill="#d9dfe6" stroke="#8d99a6" stroke-width="1.2"/>'+
+    '<path d="M196 99 Q262 86 336 88 L430 97 Q438 101 430 105 L336 108 Q262 110 196 106 Q190 102 196 99 Z" fill="url(#'+u+'wg)" stroke="#8d99a6" stroke-width="1.5"/>'+
+    '<path d="M300 100 L426 101" stroke="#b7c0ca" stroke-width="1.2" fill="none"/><path d="M380 98 L380 106" stroke="#8d99a6" stroke-width="1.5"/>'+
+    '<path d="M196 99 Q190 102 196 106 L206 106 Q200 102 206 99 Z" fill="#d94a3a"/><circle cx="230" cy="94" r="2.5" fill="#6b7782"/>'+
+  '</g>'+
+  /* moteur et capot */
+  '<g class="pt" data-p="mot" tabindex="0">'+
+    '<path d="M128 170 Q128 146 160 142 L190 140 L190 202 L158 200 Q128 196 128 170 Z" fill="url(#'+u+'cw)" stroke="#8d99a6" stroke-width="1.5"/>'+
+    '<ellipse cx="150" cy="184" rx="14" ry="7" fill="#1a2430"/><ellipse cx="166" cy="162" rx="8" ry="11" fill="#2a3644" opacity=".85"/><g stroke="#8d99a6" stroke-width="1"><path d="M172 150 L174 200"/><path d="M180 146 L182 200"/></g>'+
+    '<path d="M168 202 L176 214 L200 214" fill="none" stroke="#75808c" stroke-width="5" stroke-linecap="round"/>'+
+  '</g>'+
+  /* hélice */
+  '<g class="pt" data-p="hel" tabindex="0">'+
+    '<ellipse cx="116" cy="172" rx="14" ry="86" fill="url(#'+u+'pb)"/>'+
+    '<path d="M112 172 Q108 172 110 150 L116 96 Q122 92 123 98 L120 150 Q122 172 118 172 Z" fill="#26313d"/><path d="M113 172 Q109 172 111 194 L116 248 Q121 251 123 245 L120 194 Q121 172 118 172 Z" fill="#26313d"/>'+
+    '<path d="M112 98 L123 98 L122 108 L113 108 Z" fill="#f2c230"/><path d="M112 242 L122 242 L121 250 L113 250 Z" fill="#f2c230"/>'+
+    '<path d="M126 172 Q126 158 138 152 L138 192 Q126 186 126 172 Z" fill="url(#'+u+'sp)" stroke="#8d99a6" stroke-width="1.2"/><ellipse cx="119" cy="172" rx="7" ry="20" fill="url(#'+u+'sp)" stroke="#8d99a6" stroke-width="1.2"/>'+
+  '</g>'+
+  /* empennage vertical */
+  '<g class="pt" data-p="emv" tabindex="0">'+
+    '<path d="M494 150 L522 88 Q530 76 548 74 L560 74 L558 160 L500 158 Z" fill="url(#'+u+'wg)" stroke="#8d99a6" stroke-width="1.5"/>'+
+    '<path d="M560 74 L582 78 Q586 84 584 92 L590 164 L558 164 Z" fill="#f3f5f8" stroke="#8d99a6" stroke-width="1.5"/>'+
+    '<path d="M560 74 L558 164" stroke="#6b7782" stroke-width="1.6"/><path d="M522 88 L548 74 L560 74 L556 104 L512 108 Z" fill="#d94a3a"/><path d="M570 112 L586 112" stroke="#b7c0ca"/><circle cx="584" cy="86" r="3" fill="#ff3b30"/>'+
+    '<path d="M588 150 L596 166 L584 166 Z" fill="#dde3ea" stroke="#8d99a6" stroke-width="1"/>'+
+  '</g></svg>'+
+  '<style>#'+u+'s .pt{cursor:pointer;transition:filter .15s}#'+u+'s .pt:hover,#'+u+'s .pt.on{filter:drop-shadow(0 0 5px #ff8a3d) brightness(1.08)}#'+u+'s .tag{pointer-events:none}</style><div class="verdict" id="'+u+'t"><b>Touche une partie.</b></div>';
   const t=x.q('#'+x.uid+'t');
-  function pick(g){ x.qa('.pt').forEach(p=>p.classList.toggle('on',p===g)); const i=info[g.dataset.p]; t.innerHTML='<b>'+i[0]+'</b><br>'+i[1]; }
+  function pick(g){ x.qa('.pt').forEach(p=>p.classList.toggle('on',p===g)); const i=info[g.dataset.p]; t.innerHTML='<b>'+i[0]+'</b><br>'+i[1];
+    const svg=x.q('#'+x.uid+'s'); const old=svg.querySelector('.tag'); if(old) old.remove(); const bb=g.getBBox(); const nm=i[0].split(' (')[0]; const w=nm.length*7.4+18; let cx=bb.x+bb.width/2, cy=bb.y-12; if(cy<22) cy=bb.y+bb.height+22; cx=Math.max(w/2+4,Math.min(640-w/2-4,cx));
+    const ns='http://www.w3.org/2000/svg'; const tg=document.createElementNS(ns,'g'); tg.setAttribute('class','tag'); const r=document.createElementNS(ns,'rect'); r.setAttribute('x',cx-w/2); r.setAttribute('y',cy-14); r.setAttribute('width',w); r.setAttribute('height',24); r.setAttribute('rx',12); r.setAttribute('fill','#12202f'); const tx=document.createElementNS(ns,'text'); tx.setAttribute('x',cx); tx.setAttribute('y',cy+3); tx.setAttribute('text-anchor','middle'); tx.setAttribute('font-size','13'); tx.setAttribute('font-weight','700'); tx.setAttribute('fill','#fff'); tx.textContent=nm; tg.appendChild(r); tg.appendChild(tx); svg.appendChild(tg); }
   x.qa('.pt').forEach(g=>{ g.addEventListener('click',()=>pick(g)); g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(g); } }); });
 }};
 
